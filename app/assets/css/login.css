@@ -1,0 +1,150 @@
+.login-page {
+    display: flex;
+    max-width: 1920px;
+    max-height: 1080px;
+    margin: 0 auto;
+    border-radius: 30px;
+    width: 100%;
+    height: 100%;
+    background: rgb(235, 235, 235) url('../img/loginbackgroundimg.jpg') no-repeat center center;
+    justify-content: center;
+    align-items: center;
+}
+.login-container {
+    margin: 100px 50px;
+    border-radius: 30px;
+    width: 400px;
+    height: 800px;
+    background-color: rgba(235, 235, 235, 0.4);
+    transition: all 0.5s ease-in-out;
+    
+}
+.login-container:hover{
+    transform: scale(1.05);
+    transition: all 0.5s ease-in-out;
+}
+.login-container .login-title{
+    display: inline-block;
+    margin-top: 50px;
+    width: 100%;
+    text-align: center;
+    line-height: 50px;
+    font-size: 30px;
+    color:rgba(250, 250, 250, 0.8);
+    font-weight: bolder;
+}
+.login-container form {
+    margin: 100px auto;
+}
+.login-container form label {
+    display: inline-block;
+    margin: 10px 20px;
+    width: 60px;
+    line-height: 40px;
+    color: rgba(235, 235, 235, 1);
+    font-size: 18px;
+    font-weight: bolder;
+}
+.login-container button {
+    margin: 50px 30px;
+    width: 340px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background-color:rgba(235, 235, 235, 0.6);
+    font-size: 20px;
+    cursor: pointer;
+}
+.login-container button:hover {
+    background-color:rgba(255,255,255, 0.8);
+    transition: all 0.5s ease-in-out;
+}
+.login-container p {
+    margin-left: 220px;
+    font-size: 16px;
+    color:white;
+}
+.login-container p span {
+    font-size: 18px;
+    color: blueviolet;
+    cursor: pointer;
+}
+.login-container input {
+    margin: 10px;
+    width: 250px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background-color:rgba(235, 235, 235, 0.6);
+    transition: all 0.5s ease-in-out;
+}
+.login-container input:focus {
+    background-color:rgb(235, 235, 235);
+    transition: all 0.5s ease-in-out;
+}
+.login-page .login-info{
+    margin: 100px 50px;
+    width: 800px;
+    height: 800px;
+    border-radius: 30px;
+    background-color: rgba(235,235,235,0.4);
+}
+.login-page .login-info:hover{
+    transform: scale(1.05);
+    transition: all 0.5s ease-in-out;
+}
+
+.register-form .form-group{
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+.register-form .form-group label{
+    display: inline-block;
+    width: 100px;
+    line-height: 40px;
+    margin: 5px 0;
+    font-size: 16px;
+    color:rgba(80, 80, 80, 1);
+    font-weight: bolder;
+}
+.register-form .form-group input{
+    margin: 5px;
+    width: 200px;
+    height: 30px;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    background-color:rgba(235, 235, 235, 0.6);
+    transition: all 0.5s ease-in-out;
+}
+.register-form .form-group input:focus{
+    background-color:rgb(235, 235, 235);
+    transition: all 0.5s ease-in-out;
+}
+.register-form .form-toggle{
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+.register-form .form-toggle p{
+    margin: 10px 0;
+    font-size: 14px;
+    color:rgba(255, 0, 0,0.3);
+}
+.register-form .form-toggle button{
+    margin: 10px;
+    width: 120px;
+    height: 30px;
+    border-radius: 15px;
+    border: none;
+    background-color:rgba(235,235,235,0.6);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+}
+.register-form .form-group button:hover{
+    background-color:rgba(255,255,255, 0.8);
+    transition: all 0.5s ease-in-out;
+}

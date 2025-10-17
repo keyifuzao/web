@@ -1,0 +1,141 @@
+    .navTop {
+        display: flex;
+        align-items: center;
+        max-width: 1800px;
+        margin: 0 auto;
+        height: 40px;
+    }
+    .navTop .logo {
+        display: flex;
+        flex:500px;
+        margin-left: 10px;
+        line-height: 40px;
+        color: rgb(100, 100, 100);
+    }
+    .navTop .logo img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 0 20px;
+    }
+    .navTop .logo span {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .navTop .logo span i{
+        color: rgb(255, 135, 0);
+    }
+
+    .navTop .searchBox {
+        display: flex;
+        width: 280px;
+        height: 40px;
+    }
+    .navTop .searchBox input {
+        width: 200px;
+        height: 40px;
+        padding: 0;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        border-radius: 20px 0 0 20px;
+        background-color: rgb(235, 235, 235);
+    }
+    .navTop .searchBox button {
+        width: 60px;
+        height: 40px;
+        border: none;
+        padding: 0;
+        font-size: 16px;
+        border-radius: 0 20px 20px 0;
+        background-color: rgb(200, 200, 200);
+        color: rgb(0, 0, 0);
+        cursor: pointer;
+    }
+    .navTop .toggleBtn {
+        width: 40px;
+        height: 40px;
+        margin: 0 5px;
+        border-radius: 50%;
+        font-size: large;
+        background-color: rgb(235, 235, 235);
+        border: none;
+        cursor: pointer;
+    }
+    .navTop .toggleBtn:hover {
+        background-color: rgba(255, 135, 0 ,0.5);
+        transition: all 0.3s ease-out;
+    }
+    .navTop ul{
+        right: 10px;
+        display: flex;
+        margin: 0 40px;
+        border-radius: 20px;
+        justify-content: space-around;
+        align-items: center;
+        list-style: none;
+        background-color: rgb(235, 235, 235);
+    }
+    .navTop ul .active {
+        background-color: rgba(255, 135, 0, 0.5);
+    }
+    .navTop ul li a {
+        display: inline-block;
+        text-align: center;
+        width: 80px;
+        margin:0 10px;
+        line-height: 40px;
+        text-decoration: none;
+        color:black;
+        border-radius: 20px;
+        
+    }
+    .navTop ul li a:hover {
+        font-size: larger;
+        color: rgb(255, 255, 255);
+        background-color: rgba(255, 135, 0, 0.5);
+    }
+    .navTop ul li.userInfo {
+        font-size: 20px;
+        margin-right: 10px;
+        width: 130px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+    .navTop ul li.userInfo:hover {
+        color: rgb(255, 135, 0);
+        transform: scale(1.1);
+        transition: all 0.3s ease-out;
+        text-decoration: underline;
+    }
+    .navTop ul li img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    .navTop ul li ol {
+        display: none;
+        position: absolute;
+        top: 40px;
+        left: 0;
+        width: 150px;
+        background-color: rgb(235, 235, 235);
+        border-radius: 20px;
+        list-style: none;
+        padding: 10px 0;
+    }
+    .navTop ul li:hover ol {
+        display: block;
+    }
+    .navTop ul li ol li {
+        width: 100%;
+        margin: 5px 0;
+        text-align: center;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .navTop ul li ol li:hover {
+        background-color: rgba(255, 135, 0, 0.5);
+    }

@@ -1,0 +1,45 @@
+.register-page {
+    max-width: 370px;
+    height: 80vh;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #f9f9f9;
+}
+
+.register-page label {
+    display: inline-block;
+    width: 100px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.register-page input{
+    margin-top: 10px;
+    width: 260px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #acacac;
+    outline: none;
+}
+
+.register-page button {
+    margin-left: 5px;
+    margin-top: 20px;
+    width: 360px;
+    height: 40px;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #b7d5e4;
+    color: white;
+    cursor: pointer;
+}
+.register-page p {
+    display: block;
+    height: 10px;
+    width: 360px;
+    font-size: 12px;
+}
