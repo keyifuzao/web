@@ -130,7 +130,7 @@
                 i = 0
             }
             playPics(i)
-        }, 2000)
+        }, 3000)
         __this.timer = timer
     }
     onMounted(() => {

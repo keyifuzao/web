@@ -3,7 +3,7 @@
         <div class="login-info"></div>
         <div class="login-container">
             <span class="login-title">欢迎使用本系统</span>
-            <form @submit.prevent="loginRegister.login">
+            <form @submit.prevent="loginRegister.Login">
                 <label>用户名:</label>
                 <input type="text"  v-model="loginName" placeholder="请输入用户名"><br>
                 <label>密码:</label>
@@ -19,7 +19,7 @@
             <h2>加入我们</h2>
         </template>
         <template #body>
-            <form class="register-form" @submit.prevent="loginRegister.register()" >
+            <form class="register-form" @submit.prevent="loginRegister.register" >
                 <div class="form-group">
                     <label for="name">用户名:</label>
                     <input type="text" id="name" v-model.trim="registerName" placeholder="请输入用户名"/><br/>
@@ -45,13 +45,7 @@
     @import url('~/assets/css/login.css');
 </style>
 <script setup lang="ts">
-    import UtilsLoginRegister from '~/utils/utilsLoginRegister';
-
-    // //路由验证
-    definePageMeta({
-        middleware: ['auth'],
-    })
-    // //数据初始化
+    import {UtilsLoginRegister} from '~/utils/utilsAccount';
     const loginRegister = new UtilsLoginRegister();
     const registerMsg = loginRegister.registerMsg;
     const loginName = loginRegister.loginName;
@@ -61,6 +55,7 @@
     const loginPassword = loginRegister.loginPassword;
     const ConfirmPasswordInput = loginRegister.ConfirmPasswordInput;
     const togglebox = loginRegister.togglebox;
+    const tipMessage = loginRegister.tipMessage;
     const isDisabled = computed(() => loginRegister.isDisabled())
     const hideModel = (data: boolean) : void => {
         togglebox.value = data;

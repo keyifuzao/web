@@ -20,7 +20,7 @@ class LoginRouter {
                 ctx.status = 200;
                 ctx.body = { code: 1, message: '登录成功', token };
             } else {
-                ctx.status = 400;
+                ctx.status = 401;
                 ctx.body = { code: 0, message };
             }
         })
@@ -37,17 +37,17 @@ class RegisterRouter {
             await next();
             const { username, password, email } = ctx.request.body;
             const opDB = new OperationDB();
-            opDB.StartDB('mongodb://localhost:27017/maydata', 'len_db')
+            opDB.StartDB('mongodb://localhost:27017/mydata', 'len_db')
             const { code } = await opDB.SaveData({username, password, email});
             if (code === 1) {
                 ctx.body = {code:1,message:'注册成功'};
                 ctx.status = 200;
             } else if (code === 2) {
-                ctx.body = {code:0,message:'用户名已存在'};
+                ctx.body = {code:2,message:'用户名已存在'};
                 ctx.status = 409;
             }else {
                 ctx.body = {code:0,message:'注册失败'};
-                ctx.status = 400;
+                ctx.status = 401;
             }
         })
     }

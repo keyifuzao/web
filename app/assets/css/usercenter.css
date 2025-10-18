@@ -1,85 +1,44 @@
    .usrBox {
-        width: 1200px;
-        height: 600px;
+        display: flex;
+        width: 1800px;
+        height: 800px;
         margin: 20px auto;
-        padding-bottom: 40px;
         border-radius: 40px;
-        background-color: rgb(230, 230, 230);
     }
-    .usrBox h1 {
-        padding-top: 30px;
-        text-align: center;
-        font-size: 30px;
-    }
-    .usrBox p {
-        text-align: center;
-        font-size: 16px;
-    }
-    .usrBox form {
-        position: relative;
-        width: 800px;
-        margin: 0 auto;
-        padding: 30px;
-        background-color: rgb(200, 200, 200);
+    .usrBox .usrMenu{
+        width: 240px;
+        height: 780px;
+        margin: 10px;
         border-radius: 30px;
-        color: rgb(90, 90, 90);
+        background-color: rgb(235, 235, 235);
     }
-    .usrBox form label {
-        display: inline-block;
-        margin-top: 20px;
-        width: 120px;
+    .usrBox .usrMenu ul{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .usrBox .usrMenu li{
+        height: 50px;
+        line-height: 50px;
         text-align: center;
-    }
-
-    .usrBox form label.genderBox {
-        width: 30px;
-    }
-    .usrBox form .btnBox {
-        margin-top: 50px;
-        text-align: center;
-    }
-    .usrBox form .btnBox button {
-        width: 100px;
-        height: 30px;
-        border: none;
-        margin: 0 10px;
-        border-radius: 10px;
-        background-color: rgb(230, 230, 230);
-        font-size: 16px;
+        font-size: 20px;
         cursor: pointer;
     }
-    .usrBox form .btnBox button:hover {
-        background-color: rgb(180, 180, 180);
+    .usrBox .usrMenu li:hover{
+        background-color: rgb(255, 135, 0);
     }
-    .usrBox form input{
-        border: none;
-        width: 220px;
-        height: 30px;
-        border-radius: 10px;
-        background-color: rgb(250, 250, 250);
+    .usrBox .usrInfo{
+        width: 1000px;
+        height: 780px;
+        margin: 10px;
+        border-radius: 30px;
+        background-color: rgb(235, 235, 235);
     }
-    .usrBox form input[type="radio"] {
-        width: 15px;
-        height: 15px;
-        background-color: rgb(250, 250, 250);
+    .usrBox .usrDisplay{
+        width: 500px;
+        height: 780px;
+        margin: 10px;
+        border-radius: 30px;
+        background-color: rgb(235, 235, 235);
     }
-    .usrBox form select {
-        width: 220px;
-        height: 30px;
-        border-radius: 10px;
-        background-color: rgb(250, 250, 250);
-    }
-    .usrBox form .userImg {
-        position: absolute;;
-        top: 50px;
-        left:550px;
-    }
-    .usrBox form .userImg img {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-    }
-    .usrBox form .userImg p {
-        margin: 5px 0;
-        font-size: 14px;
-    }
+    

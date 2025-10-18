@@ -3,9 +3,9 @@
     <main class="home_box">
         <DisplayPic></DisplayPic>
         <div class="middle_box">
-            <WidgetsClock :class="{active: isActive_clock?true:false}"></WidgetsClock>
-            <WidgetsTimeCounter :class="{active: isActive_timeCounter?true:false}"></WidgetsTimeCounter>
-            <WidgetsDays :class="{active: isActive_days?true:false}"></WidgetsDays>
+            <WidgetsClock :class="{active: Status[idx]![0]}"></WidgetsClock>
+            <WidgetsTimeCounter :class="{active: Status[idx]![1]}"></WidgetsTimeCounter>
+            <WidgetsDays :class="{active: Status[idx]![2]}"></WidgetsDays>
         </div>
         <div class="rightBox">
             <div class="rightBoxTop">
@@ -18,27 +18,20 @@
     <Footer></Footer>
 </template>
 <script setup lang="ts">
-    import Footer from '~/components/Footer.vue';
-    import Header from '~/components/Header.vue';
+    import { useHomeStore } from '../stores/homeStore';
 
-    definePageMeta({
-        middleware: ['auth'],
-    })
-
-    const isActive_clock = ref(0);
-    const isActive_timeCounter = ref(0);
-    const isActive_days = ref(0);
-    const toggleActive = () => {
-        const status = [[1,0,0],[0,1,0],[0,0,1]]
-        setInterval(() => {
-            const random = Math.floor(Math.random() * 3);
-            isActive_clock.value = status[random]![0] as number;
-            isActive_timeCounter.value = status[random]![1] as number;
-            isActive_days.value = status[random]![2] as number;
-        }, 4000)
-        }
+    const homeStore = useHomeStore();
+    const Status = [[0,0,0],[1,0,0],[0,0,0],[0,1,0],[0,0,0],[0,0,1],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
+    const idx = ref<number>(0)
+    const toogleCard = () => {
+        homeStore.autoStylePlay.timerCount = 0
+        homeStore.AutoPlayCompute
+    }
     onMounted(() => {
-        toggleActive();
+        toogleCard()
+    })
+    watch(homeStore.autoStylePlay,(val)=>{
+        idx.value = val.timerCount%12
     })
 </script>
 

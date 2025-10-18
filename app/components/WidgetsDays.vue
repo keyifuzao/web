@@ -85,8 +85,8 @@
 
 </style>
 <script setup lang="ts">
-    import TimeCounter from '~/utils/utilsTimeCounter';
-    const timeCounter = new TimeCounter();
+    import TimeCounter from '~/utils/utilsHomePage';
+    const timeCounter = new TimeCounter.TimeCounter();
     const Days = timeCounter.Days;
     const Hours = timeCounter.Hours;
     const titleShow = timeCounter.titleShow;

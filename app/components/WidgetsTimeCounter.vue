@@ -69,18 +69,17 @@
     }
 </style>
 <script setup lang="ts">
+    import TimeCounter from '~/utils/utilsHomePage'; 
 
-    import TimeCounter from '~/utils/utilsTimeCounter'; 
-
-    const timeCounter = new TimeCounter();
+    const timeCounter = new TimeCounter.TimeCounter()
     const touchedtoggle = timeCounter.touchedToggle;
     const starttoggle = timeCounter.startToggle;
     const timeleft = timeCounter.timeLeft;
     
     onMounted(() => {
-        timeCounter.timeLeft.value = timeCounter.timeCounterStore.$state.timeLeft;
-        timeCounter.startToggle.value = timeCounter.timeCounterStore.$state.starttoggle;
-        timeCounter.touchedToggle.value = timeCounter.timeCounterStore.$state.touchedtoggle;
+        timeCounter.timeLeft.value = timeCounter.homeStore.$state.widgetsTimer.timeLeft;
+        timeCounter.startToggle.value = timeCounter.homeStore.$state.widgetsTimer.starttoggle;
+        timeCounter.touchedToggle.value = timeCounter.homeStore.$state.widgetsTimer.touchedtoggle;
     })
 
     watch(timeleft, () => {
@@ -89,7 +88,7 @@
             timeleft.value = 30;
         }
     })
-    watch(timeCounter.timeCounterStore.$state, (state) => {
+    watch(timeCounter.homeStore.$state.widgetsTimer, (state) => {
         timeCounter.timeLeft.value = state.timeLeft;
     })
 </script>

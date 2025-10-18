@@ -36,10 +36,9 @@
     </div>
 </template>
 <script setup lang="ts">
-    import  { useMusicStore } from '~/stores/musicStore';
-    import MusicPlayer from '~/utils/utilsMusic';
+    import MusicPlayer from '~/utils/utilsHomePage';
     const musicPlayer = ref<HTMLAudioElement | undefined>();  //音乐播放器
-    const player = new MusicPlayer(musicPlayer)
+    const player = new MusicPlayer.MusicPlayer(musicPlayer)
     const musicSrc = player.musicSrc;  //音乐地址
     const playertoggle = player.playToggle;  //播放器开关状态
     const mutedtoggle = player.mutedToggle;  //静音开关状态
@@ -54,7 +53,6 @@
     const title = player.title;  //歌曲名
     const imgSrc = player.imgSrc;  //歌曲图片
     const musicIndex = player.musicIndex;  //歌曲索引
-    const musicStore = useMusicStore()
 
     onMounted(() => {
         player.initPlayer()
