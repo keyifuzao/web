@@ -1,7 +1,7 @@
 <template>
     <Header></Header>
     <main class="home_box">
-        <DisplayPic></DisplayPic>
+        <WidgetsDisplayPic></WidgetsDisplayPic>
         <div class="middle_box">
             <WidgetsClock :class="{active: Status[idx]![0]}"></WidgetsClock>
             <WidgetsTimeCounter :class="{active: Status[idx]![1]}"></WidgetsTimeCounter>
@@ -19,7 +19,6 @@
 </template>
 <script setup lang="ts">
     import { useHomeStore } from '../stores/homeStore';
-
     const homeStore = useHomeStore();
     const Status = [[0,0,0],[1,0,0],[0,0,0],[0,1,0],[0,0,0],[0,0,1],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
     const idx = ref<number>(0)

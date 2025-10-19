@@ -6,36 +6,33 @@
         border-radius: 40px;
     }
     .usrBox .usrMenu{
-        width: 240px;
+        width: 270px;
         height: 780px;
         margin: 10px;
         border-radius: 30px;
         background-color: rgb(235, 235, 235);
     }
-    .usrBox .usrMenu ul{
+    .usrBox .usrMenu ul{    
         list-style: none;
         padding: 0;
         margin: 0;
     }
     .usrBox .usrMenu li{
-        height: 50px;
-        line-height: 50px;
+        margin: 7px auto;
+        width: 250px;
+        height: 250px;
+        line-height: 250px;
         text-align: center;
+        border-radius: 30px;
         font-size: 20px;
         cursor: pointer;
+        border: 1px solid rgb(150, 150, 150);
     }
     .usrBox .usrMenu li:hover{
         background-color: rgb(255, 135, 0);
     }
-    .usrBox .usrInfo{
-        width: 1000px;
-        height: 780px;
-        margin: 10px;
-        border-radius: 30px;
-        background-color: rgb(235, 235, 235);
-    }
     .usrBox .usrDisplay{
-        width: 500px;
+        width: 490px;
         height: 780px;
         margin: 10px;
         border-radius: 30px;

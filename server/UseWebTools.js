@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import MongoTool from 'mongoose';
+import { diff } from 'util';
 
 // token 类
 class JsonWebToken {
@@ -14,7 +15,7 @@ class JsonWebToken {
     // 生成token
     CreateToken=() => jwt.sign(this.payload, this.secret, { expiresIn: this.hours })
     // 验证token
-    VerifyToken=(token="")=>jwt.verify(token, this.secret);
+    VerifyToken=(token="", secret="")=>jwt.verify(token, secret);
 }
 // 数据库操作类
 class OperationDB {
@@ -139,5 +140,65 @@ class LoginVerify {
             return {code: 0,message: DBs.msg};
         }
     }
+
+    async StatusVerify(username, token){
+        const opDB = new OperationDB();
+        const tokenVerify = new JsonWebToken();
+        const tokenRes = tokenVerify.VerifyToken(token, 'fuzao_secret');
+        if(tokenRes){
+            const now = new Date()
+            const exp = new Date(tokenRes.exp * 1000)
+            const diffTime = exp - now;
+            if(diffTime > 0){
+                opDB.StartDB('mongodb://localhost:27017/mydata', 'len_db');
+                const DBs = await opDB.FindData(username);
+                if (DBs.code) {
+                    console.log(DBs.msg);
+                    return username === DBs.data.username?{code: 1,message: '验证成功'}:{code: 0,message: '无效用户名'};
+                }else{
+                    return {code: 0,message: '无效用户名'};
+                }
+            }else{
+                return {code: 0,message: '登录超时'};
+            }
+        }else{
+            return {code: 0,message: '无效token'};
+        }
+    }
 }
 export { JsonWebToken, OperationDB, LoginVerify };
+
+
+// const token = new JsonWebToken();
+// token.InitData('fuzao', '123456', 'fuzao_secret', '1h');
+// const tokenStr = token.CreateToken();
+// console.log(tokenStr);
+// const verify = token.VerifyToken(tokenStr , 'fuzao_secret');
+// const iat = new Date(verify.iat * 1000).toLocaleString();
+// const exp = new Date(verify.exp * 1000).toLocaleString();
+// const now = new Date().toLocaleString();
+// const nowParts = now.match(/(\d{2}):(\d{2}):(\d{2})/);
+// const expParts = exp.match(/(\d{2}):(\d{2}):(\d{2})/);
+// const nowTime = parseInt(nowParts[1])*3600 + parseInt(nowParts[2])*60 + parseInt(nowParts[3]);
+// const expTime = parseInt(expParts[1])*3600 + parseInt(expParts[2])*60 + parseInt(expParts[3]);
+// const diffTime = expTime - nowTime;
+// console.log(nowTime, expTime, diffTime);
+// const token = new JsonWebToken();
+// token.InitData('fuzao', '123456', 'fuzao_secret', '1h');
+// const tokenStr = token.CreateToken();
+// console.log(tokenStr);
+// const verify = token.VerifyToken(tokenStr , 'fuzao_secret');
+// const iat = new Date(verify.iat * 1000)
+// const exp = new Date(verify.exp * 1000)
+// const now = new Date()
+// const diffTime = (exp - now)/1000;
+// console.log(iat, exp, now, diffTime)
+// const nowParts = now.match(/(\d{2}):(\d{2}):(\d{2})/);
+// const expParts = exp.match(/(\d{2}):(\d{2}):(\d{2})/);
+// const nowTime = parseInt(nowParts[1])*3600 + parseInt(nowParts[2])*60 + parseInt(nowParts[3]);
+// const expTime = parseInt(expParts[1])*3600 + parseInt(expParts[2])*60 + parseInt(expParts[3]);
+// const diffTime = expTime - nowTime;
+// console.log(nowTime, expTime, diffTime);
+
+
+

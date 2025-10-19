@@ -1,6 +1,6 @@
 <template>
     <Header></Header>
-    <main class="projectA_box">
+    <main class="article_box">
         <h1>项目A展示页</h1>
         <p>此页面正在开发中，敬请期待</p>
     </main>
@@ -13,10 +13,10 @@
     // })
 </script>
 <style scoped>
-    .projectA_box {
-        width: 1200px;
-        height: 800px;
-        margin: 0 auto;
+    .article_box {
+        width: 1800px;
+        height: 900px;
+        margin: 20px auto;
         background-color: rgb(230, 230, 230);
     }
 </style>

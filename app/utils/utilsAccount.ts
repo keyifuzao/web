@@ -3,15 +3,15 @@ import { useAccountStatusStore } from "../stores/accountStatusStore";
 import CryptoJS from 'crypto-js'
 import axios from "axios";
 
-class UtilsAccountInit {
-  accountStatusStore = useAccountStatusStore();
-  constructor(){
-    this.accountStatusStore.$subscribe(this.handleStoreChange);
-  }
-  handleStoreChange(state: any) {
-    console.log('accountStatusStore state change:', state);
-  }
-}
+// class UtilsAccountInit {
+//   accountStatusStore = useAccountStatusStore();
+//   constructor(){
+//     this.accountStatusStore.$subscribe(this.handleStoreChange);
+//   }
+//   handleStoreChange(state: any) {
+//     console.log('accountStatusStore state change:', state);
+//   }
+// }
 
 class UtilsLoginRegister {
     accountStatusStore = useAccountStatusStore();

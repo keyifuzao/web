@@ -55,9 +55,11 @@ class RegisterRouter {
 
 class APIRouter {
     router=new Router({ prefix: '/api' });
+    loginVerify = new LoginVerify();
     constructor() {
         this.home();
         this.article();
+        this.userInfo();
     }
     async home() {
         this.router.get('/home', async (ctx, next) => {
@@ -69,6 +71,22 @@ class APIRouter {
         this.router.get('/article', async (ctx,next) => {
             await next();
             ctx.body = {code:1,message:'文章列表'}
+        });
+    }
+    async userInfo() {
+        this.router.post('/userInfo', async (ctx,next) => {
+            await next();
+            const { username } = ctx.request.body;
+            const localtoken = ctx.request.headers['authorization'];
+            if (username && localtoken){
+                await this.loginVerify.StatusVerify(username, localtoken).then(res => {
+                    const { code, message } = res;
+                    ctx.body = {code,message};
+                    ctx.status = 200;
+                }).catch(err => {
+                    ctx.body = {code:0,message:err.message};
+                })
+            }
         });
     }
 }

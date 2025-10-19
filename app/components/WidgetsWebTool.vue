@@ -14,15 +14,15 @@
         {titleA: '2正面', titleB: '2反面',Status:[[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[0,1],[1,0],[1,0]]}, 
         {titleA: '3正面', titleB: '3反面',Status:[[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[0,1]]}
     ]
-    onMounted(() => {
-        toogleCard()
-    })
+    // onMounted(() => {
+    //     toogleCard()
+    // })
     const idx = ref<number>(0)
     const homeStore = useHomeStore()
-    const toogleCard = () => {
-        homeStore.autoStylePlay.timerCount = 0
-        homeStore.AutoPlayCompute
-    }
+    // const toogleCard = () => {
+    //     homeStore.autoStylePlay.timerCount = 0
+    //     homeStore.AutoPlayCompute
+    // }
     watch(homeStore.autoStylePlay, (val) => {
         idx.value = homeStore.autoStylePlay.timerCount % 12
     })
