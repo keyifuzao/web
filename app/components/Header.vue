@@ -29,9 +29,9 @@
     const searchStatus = ref<boolean>(false)
     const inputTxt = ref<string>('')
     const infoToggle = ref<boolean>(false)
-    const userDB = CookieTools.userName
     const headerTitleInfo = homeStore.$state.headerTitleInfo
     const date = new Date()
+    const userDB = CookieTools.cookies.value?.username || '游客'
     const infotoggle = () => navigateTo('/usercenter')
 
 

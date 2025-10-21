@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import MongoTool from 'mongoose';
-import { diff } from 'util';
 
 // token 类
 class JsonWebToken {
@@ -25,10 +24,11 @@ class OperationDB {
         username:{type: String,required: true,trim: true,minlength: 5,default: 'default_username'},
         password:{type: String,required: true,trim: true,minlength: 6,default: 'default_password'},
         email:{type: String,trim: true,default: ''},
+        age:{type: String,default: ''},
         tel:{type: Number,default: 0},
         sex:{type: String,default: ''},
         city:{type: String,default: ''},
-        role:{type: String,default: ''}
+        role:{type: Number,default: 0}
     }
     Model=null
     constructor() {
@@ -97,9 +97,9 @@ class OperationDB {
         if (this.Model) {
             const loginUserDb = await this.Model.find({ username });
             if (loginUserDb.length > 0) {
-                const { username, password} = loginUserDb[0];
-                console.log('正在查找数据', { username, password });
-                return { code: 1, msg: "数据查找成功", data: { username, password } };
+                const { username, password, email, age, tel, sex, city, role } = loginUserDb[0];
+                console.log('正在查找数据', username);
+                return { code: 1, msg: "数据查找成功", data: { username, password, email, age, tel, sex, city, role } };
             } else {
                 console.log('数据查找失败');
                 return { code: 0, msg: "数据查找失败" , data: { username: '', password: '' } };
@@ -154,7 +154,7 @@ class LoginVerify {
                 const DBs = await opDB.FindData(username);
                 if (DBs.code) {
                     console.log(DBs.msg);
-                    return username === DBs.data.username?{code: 1,message: '验证成功'}:{code: 0,message: '无效用户名'};
+                    return username === DBs.data.username?{code: 1,message: '验证成功',data: DBs.data}:{code: 0,message: '无效用户名'};
                 }else{
                     return {code: 0,message: '无效用户名'};
                 }
@@ -165,40 +165,11 @@ class LoginVerify {
             return {code: 0,message: '无效token'};
         }
     }
+
 }
 export { JsonWebToken, OperationDB, LoginVerify };
 
 
-// const token = new JsonWebToken();
-// token.InitData('fuzao', '123456', 'fuzao_secret', '1h');
-// const tokenStr = token.CreateToken();
-// console.log(tokenStr);
-// const verify = token.VerifyToken(tokenStr , 'fuzao_secret');
-// const iat = new Date(verify.iat * 1000).toLocaleString();
-// const exp = new Date(verify.exp * 1000).toLocaleString();
-// const now = new Date().toLocaleString();
-// const nowParts = now.match(/(\d{2}):(\d{2}):(\d{2})/);
-// const expParts = exp.match(/(\d{2}):(\d{2}):(\d{2})/);
-// const nowTime = parseInt(nowParts[1])*3600 + parseInt(nowParts[2])*60 + parseInt(nowParts[3]);
-// const expTime = parseInt(expParts[1])*3600 + parseInt(expParts[2])*60 + parseInt(expParts[3]);
-// const diffTime = expTime - nowTime;
-// console.log(nowTime, expTime, diffTime);
-// const token = new JsonWebToken();
-// token.InitData('fuzao', '123456', 'fuzao_secret', '1h');
-// const tokenStr = token.CreateToken();
-// console.log(tokenStr);
-// const verify = token.VerifyToken(tokenStr , 'fuzao_secret');
-// const iat = new Date(verify.iat * 1000)
-// const exp = new Date(verify.exp * 1000)
-// const now = new Date()
-// const diffTime = (exp - now)/1000;
-// console.log(iat, exp, now, diffTime)
-// const nowParts = now.match(/(\d{2}):(\d{2}):(\d{2})/);
-// const expParts = exp.match(/(\d{2}):(\d{2}):(\d{2})/);
-// const nowTime = parseInt(nowParts[1])*3600 + parseInt(nowParts[2])*60 + parseInt(nowParts[3]);
-// const expTime = parseInt(expParts[1])*3600 + parseInt(expParts[2])*60 + parseInt(expParts[3]);
-// const diffTime = expTime - nowTime;
-// console.log(nowTime, expTime, diffTime);
 
 
 

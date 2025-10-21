@@ -77,17 +77,23 @@ class APIRouter {
         this.router.post('/userInfo', async (ctx,next) => {
             await next();
             const { username } = ctx.request.body;
-            const localtoken = ctx.request.headers['authorization'];
+            const localtoken = ctx.request.headers['authorization'].split(' ')[1];
+            console.log(localtoken);
             if (username && localtoken){
-                await this.loginVerify.StatusVerify(username, localtoken).then(res => {
-                    const { code, message } = res;
-                    ctx.body = {code,message};
+                    await this.loginVerify.StatusVerify(username, localtoken).then(res => {
+                    const { code, message, data } = res
+                    ctx.body = {code, message, data}
                     ctx.status = 200;
                 }).catch(err => {
-                    ctx.body = {code:0,message:err.message};
+                    ctx.body = {code:0,message:err.message,data:null};
+                    ctx.status = 401;
                 })
+            }else{
+                ctx.body = {code:0,message:'请先登录',data:null};
+                ctx.status = 401;
+                }
             }
-        });
+        )
     }
 }
 

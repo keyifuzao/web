@@ -3,7 +3,7 @@
         <div class="login-info"></div>
         <div class="login-container">
             <span class="login-title">欢迎使用本系统</span>
-            <form @submit.prevent="loginRegister.Login">
+            <form @submit.prevent="webRequests.Login(loginName,loginPassword)">
                 <label>用户名:</label>
                 <input type="text"  v-model="loginName" placeholder="请输入用户名"><br>
                 <label>密码:</label>
@@ -19,7 +19,7 @@
             <h2>加入我们</h2>
         </template>
         <template #body>
-            <form class="register-form" @submit.prevent="loginRegister.register" >
+            <form class="register-form" @submit.prevent="webRequests.register(registerName,registerPassword,registerEmail)" >
                 <div class="form-group">
                     <label for="name">用户名:</label>
                     <input type="text" id="name" v-model.trim="registerName" placeholder="请输入用户名"/><br/>
@@ -45,18 +45,20 @@
     @import url('~/assets/css/login.css');
 </style>
 <script setup lang="ts">
-    import {UtilsLoginRegister} from '~/utils/utilsAccount';
+    import {UtilsWebRequests,UtilsLoginRegister} from '~/utils/utilsAccount';
     const loginRegister = new UtilsLoginRegister();
+    const webRequests = new UtilsWebRequests();
+    //注册信息
     const registerMsg = loginRegister.registerMsg;
-    const loginName = loginRegister.loginName;
-    const registerName = loginRegister.registerName;
-    const registerEmail = loginRegister.registerEmail;
-    const registerPassword = loginRegister.registerPassword;
-    const loginPassword = loginRegister.loginPassword;
-    const ConfirmPasswordInput = loginRegister.ConfirmPasswordInput;
-    const togglebox = loginRegister.togglebox;
+    const loginName = ref('');
+    const registerName = ref('');
+    const registerEmail = ref('');
+    const registerPassword = ref('');
+    const loginPassword = ref('');
+    const ConfirmPasswordInput = ref('');
+    const togglebox = loginRegister.togglebox=webRequests.togglebox;
     const tipMessage = loginRegister.tipMessage;
-    const isDisabled = computed(() => loginRegister.isDisabled())
+    const isDisabled = computed(() => loginRegister.isDisabled(registerName.value, registerEmail.value, registerPassword.value, ConfirmPasswordInput.value))
     const hideModel = (data: boolean) : void => {
         togglebox.value = data;
     }

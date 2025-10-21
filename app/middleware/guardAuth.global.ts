@@ -1,9 +1,8 @@
-import {UtilsCookieTools} from "@/utils/utilsAccount";
+import Cookies from "js-cookie";
 
 
 export default defineNuxtRouteMiddleware((to,from)=>{
-    const CookieTools = new UtilsCookieTools();
-    const CookiesChecked = CookieTools.userName.value? true : false;
+    const CookiesChecked = Cookies.get('token')? true : false
     if(to.path !== '/login' && to.path !== '/error' &&!CookiesChecked){
         return navigateTo('/login')
     }else if(to.path === '/login' && CookiesChecked){

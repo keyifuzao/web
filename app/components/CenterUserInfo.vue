@@ -63,9 +63,9 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { on } from 'events'
-import { UtilsCookieTools } from '../utils/utilsAccount'
+    import {UtilsWebRequests, UtilsCookieTools } from '../utils/utilsAccount'
     const cookieTools = new UtilsCookieTools()
+    const webRequests = new UtilsWebRequests()
     const userName = ref('')
     const eMail = ref('')
     const phoneNumer = ref('')
@@ -73,36 +73,25 @@ import { UtilsCookieTools } from '../utils/utilsAccount'
     const birthDay = ref('')
     const city = ref('')
     const toggleShow = ref(false)
-    const CookieUserName = cookieTools.GetCookies('userInfo', 'fuzao_secret') || null
-    let userNameShow = "未定义"
-    let eMailShow = "未定义"
-    let birthDayShow = "未定义"
-    let cityShow = "未定义"
+    const userNameShow = ref("未定义")
+    const eMailShow = ref("未定义")
+    const birthDayShow = ref("未定义")
+    const cityShow = ref("未定义")
 
     const previewInfo = () => {
-        toggleShow.value = false
-        userNameShow = userName.value
-        eMailShow = eMail.value
-        birthDayShow = birthDay.value
-        cityShow = city.value
-        toggleShow.value = true
+
     }
     const SubmitForm = () => {
-        console.log(userName.value, eMail.value, phoneNumer.value, gender.value, birthDay.value, city.value)
+
     }
     // 页面加载完成后初始化用户信息
     const initUserInfo = () => {
-        if (CookieUserName) {
-            getNetUsrInfo(CookieUserName)
-            userNameShow = CookieUserName
-            toggleShow.value = true
-        }
+
     }
-    const getNetUsrInfo = (username: string) => {
-        
+    const getNetUsrInfo = async (username: string) => {
+        await webRequests.getUsrInfo(username)
     }
     onMounted(() => {
-        initUserInfo()
     })
 
 </script>
