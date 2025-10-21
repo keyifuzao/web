@@ -1,9 +1,13 @@
 import Cookies from 'js-cookie';
 import CryptoJS from 'crypto-js'
 import axios from "axios";
+import { useAccountStore } from '../stores/accountStore';
+
 class UtilsWebRequests {
+  accountStore = useAccountStore();
   loginRegister = new UtilsLoginRegister();
   togglebox = ref<boolean>();
+
   AxiosService = axios.create({
     baseURL: 'http://localhost:3600',
     withCredentials: true,
@@ -17,7 +21,7 @@ class UtilsWebRequests {
   //登录请求
   async Login(username: string, password: string) {
     await this.AxiosService.post('/login', { username, password }).then(res => {
-      this.loginRegister.checkLoginStatus(res.data.code, res.data.message, "token", username,res.data.token, 1, 'fuzao_secret_key');
+      this.loginRegister.checkLoginStatus(res.data.code, res.data.message,  username,res.data.token);
     }).catch(err => {
       alert(err.response.data.message)
     })
@@ -33,11 +37,18 @@ class UtilsWebRequests {
       alert(err.response.data.message)
     })
   }
-  //获得用户信息
-  async getUsrInfo(username: string): Promise<void> {
-    await this.AxiosService.post('/api/userInfo', { username }).then(res => {
-      const { code, message, data } = res.data
-    })
+  //获得用户信息:userName是数据库中的用户名
+  async getUsrInfo(username: string,usertoken:string): Promise<void> {
+    await this.AxiosService.post('/api/userInfo', { username },{
+      headers: {
+        'Authorization': `Bearer ${usertoken}`
+      }
+    }).then(res => {
+      const { code, message, data } = res.data;
+      this.accountStore.$patch({ userInfoData: data })
+      this.accountStore.setCookie("userInfo", data, 1, "fuzao_secret_key")
+      }
+    )
   }
 }
 
@@ -45,14 +56,17 @@ class UtilsLoginRegister {
   registerMsg = ref<string>()
   togglebox = ref<boolean>();
   tipMessage = ref<string>();
-  CookieTools = new UtilsCookieTools()
+  accountStore = useAccountStore();
+  // CookieTools = new UtilsCookieTools()
   constructor() {
     this.togglebox.value = false;
   }
-  checkLoginStatus(code: number, message: string, cookieName:string ,username: string,token: string,hour: number,secretKey:string) {
+  checkLoginStatus(code: number, message: string, username: string,token: string) {
     if (code) {
       this.tipMessage.value = message;
-      this.CookieTools.setCookie(cookieName, { username, token }, hour, secretKey)
+      this.accountStore.$patch({ data: { username, token } })
+      this.accountStore.setCookie("token", { username, token }, 1, "fuzao_secret_key")
+      // this.CookieTools.setCookie(cookieName, { username, token }, hour, secretKey)
       return navigateTo('/home')
     } else {
       this.tipMessage.value = message;
@@ -124,9 +138,7 @@ class UtilsLoginRegister {
 }
 
 class UtilsCookieTools {
-  cookies: Ref<{username:string,token:string} | null> = ref(null)
   constructor() {
-    this.cookies.value = this.getCookie("token", 'fuzao_secret_key')
   };
   //设置cookie
   //cookieName：cookie名称，cookieData：cookie数据，exp：过期时间，单位为小时，secretKey：加密密钥

@@ -78,7 +78,6 @@ class APIRouter {
             await next();
             const { username } = ctx.request.body;
             const localtoken = ctx.request.headers['authorization'].split(' ')[1];
-            console.log(localtoken);
             if (username && localtoken){
                     await this.loginVerify.StatusVerify(username, localtoken).then(res => {
                     const { code, message, data } = res
