@@ -26,7 +26,7 @@ class OperationDB {
         email:{type: String,trim: true,default: ''},
         age:{type: String,default: ''},
         tel:{type: Number,default: 0},
-        sex:{type: String,default: ''},
+        sex:{type: Number,default: 0},
         city:{type: String,default: ''},
         role:{type: Number,default: 0}
     }
@@ -116,10 +116,10 @@ class OperationDB {
                 $set: data
             });
             console.log('数据更新成功,修改数量为：', updateUserDb.modifiedCount);
-            return { code: 1, msg: "数据更新成功" };
+            return { code: 1, message: "数据更新成功" };
         } else {
             console.log('数据更新失败，数据库未开启');
-            return { code: 0, msg: "数据更新失败，数据库未开启" };
+            return { code: 0, message: "数据更新失败，数据库未开启" };
         }
     }
 }

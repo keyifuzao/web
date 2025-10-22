@@ -3,7 +3,7 @@
         <div class="navTop">
             <div class="logo">
                 <img src="../assets/img/logo.jpg" alt="logo">
-                <span>你好呀<i>{{ userDB.username}}</i>,欢迎来到FZWEB系统</span>
+                <span>你好呀<i>{{ userDB}}</i>,欢迎来到FZWEB系统</span>
             </div>
             <div class="searchBox" v-show="searchStatus">
                     <input type="text" v-model="inputTxt" placeholder="请输入您的问题">
@@ -12,7 +12,7 @@
             <button class="toggleBtn" @click="searchStatus=!searchStatus">{{ searchStatus? '叠' : '搜' }}</button>
             <ul >
                 <li  v-for="(item, index) in headerTitleInfo" :key="item.name"><NuxtLink :to="item.path" :class="{active: $route.path === item.path}">{{ item.name }}</NuxtLink></li>
-                <li class="userInfo" @click="infotoggle"><img src="../assets/img/userimg.jpg" alt="user">{{ userDB.username }}</li>
+                <li class="userInfo" @click="infotoggle"><img src="../assets/img/userimg.jpg" alt="user">{{ userDB }}</li>
             </ul>
         </div>
     </header>
@@ -23,20 +23,17 @@
     import { useAccountStore } from '../stores/accountStore';
     const homeStore = useHomeStore()
     const accountStore = useAccountStore()
-
     const searchStatus = ref<boolean>(false)
     const inputTxt = ref<string>('')
-    const infoToggle = ref<boolean>(false)
     const headerTitleInfo = homeStore.$state.headerTitleInfo
-    const userDB = accountStore.getCookie("token", "fuzao_secret_key") as {username:string,token:string}
     const infotoggle = () => navigateTo('/usercenter')
-
-    // onMounted(() => {
-    //     CookieTools.getCookie("token", "fuzao_secret_key")
-    // })
-
-
-
+    const userDB = computed(() => {
+        const userDBs:{username:string,token:string} | null = accountStore.getCookie('token', 'fuzao_secret_key') as {username:string,token:string} | null
+        if(userDBs === null){
+            return '状态检查中'
+        }
+        return userDBs.username
+    })
 </script>
 
 <style scoped>

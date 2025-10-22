@@ -60,6 +60,7 @@ class APIRouter {
         this.home();
         this.article();
         this.userInfo();
+        this.updateUserInfo();
     }
     async home() {
         this.router.get('/home', async (ctx, next) => {
@@ -73,6 +74,7 @@ class APIRouter {
             ctx.body = {code:1,message:'文章列表'}
         });
     }
+    //获取用户信息
     async userInfo() {
         this.router.post('/userInfo', async (ctx,next) => {
             await next();
@@ -93,6 +95,29 @@ class APIRouter {
                 }
             }
         )
+    }
+
+    async updateUserInfo() {
+        this.router.post('/updateUserInfo', async (ctx,next) => {
+            await next();
+            const { username, email, age, tel, sex, city, role }  = ctx.request.body ;
+            const localtoken = ctx.request.headers['authorization'].split(' ')[1];
+            if (username && localtoken){
+                const resChecked = await this.loginVerify.StatusVerify(username, localtoken)
+                let resupdate
+                if (resChecked.code) {
+                    const opDB = new OperationDB();
+                    opDB.StartDB('mongodb://localhost:27017/mydata', 'len_db')
+                    resupdate = await opDB.UpdateData(username, { email, age, tel, sex, city, role })
+
+                } 
+                ctx.body = {code:resChecked.code,message:resupdate.message};
+                ctx.status = 200;
+            }else{
+                ctx.body = {code:0,message:'请先登录'};
+                ctx.status = 401;
+            }
+        })
     }
 }
 

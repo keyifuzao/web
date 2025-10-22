@@ -29,7 +29,10 @@
         border: 1px solid rgb(150, 150, 150);
     }
     .usrBox .usrMenu li:hover{
-        background-color: rgb(255, 135, 0);
+        background-color: rgba(255, 135, 0, 0.6);
+    }
+    .usrBox .usrMenu li.active{
+        background-color: rgba(255, 135, 0, 0.6);
     }
     .usrBox .usrDisplay{
         width: 490px;

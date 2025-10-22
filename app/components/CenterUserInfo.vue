@@ -4,7 +4,7 @@
             <form class="usrInfoForm" @submit.prevent="submitInfo">
                 <div class="usernameBox">
                     <label for="username">用户名:</label>
-                    <input type="text" id="username" name="username"  required placeholder="请输入用户名" v-model="userName"></input>
+                    <input disabled="false" type="text" id="username" name="username"  required placeholder="请输入用户名" v-model="userName"></input>
                 </div>
                 <div class="passwordBox">
                     <label for="email">邮箱:</label>
@@ -45,58 +45,71 @@
                         <option value="南昌">南昌</option>
                     </select>
                 </div>
+                <div class="rolebox">
+                    <label for="role">权限:</label>
+                    <input disabled="true" type="text" v-model="Role"></input>
+                </div>
                 <div class="btnBox">
-                    <button type="submit" @click="previewInfo()">更新预览</button>
-                    <button type="submit">保存提交</button>
+                    <button type="button" :class="{'active': toggleShow}" @click="previewInfo" >{{ toggleShow ? '关闭' : '更新数据' }}</button>
+                    <button  type="submit">保存提交</button>
                 </div>
             </form>
         </div>
         <div class="previewBox">
-            <img src="../assets/img/userimg.jpg" alt="userimg" >
-            <div class="previewInfo" v-show="toggleShow">
-                <span>昵称:{{userNameShow? userNameShow : '未填写'}}</span>
-                <span>城市:{{ cityShow ? cityShow : '未填写'}}</span>
-                <span>年龄:{{ageShow ? ageShow : '未填写'}}岁</span>
-                <span>邮箱:{{ eMailShow ? eMailShow : '未填写'}}</span>
+            <img :class="{'active': toggleShow}" src="../assets/img/userimg.jpg" alt="userimg" >
+            <span class="title" v-if="!toggleShow">{{ userNameShow? userNameShow : '' }}</span>
+            <div class="previewInfo" v-if="toggleShow">
+                <span>昵称:{{userNameShow? userNameShow : 'User'}}</span>
+                <span>城市:{{ cityShow ? cityShow : 'Beijing'}}</span>
+                <span>年龄:{{ageShow ? ageShow : '20'}}岁</span>
+                <span>邮箱:{{ eMailShow ? eMailShow : 'User@email.com'}}</span>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-    import { setInterval } from 'timers'
-import { useAccountStore } from '../stores/accountStore'
+    import { useAccountStore } from '../stores/accountStore'
     import { UtilsWebRequests } from '../utils/utilsAccount'
-    import { setTimeout } from 'timers/promises'
 
     //输入部分
     const accountStore = useAccountStore()
     const webRequests = new UtilsWebRequests()
     const userName = ref('')
     const eMail = ref('')
-    const phoneNumer = ref<number>()  
-    const gender = ref<number>()
+    const phoneNumer = ref<number>(0)  
+    const gender = ref<number>(0)
     const birthDay =ref('')
     const cityinfo = ref('')
+    const roleVal = ref<number>(0)
+    const Role = computed(() =>  roleVal.value? '管理员' : '普通用户'  ) 
     //展示区域
-    const toggleShow = ref(true)
+    const toggleShow = ref(false)
     const userNameShow = ref('')
     const eMailShow = ref('')
     const ageShow = ref<number>() 
     const cityShow = ref('')
     //初始化用户信息
+    const preRequestInfo = async () => {
+        const { username, token } = accountStore.getCookie('token', 'fuzao_secret_key') as { username: string, token: string }
+        await webRequests.getUsrInfo( username, token )
+        preShowUserInfo()
+    }
+    const preShowUserInfo = () => {
+        const { username, email, age, tel, sex, city, role } = accountStore.$state.userInfoData
+        syncUserInfoToPage(username, email, age, tel, sex, city, role)
+    }
     const InitWebUserInfo = (): void => {
-        const webUserInfoCookie = webRequests.accountStore.getCookie("userInfo", "fuzao_secret_key")
+        const webUserInfoCookie = accountStore.getCookie("userInfo", "fuzao_secret_key")
         if (webUserInfoCookie) {
             const { username, email, age, tel, sex, city, role } = webUserInfoCookie as { username: string, email: string, age: string, tel: number, sex: number, city: string, role: number }
-            syncUserInfo(username, email, age, tel, sex, city, role)
+            syncUserInfoToPage(username, email, age, tel, sex, city, role)
         }else {
-            const { username, token } = accountStore.getCookie('token', 'fuzao_secret_key') as { username: string, token: string }
-            webRequests.getUsrInfo( username, token )
+            preRequestInfo()
             InitWebUserInfo()
         }
     }
     //同步数据
-    const syncUserInfo = (username: string, email: string, age: string, tel: number, sex: number, city: string, role: number) => {
+    const syncUserInfoToPage = (username: string, email: string, age: string, tel: number, sex: number, city: string, role: number) => {
         userName.value = userNameShow.value = username
         eMail.value = eMailShow.value = email
         birthDay.value  = age
@@ -104,6 +117,7 @@ import { useAccountStore } from '../stores/accountStore'
         cityinfo.value = cityShow.value = city
         gender.value = sex
         phoneNumer.value = tel
+        roleVal.value = role
     }
     //年龄与生日转换
     const baithToAge = (birthDay: string): number => {
@@ -113,25 +127,39 @@ import { useAccountStore } from '../stores/accountStore'
         const age = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
         return age
     }
-    //数据库数据展示
-    const autoShowInfo = () => {
-
-    }
     //信息预览
     const previewInfo = () => {
-        toggleShow.value = true
-        userNameShow.value = userName.value
-        eMailShow.value = eMail.value
-        ageShow.value = baithToAge(birthDay.value)
-        cityShow.value = cityinfo.value
+        if (!toggleShow.value) {
+            preShowUserInfo()
+            toggleShow.value = true
+        }else{
+            toggleShow.value = false
+        }
+    }
+    const syncStoreToWeb = () => {
+        const { username, email, age, tel, sex, city, role } = accountStore.$state.userInfoData
+        accountStore.setCookie("userInfo", { username, email, age, tel, sex, city, role },1, "fuzao_secret_key")
     }
     //信息提交
     const submitInfo = () => {
-
+        const { token } = accountStore.getCookie('token', 'fuzao_secret_key') as { username: string, token: string }
+        webRequests.updateUsrInfo(
+            userName.value,
+            token,
+            eMail.value,
+            birthDay.value,
+            phoneNumer.value,
+            gender.value,
+            cityinfo.value,
+            roleVal.value
+        )
+        syncStoreToWeb()
     }
 
     onMounted(() => {
+        preRequestInfo()
     })
+
 </script>
 <style scoped>
     .centerUserBox {
@@ -180,7 +208,7 @@ import { useAccountStore } from '../stores/accountStore'
         background-color: rgb(255, 255, 255)
     }
     .centerUserInfo .usrInfoForm .btnBox {
-        margin: 200px 0 0 0;
+        margin: 120px 0 0 0;
         width: 500px;
         height: 140px;
 
@@ -188,16 +216,23 @@ import { useAccountStore } from '../stores/accountStore'
     .centerUserInfo .usrInfoForm .btnBox button {
         margin: 10px 50px;
         width: 400px;
-        height: 40px;
+        height: 50px;
         border: none;
-        border-radius: 10px;
+        border-radius: 25px;
         font-size: 20px;
         background-color: rgb(200, 200, 200);
-        color: white;
+        color: rgb(50 , 50, 50);
         cursor: pointer;
+        transition: all 0.5s ease-in-out;
     }
     .centerUserInfo .usrInfoForm .btnBox button:hover {
         background-color: rgb(255, 135, 0);
+    }
+    .centerUserInfo .usrInfoForm .btnBox button.active {
+        transform: scale(1.1);
+        transition: all 0.5s ease-in-out;
+        color: white;
+        background-color: rgb(255 , 135, 0);
     }
     .previewBox {
         width: 500px;
@@ -206,15 +241,29 @@ import { useAccountStore } from '../stores/accountStore'
         background-color: rgb(235, 235, 235);;
     }
     .previewBox img {
-        margin: 100px;
-        width: 300px;
-        height: 300px;
+        margin: 120px 50px 50px 50px;
+        width: 400px;
+        height: 400px;
         border-radius: 50%;
         transition: all 0.5s ease-in-out;
     }
     .previewBox img:hover {
         transform: scale(1.1);
         transition: all 0.5s ease-in-out;
+    }
+    .previewBox img.active {
+        margin: 80px 100px;
+        width: 300px;
+        height: 300px;
+        transform:translateY(-30px);
+        transition: all 0.5s ease-in-out;
+    }
+    .previewBox .title {
+        display: block;
+        margin: 50px;
+        font-size: 36px;
+        font-weight:bold;
+        text-align: center;
     }
     .previewBox .previewInfo span {
         display: block;

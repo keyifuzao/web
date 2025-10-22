@@ -39,17 +39,24 @@ class UtilsWebRequests {
   }
   //获得用户信息:userName是数据库中的用户名
   async getUsrInfo(username: string,usertoken:string): Promise<void> {
-    await this.AxiosService.post('/api/userInfo', { username },{
-      headers: {
-        'Authorization': `Bearer ${usertoken}`
-      }
-    }).then(res => {
-      const { code, message, data } = res.data;
-      this.accountStore.$patch({ userInfoData: data })
-      this.accountStore.setCookie("userInfo", data, 1, "fuzao_secret_key")
-      }
-    )
+    const res = await this.AxiosService.post('/api/userInfo', { username },{
+      headers: {'Authorization': `Bearer ${usertoken}`}
+    })
+    const { code, message, data } = res.data;
+    this.accountStore.$patch({ userInfoData: data })
+    this.accountStore.setCookie("userInfo", data, 1, "fuzao_secret_key")
   }
+  //更新用户信息
+  async updateUsrInfo(username: string,usertoken:string,email:string,age:string,tel:number,sex:number,city:string,role:number): Promise<void> {
+    this.accountStore.$patch({ userInfoData: { username,email,age,tel,sex,city,role } })
+    const res =await this.AxiosService.post('/api/updateUserInfo', { username,email,age,tel,sex,city,role },{
+      headers: {'Authorization': `Bearer ${usertoken}`}
+    })
+    console.log(res.data)
+    const { code, message} = res.data;
+    alert(message)
+  }
+    
 }
 
 class UtilsLoginRegister {

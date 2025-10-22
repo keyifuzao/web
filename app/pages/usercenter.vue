@@ -3,7 +3,7 @@
     <main class="usrBox">
         <div class="usrMenu">
             <ul>
-                <li v-for="item in usrMenu" @click="itemIndex=item.idx">{{ item.title }}</li>
+                <li v-for="item in usrMenu" @click="itemIndex=item.idx" :class="{active:itemIndex===item.idx}">{{ item.title }}</li>
             </ul>
         </div>
         <div class="usrInfo">
