@@ -2,9 +2,13 @@
     <div class="centerUserBox">
         <div class="centerUserInfo">
             <form class="usrInfoForm" @submit.prevent="submitInfo">
+                <div class="uuidBox">
+                    <label for="uuid">UUID:</label>
+                    <input disabled="false" type="text" id="uuid" name="uuid"  v-model="UUID"></input>
+                </div>
                 <div class="usernameBox">
                     <label for="username">用户名:</label>
-                    <input disabled="false" type="text" id="username" name="username"  required placeholder="请输入用户名" v-model="userName"></input>
+                    <input  type="text" id="username" name="username"  required placeholder="请输入用户名" v-model="userName"></input>
                 </div>
                 <div class="passwordBox">
                     <label for="email">邮箱:</label>
@@ -16,9 +20,9 @@
                 </div>
                 <div class="genderBox">
                     <label for="gender">性别:</label>
-                    <input type="radio" id="male" name="gender" value="1" required v-model="gender"></input>
+                    <input type="radio" id="male" name="gender" value="1" required v-model="genders"></input>
                     <label class="genderlabel" for="male">男</label>
-                    <input type="radio" id="female" name="gender" value="0" required v-model="gender"></input>
+                    <input type="radio" id="female" name="gender" value="0" required v-model="genders"></input>
                     <label class="genderlabel" for="female">女</label>
                 </div>
                 <div class="ageBox">
@@ -74,10 +78,11 @@
     //输入部分
     const accountStore = useAccountStore()
     const webRequests = new UtilsWebRequests()
+    const UUID = ref<number>(100001)
     const userName = ref('')
     const eMail = ref('')
-    const phoneNumer = ref<number>(0)  
-    const gender = ref<number>(0)
+    const phoneNumer = ref<number>(10001)  
+    const genders = ref<number>(0)
     const birthDay =ref('')
     const cityinfo = ref('')
     const roleVal = ref<number>(0)
@@ -95,27 +100,28 @@
         preShowUserInfo()
     }
     const preShowUserInfo = () => {
-        const { username, email, age, tel, sex, city, role } = accountStore.$state.userInfoData
-        syncUserInfoToPage(username, email, age, tel, sex, city, role)
+        const { uuid,username, email, birthday, tel, gender, city, role } = accountStore.$state.userInfoData
+        syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role)
     }
     const InitWebUserInfo = (): void => {
         const webUserInfoCookie = accountStore.getCookie("userInfo", "fuzao_secret_key")
         if (webUserInfoCookie) {
-            const { username, email, age, tel, sex, city, role } = webUserInfoCookie as { username: string, email: string, age: string, tel: number, sex: number, city: string, role: number }
-            syncUserInfoToPage(username, email, age, tel, sex, city, role)
+            const { uuid,username, email, birthday, tel, gender, city, role } = webUserInfoCookie as { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number }
+            syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role)
         }else {
             preRequestInfo()
             InitWebUserInfo()
         }
     }
     //同步数据
-    const syncUserInfoToPage = (username: string, email: string, age: string, tel: number, sex: number, city: string, role: number) => {
+    const syncUserInfoToPage = (uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number) => {
+        UUID.value = uuid
         userName.value = userNameShow.value = username
         eMail.value = eMailShow.value = email
-        birthDay.value  = age
-        ageShow.value = baithToAge(age)
+        birthDay.value  = birthday
+        ageShow.value = baithToAge(birthday)
         cityinfo.value = cityShow.value = city
-        gender.value = sex
+        genders.value = gender
         phoneNumer.value = tel
         roleVal.value = role
     }
@@ -137,8 +143,8 @@
         }
     }
     const syncStoreToWeb = () => {
-        const { username, email, age, tel, sex, city, role } = accountStore.$state.userInfoData
-        accountStore.setCookie("userInfo", { username, email, age, tel, sex, city, role },1, "fuzao_secret_key")
+        const { uuid,username, email, birthday, tel, gender, city, role } = accountStore.$state.userInfoData
+        accountStore.setCookie("userInfo", { uuid,username, email, birthday, tel, gender, city, role },1, "fuzao_secret_key")
     }
     //信息提交
     const submitInfo = () => {
@@ -149,7 +155,7 @@
             eMail.value,
             birthDay.value,
             phoneNumer.value,
-            gender.value,
+            genders.value,
             cityinfo.value,
             roleVal.value
         )
@@ -175,10 +181,10 @@
         background-color:rgb(235, 235, 235);
     }
     .centerUserInfo .usrInfoForm {
-        margin-top: 70px;
+        margin-top: 30px;
     }
     .centerUserInfo .usrInfoForm div{
-        margin: 20px;
+        margin: 15px;
         height: 40px;
     }
     .centerUserInfo .usrInfoForm div label {

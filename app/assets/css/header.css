@@ -99,8 +99,7 @@
     }
     .navTop ul li.userInfo {
         font-size: 18px;
-        margin-right: 10px;
-        width: 150px;
+        width: 120px;
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -116,4 +115,14 @@
         height: 30px;
         border-radius: 50%;
         margin-right: 10px;
+    }
+    .navTop ul li.logout{
+        margin: auto 20px;
+        cursor: pointer;
+    } 
+    .navTop ul li.logout:hover {
+        color: rgb(255, 135, 0);
+        transform: scale(1.15);
+        transition: all 0.3s ease-out;
+        text-decoration: underline;
     }

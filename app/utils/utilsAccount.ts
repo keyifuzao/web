@@ -47,9 +47,9 @@ class UtilsWebRequests {
     this.accountStore.setCookie("userInfo", data, 1, "fuzao_secret_key")
   }
   //更新用户信息
-  async updateUsrInfo(username: string,usertoken:string,email:string,age:string,tel:number,sex:number,city:string,role:number): Promise<void> {
-    this.accountStore.$patch({ userInfoData: { username,email,age,tel,sex,city,role } })
-    const res =await this.AxiosService.post('/api/updateUserInfo', { username,email,age,tel,sex,city,role },{
+  async updateUsrInfo(username: string,usertoken:string,email:string,birthday:string,tel:number,gender:number,city:string,role:number): Promise<void> {
+    this.accountStore.$patch({ userInfoData: { username,email,birthday,tel,gender,city,role } })
+    const res =await this.AxiosService.post('/api/updateUserInfo', { username,email,birthday,tel,gender,city,role },{
       headers: {'Authorization': `Bearer ${usertoken}`}
     })
     console.log(res.data)

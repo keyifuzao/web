@@ -21,14 +21,17 @@ class OperationDB {
     DB_URL=''
     Msg =''
     data={
+        uuid:{type: Number,required: true,minlength: 6,default: 0},
         username:{type: String,required: true,trim: true,minlength: 5,default: 'default_username'},
         password:{type: String,required: true,trim: true,minlength: 6,default: 'default_password'},
         email:{type: String,trim: true,default: ''},
-        age:{type: String,default: ''},
+        birthday:{type: String,default: ''},
         tel:{type: Number,default: 0},
-        sex:{type: Number,default: 0},
+        gender:{type: Number,default: 0},
         city:{type: String,default: ''},
-        role:{type: Number,default: 0}
+        role:{type: Number,default: 0},
+        signature:{type: String,default: ''},
+        create_time:{type: Date,default: Date.now}
     }
     Model=null
     constructor() {
@@ -97,9 +100,9 @@ class OperationDB {
         if (this.Model) {
             const loginUserDb = await this.Model.find({ username });
             if (loginUserDb.length > 0) {
-                const { username, password, email, age, tel, sex, city, role } = loginUserDb[0];
+                const { uuid,username, password, email, birthday, tel, gender, city, role } = loginUserDb[0];
                 console.log('正在查找数据', username);
-                return { code: 1, msg: "数据查找成功", data: { username, password, email, age, tel, sex, city, role } };
+                return { code: 1, msg: "数据查找成功", data: { uuid, username, password, email, birthday, tel, gender, city, role } };
             } else {
                 console.log('数据查找失败');
                 return { code: 0, msg: "数据查找失败" , data: { username: '', password: '' } };
@@ -120,6 +123,14 @@ class OperationDB {
         } else {
             console.log('数据更新失败，数据库未开启');
             return { code: 0, message: "数据更新失败，数据库未开启" };
+        }
+    }
+
+    MakeUUID = async(obj) => {
+        if (this.Model) {
+            const sortUserDb = await this.Model.find().sort(obj)
+            const { uuid } = sortUserDb[0];
+            return uuid + 1;
         }
     }
 }
@@ -168,6 +179,8 @@ class LoginVerify {
 
 }
 export { JsonWebToken, OperationDB, LoginVerify };
+
+
 
 
 

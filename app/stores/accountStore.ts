@@ -5,7 +5,7 @@ import CryptoJS from 'crypto-js'
 export const useAccountStore = defineStore('account', {
   state: () => ({
     data:{username: '', token: ''} as {username:string,token:string},
-    userInfoData: {} as {username:string,password:string,email:string,age:string,tel:number,sex:number,city:string,role:number},
+    userInfoData: {} as {uuid:number,username:string,password:string,email:string,birthday:string,tel:number,gender:number,city:string,role:number},
   }),
   actions: {
     //设置cookie

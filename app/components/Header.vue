@@ -13,6 +13,7 @@
             <ul >
                 <li  v-for="(item, index) in headerTitleInfo" :key="item.name"><NuxtLink :to="item.path" :class="{active: $route.path === item.path}">{{ item.name }}</NuxtLink></li>
                 <li class="userInfo" @click="infotoggle"><img src="../assets/img/userimg.jpg" alt="user">{{ userDB }}</li>
+                <li class="logout" @click="logout">退出</li>
             </ul>
         </div>
     </header>
@@ -34,6 +35,10 @@
         }
         return userDBs.username
     })
+    const logout = () => {
+        accountStore.clearCookie('token')
+        navigateTo('/login')
+    }
 </script>
 
 <style scoped>

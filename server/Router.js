@@ -38,7 +38,8 @@ class RegisterRouter {
             const { username, password, email } = ctx.request.body;
             const opDB = new OperationDB();
             opDB.StartDB('mongodb://localhost:27017/mydata', 'len_db')
-            const { code } = await opDB.SaveData({username, password, email});
+            const uuid = await opDB.MakeUUID({uuid: -1});
+            const { code } = await opDB.SaveData({uuid, username, password, email});
             if (code === 1) {
                 ctx.body = {code:1,message:'注册成功'};
                 ctx.status = 200;
@@ -100,7 +101,7 @@ class APIRouter {
     async updateUserInfo() {
         this.router.post('/updateUserInfo', async (ctx,next) => {
             await next();
-            const { username, email, age, tel, sex, city, role }  = ctx.request.body ;
+            const { username, email, birthday, tel, gender, city, role }  = ctx.request.body ;
             const localtoken = ctx.request.headers['authorization'].split(' ')[1];
             if (username && localtoken){
                 const resChecked = await this.loginVerify.StatusVerify(username, localtoken)
@@ -108,7 +109,7 @@ class APIRouter {
                 if (resChecked.code) {
                     const opDB = new OperationDB();
                     opDB.StartDB('mongodb://localhost:27017/mydata', 'len_db')
-                    resupdate = await opDB.UpdateData(username, { email, age, tel, sex, city, role })
+                    resupdate = await opDB.UpdateData(username, { email, birthday, tel, gender, city, role })
 
                 } 
                 ctx.body = {code:resChecked.code,message:resupdate.message};
