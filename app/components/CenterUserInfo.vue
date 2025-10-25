@@ -53,6 +53,10 @@
                     <label for="role">权限:</label>
                     <input disabled="true" type="text" v-model="Role"></input>
                 </div>
+                <div class="signatureBox">
+                    <label for="signature">签名:</label>
+                    <textarea id="signature" name="signature" placeholder="请输入签名" v-model="Signature" maxlength="20"></textarea>
+                </div>
                 <div class="btnBox">
                     <button type="button" :class="{'active': toggleShow}" @click="previewInfo" >{{ toggleShow ? '关闭' : '更新数据' }}</button>
                     <button  type="submit">保存提交</button>
@@ -62,11 +66,12 @@
         <div class="previewBox">
             <img :class="{'active': toggleShow}" src="../assets/img/userimg.jpg" alt="userimg" >
             <span class="title" v-if="!toggleShow">{{ userNameShow? userNameShow : '' }}</span>
+            <p class="signature" v-if="!toggleShow">{{ SignatureShow ? SignatureShow : '' }}</p>
             <div class="previewInfo" v-if="toggleShow">
-                <span>昵称:{{userNameShow? userNameShow : 'User'}}</span>
-                <span>城市:{{ cityShow ? cityShow : 'Beijing'}}</span>
-                <span>年龄:{{ageShow ? ageShow : '20'}}岁</span>
-                <span>邮箱:{{ eMailShow ? eMailShow : 'User@email.com'}}</span>
+                <span>{{userNameShow? userNameShow : 'User'}}</span>
+                <span>{{ cityShow ? cityShow : 'Beijing'}}&nbsp &nbsp{{ageShow ? ageShow : '20'}}岁</span>
+                <span>{{ eMailShow ? eMailShow : 'User@email.com'}}</span>
+                <span>{{ createTimeShow}}</span>
             </div>
         </div>
     </div>
@@ -86,8 +91,17 @@
     const birthDay =ref('')
     const cityinfo = ref('')
     const roleVal = ref<number>(0)
+    const Signature = ref('')
+    const createTime = ref<Date>()
     const Role = computed(() =>  roleVal.value? '管理员' : '普通用户'  ) 
+    const createTimeShow = computed(()=> {
+        if (createTime.value) {
+            return '陪伴您'+Math.floor((new Date().getTime() - new Date(createTime.value).getTime())/1000/60/60)+'小时了'
+        }
+        }
+     )
     //展示区域
+    const SignatureShow = ref('')
     const toggleShow = ref(false)
     const userNameShow = ref('')
     const eMailShow = ref('')
@@ -95,26 +109,32 @@
     const cityShow = ref('')
     //初始化用户信息
     const preRequestInfo = async () => {
-        const { username, token } = accountStore.getCookie('token', 'fuzao_secret_key') as { username: string, token: string }
-        await webRequests.getUsrInfo( username, token )
-        preShowUserInfo()
+        const CookieCheck = accountStore.getCookie('userInfo', 'fuzao_secret_key')as { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, create_time: Date } | null
+        if (!CookieCheck) {
+            const { uuid, token } = accountStore.getCookie('token', 'fuzao_secret_key') as { username: string,uuid:number, token: string }
+            await webRequests.getUsrInfo( uuid, token )
+            preShowUserInfo()
+        }else{
+            const { uuid,username, email, birthday, tel, gender, city, role, signature, create_time }= CookieCheck
+            syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role, signature, create_time)
+        }
     }
     const preShowUserInfo = () => {
-        const { uuid,username, email, birthday, tel, gender, city, role } = accountStore.$state.userInfoData
-        syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role)
+        const { uuid,username, email, birthday, tel, gender, city, role, signature, create_time } = accountStore.$state.userInfoData
+        syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role, signature, create_time)
     }
     const InitWebUserInfo = (): void => {
         const webUserInfoCookie = accountStore.getCookie("userInfo", "fuzao_secret_key")
         if (webUserInfoCookie) {
-            const { uuid,username, email, birthday, tel, gender, city, role } = webUserInfoCookie as { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number }
-            syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role)
+            const { uuid,username, email, birthday, tel, gender, city, role, signature, create_time } = webUserInfoCookie as { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, create_time: Date }
+            syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role, signature, create_time)
         }else {
             preRequestInfo()
             InitWebUserInfo()
         }
     }
     //同步数据
-    const syncUserInfoToPage = (uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number) => {
+    const syncUserInfoToPage = (uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, create_time: Date) => {
         UUID.value = uuid
         userName.value = userNameShow.value = username
         eMail.value = eMailShow.value = email
@@ -124,6 +144,8 @@
         genders.value = gender
         phoneNumer.value = tel
         roleVal.value = role
+        SignatureShow.value=Signature.value = signature
+        createTime.value = create_time
     }
     //年龄与生日转换
     const baithToAge = (birthDay: string): number => {
@@ -136,20 +158,21 @@
     //信息预览
     const previewInfo = () => {
         if (!toggleShow.value) {
-            preShowUserInfo()
+            preRequestInfo()
             toggleShow.value = true
         }else{
             toggleShow.value = false
         }
     }
     const syncStoreToWeb = () => {
-        const { uuid,username, email, birthday, tel, gender, city, role } = accountStore.$state.userInfoData
-        accountStore.setCookie("userInfo", { uuid,username, email, birthday, tel, gender, city, role },1, "fuzao_secret_key")
+        const { uuid,username, email, birthday, tel, gender, city, role,signature, create_time } = accountStore.$state.userInfoData
+        accountStore.setCookie("userInfo", { uuid,username, email, birthday, tel, gender, city, role,signature, create_time },1, "fuzao_secret_key")
     }
     //信息提交
     const submitInfo = () => {
         const { token } = accountStore.getCookie('token', 'fuzao_secret_key') as { username: string, token: string }
         webRequests.updateUsrInfo(
+            UUID.value,
             userName.value,
             token,
             eMail.value,
@@ -157,8 +180,11 @@
             phoneNumer.value,
             genders.value,
             cityinfo.value,
-            roleVal.value
+            roleVal.value,
+            Signature.value,
+            createTime.value!,
         )
+        accountStore.setCookie("token", { username: userName.value, uuid: UUID.value, token },1, "fuzao_secret_key")
         syncStoreToWeb()
     }
 
@@ -181,7 +207,7 @@
         background-color:rgb(235, 235, 235);
     }
     .centerUserInfo .usrInfoForm {
-        margin-top: 30px;
+        margin: 30px;
     }
     .centerUserInfo .usrInfoForm div{
         margin: 15px;
@@ -213,14 +239,27 @@
         font-size: 20px;
         background-color: rgb(255, 255, 255)
     }
+    .centerUserInfo .usrInfoForm .signatureBox{
+        display: flex;
+        height: 100px;
+    }
+    .centerUserInfo .usrInfoForm .signatureBox textarea {
+        align-items:first baseline;
+        width: 300px;
+        height: 100px;
+        border: none;
+        border-radius: 10px;
+        font-size: 20px;
+        resize: none;
+    }
     .centerUserInfo .usrInfoForm .btnBox {
-        margin: 120px 0 0 0;
-        width: 500px;
+        margin: 30px auto;
+        width: 420px;
         height: 140px;
 
     }
     .centerUserInfo .usrInfoForm .btnBox button {
-        margin: 10px 50px;
+        margin: 10px;
         width: 400px;
         height: 50px;
         border: none;
@@ -247,9 +286,9 @@
         background-color: rgb(235, 235, 235);;
     }
     .previewBox img {
-        margin: 120px 50px 50px 50px;
-        width: 400px;
-        height: 400px;
+        margin: 150px 80px 30px 80px;
+        width: 340px;
+        height: 340px;
         border-radius: 50%;
         transition: all 0.5s ease-in-out;
     }
@@ -258,17 +297,24 @@
         transition: all 0.5s ease-in-out;
     }
     .previewBox img.active {
-        margin: 80px 100px;
+        margin: 100px;
         width: 300px;
         height: 300px;
-        transform:translateY(-30px);
+        transform:translateY(-5px);
         transition: all 0.5s ease-in-out;
     }
     .previewBox .title {
         display: block;
-        margin: 50px;
+        margin: 30px 50px;
         font-size: 36px;
         font-weight:bold;
+        text-align: center;
+    }
+    .previewBox .signature {
+        display: block;
+        margin: 30px 50px;
+        font-size: 20px;
+        font-weight:lighter;
         text-align: center;
     }
     .previewBox .previewInfo span {

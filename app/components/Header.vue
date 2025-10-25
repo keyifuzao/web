@@ -29,7 +29,7 @@
     const headerTitleInfo = homeStore.$state.headerTitleInfo
     const infotoggle = () => navigateTo('/usercenter')
     const userDB = computed(() => {
-        const userDBs:{username:string,token:string} | null = accountStore.getCookie('token', 'fuzao_secret_key') as {username:string,token:string} | null
+        const userDBs:{username:string,uuid:number,token:string} | null = accountStore.getCookie('token', 'fuzao_secret_key') as {username:string,uuid:number,token:string} | null
         if(userDBs === null){
             return '状态检查中'
         }
@@ -37,6 +37,7 @@
     })
     const logout = () => {
         accountStore.clearCookie('token')
+        accountStore.clearCookie('userInfo')
         navigateTo('/login')
     }
 </script>

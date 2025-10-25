@@ -21,7 +21,7 @@ class UtilsWebRequests {
   //登录请求
   async Login(username: string, password: string) {
     await this.AxiosService.post('/login', { username, password }).then(res => {
-      this.loginRegister.checkLoginStatus(res.data.code, res.data.message,  username,res.data.token);
+      this.loginRegister.checkLoginStatus(res.data.code, res.data.message, username, res.data.uuid, res.data.token);
     }).catch(err => {
       alert(err.response.data.message)
     })
@@ -38,8 +38,8 @@ class UtilsWebRequests {
     })
   }
   //获得用户信息:userName是数据库中的用户名
-  async getUsrInfo(username: string,usertoken:string): Promise<void> {
-    const res = await this.AxiosService.post('/api/userInfo', { username },{
+  async getUsrInfo(uuid: number,usertoken:string): Promise<void> {
+    const res = await this.AxiosService.post('/api/userInfo', { uuid },{
       headers: {'Authorization': `Bearer ${usertoken}`}
     })
     const { code, message, data } = res.data;
@@ -47,9 +47,9 @@ class UtilsWebRequests {
     this.accountStore.setCookie("userInfo", data, 1, "fuzao_secret_key")
   }
   //更新用户信息
-  async updateUsrInfo(username: string,usertoken:string,email:string,birthday:string,tel:number,gender:number,city:string,role:number): Promise<void> {
-    this.accountStore.$patch({ userInfoData: { username,email,birthday,tel,gender,city,role } })
-    const res =await this.AxiosService.post('/api/updateUserInfo', { username,email,birthday,tel,gender,city,role },{
+  async updateUsrInfo(uuid: number,username: string,usertoken:string,email:string,birthday:string,tel:number,gender:number,city:string,role:number,signature:string, create_time:Date): Promise<void> {
+    this.accountStore.$patch({ userInfoData: { uuid,username,email,birthday,tel,gender,city,role,signature, create_time } })
+    const res =await this.AxiosService.post('/api/updateUserInfo', {uuid, username,email,birthday,tel,gender,city,role,signature, create_time},{
       headers: {'Authorization': `Bearer ${usertoken}`}
     })
     console.log(res.data)
@@ -68,11 +68,11 @@ class UtilsLoginRegister {
   constructor() {
     this.togglebox.value = false;
   }
-  checkLoginStatus(code: number, message: string, username: string,token: string) {
+  checkLoginStatus(code: number, message: string, username: string,uuid: number, token: string) {
     if (code) {
       this.tipMessage.value = message;
-      this.accountStore.$patch({ data: { username, token } })
-      this.accountStore.setCookie("token", { username, token }, 1, "fuzao_secret_key")
+      this.accountStore.$patch({ data: { username,uuid, token } })
+      this.accountStore.setCookie("token", { username,uuid, token }, 1, "fuzao_secret_key")
       // this.CookieTools.setCookie(cookieName, { username, token }, hour, secretKey)
       return navigateTo('/home')
     } else {

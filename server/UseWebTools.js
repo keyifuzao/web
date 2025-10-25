@@ -10,7 +10,7 @@ class JsonWebToken {
     constructor() {
     }
     // 初始化数据
-    InitData=(username='default_username',password='default_password',secret='fuzao_secret',hours='1h')=>{this.payload={username: username, password: password},this.secret=secret, this.hours=hours}
+    InitData=(uuid=100001,password='default_password',secret='fuzao_secret',hours='1h')=>{this.payload={uuid: uuid, password: password},this.secret=secret, this.hours=hours}
     // 生成token
     CreateToken=() => jwt.sign(this.payload, this.secret, { expiresIn: this.hours })
     // 验证token
@@ -76,7 +76,7 @@ class OperationDB {
     SaveData = async(data) => {
         if (this.Model) {
             const usermodel = new this.Model(data);
-            const { username } = (await this.FindData(data.username)).data;
+            const { username } = (await this.FindDataName(data.username)).data;
             if (!username) {
                 await usermodel.save();
                 console.log('数据保存成功');
@@ -96,13 +96,30 @@ class OperationDB {
     }
 
     // 数据库查找数据
-    FindData = async(username) => {
+    FindDataName = async(username) => {
         if (this.Model) {
             const loginUserDb = await this.Model.find({ username });
             if (loginUserDb.length > 0) {
-                const { uuid,username, password, email, birthday, tel, gender, city, role } = loginUserDb[0];
+                const { uuid,username, password, email, birthday, tel, gender, city, role,signature, create_time } = loginUserDb[0];
                 console.log('正在查找数据', username);
-                return { code: 1, msg: "数据查找成功", data: { uuid, username, password, email, birthday, tel, gender, city, role } };
+                return { code: 1, msg: "数据查找成功", data: { uuid, username, password, email, birthday, tel, gender, city, role,signature, create_time} };
+            } else {
+                console.log('数据查找失败');
+                return { code: 0, msg: "数据查找失败" , data: { username: '', password: '' } };
+            }
+        } else {
+            console.log('数据库未开启');
+            return { code: 0, msg: "数据库未开启" , data: { username: '', password: '' } };
+        }
+    }
+    // 数据库查找数据
+    FindDataUUID = async(uuid) => {
+        if (this.Model) {
+            const loginUserDb = await this.Model.find({ uuid });
+            if (loginUserDb.length > 0) {
+                const { uuid,username, password, email, birthday, tel, gender, city, role,signature, create_time } = loginUserDb[0];
+                console.log('正在查找数据', uuid);
+                return { code: 1, msg: "数据查找成功", data: { uuid, username, password, email, birthday, tel, gender, city, role,signature, create_time} };
             } else {
                 console.log('数据查找失败');
                 return { code: 0, msg: "数据查找失败" , data: { username: '', password: '' } };
@@ -113,9 +130,9 @@ class OperationDB {
         }
     }
     // 数据库更新数据
-    async UpdateData(username, data) {
+    async UpdateData(uuid, data) {
         if (this.Model) {
-            const updateUserDb = await this.Model.updateOne({ username }, {
+            const updateUserDb = await this.Model.updateOne({ uuid }, {
                 $set: data
             });
             console.log('数据更新成功,修改数量为：', updateUserDb.modifiedCount);
@@ -139,20 +156,32 @@ class OperationDB {
 class LoginVerify {
     constructor() {
     }
-    async Verify(username, password) {
+    async VerifyUserName( username, password) {
         const opDB = new OperationDB();
         opDB.StartDB('mongodb://localhost:27017/mydata', 'len_db');
-        const DBs = await opDB.FindData(username);
+        const DBs = await opDB.FindDataName(username);
         if (DBs.code) {
             console.log(DBs.msg);
-            return password === DBs.data.password?{code: 1,message: '验证成功'}:{code: 0,message: '密码错误'};
+            return password === DBs.data.password?{code: 1,message: '验证成功',data: DBs.data}:{code: 0,message: '密码错误',data:null};
         }else{
             console.log(DBs.msg);
-            return {code: 0,message: DBs.msg};
+            return {code: 0,message: DBs.msg,data:null};
+        }
+    }
+    async VerifyUUID(uuid, password) {
+        const opDB = new OperationDB();
+        opDB.StartDB('mongodb://localhost:27017/mydata', 'len_db');
+        const DBs = await opDB.FindData(uuid);
+        if (DBs.code) {
+            console.log(DBs.msg);
+            return password === DBs.data.password?{code: 1,message: '验证成功',data: DBs.data}:{code: 0,message: '密码错误',data:null};
+        }else{
+            console.log(DBs.msg);
+            return {code: 0,message: DBs.msg,data:null};
         }
     }
 
-    async StatusVerify(username, token){
+    async StatusVerify(uuid, token){
         const opDB = new OperationDB();
         const tokenVerify = new JsonWebToken();
         const tokenRes = tokenVerify.VerifyToken(token, 'fuzao_secret');
@@ -162,10 +191,10 @@ class LoginVerify {
             const diffTime = exp - now;
             if(diffTime > 0){
                 opDB.StartDB('mongodb://localhost:27017/mydata', 'len_db');
-                const DBs = await opDB.FindData(username);
+                const DBs = await opDB.FindDataUUID(uuid);
                 if (DBs.code) {
                     console.log(DBs.msg);
-                    return username === DBs.data.username?{code: 1,message: '验证成功',data: DBs.data}:{code: 0,message: '无效用户名'};
+                    return uuid === DBs.data.uuid?{code: 1,message: '验证成功',data: DBs.data}:{code: 0,message: '无效用户名'};
                 }else{
                     return {code: 0,message: '无效用户名'};
                 }

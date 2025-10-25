@@ -13,15 +13,15 @@ class LoginRouter {
         this.router.post('/', async (ctx, next) => {
             await next();
             const { username, password } = ctx.request.body;
-            const { code, message } = await this.loginVerify.Verify(username, password);
+            const { code, message,data } = await this.loginVerify.VerifyUserName(username, password);
             if (code) {
-                this.jsonWebToken.InitData(username, password, 'fuzao_secret', '1h');
+                this.jsonWebToken.InitData(data.uuid, password, 'fuzao_secret', '1h');
                 const token = this.jsonWebToken.CreateToken();
                 ctx.status = 200;
-                ctx.body = { code: 1, message: '登录成功', token };
+                ctx.body = { code: 1, message: '登录成功', uuid: data.uuid ,token };
             } else {
                 ctx.status = 401;
-                ctx.body = { code: 0, message };
+                ctx.body = { code: 0, message,uuid: 0, token:'' };
             }
         })
     }
@@ -79,10 +79,10 @@ class APIRouter {
     async userInfo() {
         this.router.post('/userInfo', async (ctx,next) => {
             await next();
-            const { username } = ctx.request.body;
+            const { uuid } = ctx.request.body;
             const localtoken = ctx.request.headers['authorization'].split(' ')[1];
-            if (username && localtoken){
-                    await this.loginVerify.StatusVerify(username, localtoken).then(res => {
+            if (uuid && localtoken){
+                    await this.loginVerify.StatusVerify(uuid, localtoken).then(res => {
                     const { code, message, data } = res
                     ctx.body = {code, message, data}
                     ctx.status = 200;
@@ -101,15 +101,15 @@ class APIRouter {
     async updateUserInfo() {
         this.router.post('/updateUserInfo', async (ctx,next) => {
             await next();
-            const { username, email, birthday, tel, gender, city, role }  = ctx.request.body ;
+            const { uuid,username, email, birthday, tel, gender, city, role,signature}  = ctx.request.body ;
             const localtoken = ctx.request.headers['authorization'].split(' ')[1];
-            if (username && localtoken){
-                const resChecked = await this.loginVerify.StatusVerify(username, localtoken)
+            if (uuid && localtoken){
+                const resChecked = await this.loginVerify.StatusVerify(uuid, localtoken)
                 let resupdate
                 if (resChecked.code) {
                     const opDB = new OperationDB();
                     opDB.StartDB('mongodb://localhost:27017/mydata', 'len_db')
-                    resupdate = await opDB.UpdateData(username, { email, birthday, tel, gender, city, role })
+                    resupdate = await opDB.UpdateData(uuid, {username, email, birthday, tel, gender, city, role,signature})
 
                 } 
                 ctx.body = {code:resChecked.code,message:resupdate.message};
