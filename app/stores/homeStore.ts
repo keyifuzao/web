@@ -16,8 +16,8 @@ export const useHomeStore = defineStore('homeStore', {
                 path: '/article'
             },
             {
-                name: '代码',
-                path: '/code'
+                name: '工具',
+                path: '/tool'
             },
         ],
         userAccountInfo: {
