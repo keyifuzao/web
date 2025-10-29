@@ -69,7 +69,7 @@
   const selectedColor = ref('red')
   const selectedBgCcolor = ref('yellow')
   const selectedFontSize = ref(22)
-  const selectedTitle = ref('h2')
+  const selectedTitle = ref('')
   const previewFontSize = ref(18)
   const htmlContent = ref('')
   const previewEditor = ref<boolean>(true)
