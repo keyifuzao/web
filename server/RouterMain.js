@@ -1,15 +1,20 @@
 import Koa from 'koa';
 import bodyParser from '@koa/bodyparser';
 import cors from '@koa/cors';
-import { LoginRouter, RegisterRouter, APIRouter } from './Router.js';
+import { LoginRouter, RegisterRouter,essayApiRouter, userApiRouter  } from './RouterToPage.js';
+import { InitData } from './OperationMainDB.js';
 
 class Main {
-    loginRouter = new LoginRouter();
-    registerRouter = new RegisterRouter();
-    apiRouter = new APIRouter();
-    App = new Koa();
     constructor() {
+        this.baseUrl = 'mongodb://localhost:27017/web'
+        this.loginRouter = new LoginRouter();
+        this.registerRouter = new RegisterRouter();
+        this.essayApiRouter = new essayApiRouter();
+        this.userApiRouter = new userApiRouter();
+        this.App = new Koa();
+        
     }
+    
     async start() {
         this.App.use(bodyParser());
         this.App.use(cors({
@@ -24,12 +29,19 @@ class Main {
             allowHeaders: ['Content-Type', 'Authorization', 'Accept'], //设置服务器支持的所有头信息字段
         }));
         this.App.use(this.loginRouter.router.routes(),this.loginRouter.router.allowedMethods());
-        this.App.use(this.apiRouter.router.routes(),this.apiRouter.router.allowedMethods());
         this.App.use(this.registerRouter.router.routes(),this.registerRouter.router.allowedMethods());
+        this.App.use(this.essayApiRouter.router.routes(),this.essayApiRouter.router.allowedMethods());
+        this.App.use(this.userApiRouter.router.routes(),this.userApiRouter.router.allowedMethods());
         this.App.listen(3600, "localhost", () => {
             console.log("服务器已开启，请访问 http://localhost:3600");
         });
     }
+    openDB(){
+        const initDB = new InitData(this.baseUrl);
+        initDB.ConnectDB();
+        initDB.ListenData();
+    }
 }
 const main = new Main();
 main.start();
+main.openDB();

@@ -2,14 +2,14 @@
   <div class="leftBox">
     <div class="editTool">
       <div class="editTitle">
-        <select name="titleItem" id="titleItem" v-model="selectedTitle">
+        <select name="titleItem" id="titleItem" v-model="selectedTitle" @change="TitleSize">
           <option value="h2">一级标题</option>
           <option value="h3">二级标题</option>
           <option value="h4">三级标题</option>
           <option value="h5">四级标题</option>
           <option value="h6">五级标题</option>
         </select>
-        <select name="fontSize" id="fontSize" v-model="selectedFontSize">
+        <select name="fontSize" id="fontSize" v-model="selectedFontSize" @change="FontSize">
           <option value="12">12号</option>
           <option value="14">14号</option>
           <option value="16">16号</option>
@@ -21,13 +21,13 @@
           <option value="28">28号</option>
           <option value="30">30号</option>
         </select>
-        <button @click="execBase('bold')"><b>B</b></button>
-        <button @click="execBase('italic')"><i>I</i></button>
-        <button @click="execBase('underline')"><u>U</u></button>
-        <button @click="execBase('strikethrough')"><s>S</s></button>
-        <button @click="undo" ><</button>
-        <button @click="redo" >></button>
-        <button @click="execAD('fontColor',selectedColor)" :style="`color:${selectedColor}`">A</button>
+        <button @click="Bold"><b>B</b></button>
+        <button @click="Italic"><i>I</i></button>
+        <button @click="Underline"><u>U</u></button>
+        <button @click="Strikethrough"><s>S</s></button>
+        <button @click="Undo" ><</button>
+        <button @click="Redo" >></button>
+        <button @click="FontColor" :style="`color:${selectedColor}`">A</button>
         <select name="color" id="color" style="width: 30px;" v-model="selectedColor">
           <option value="red">红色</option>
           <option value="blue">蓝色</option>
@@ -36,7 +36,7 @@
           <option value="black">黑色</option>
           <option value="white">白色</option>
         </select>
-        <button @click="execAD('backgroundColor',selectedBgCcolor)" :style="`background-color: ${selectedBgCcolor}`">G</button>
+        <button @click="FontBgc" :style="`background-color: ${selectedBgCcolor}`">G</button>
         <select name="bgcColor" id="bgcColor" style="width: 30px;" v-model="selectedBgCcolor">
           <option value="red">红色</option>
           <option value="blue">蓝色</option>
@@ -45,17 +45,17 @@
           <option value="black">黑色</option>
           <option value="white" selected>白色</option>
         </select>
-        <button @click="removeFormat" >F</button>
+        <button @click="RemoveFormat" >F</button>
       </div>
       <div class="editBox">
-        <h1 placeholder="请输入标题" :contenteditable="previewEditor" data-placeholder="请输入标题" maxlength="20" @input="titleComputed">{{ titleInfo }}</h1>
-        <div class="editContent" v-on:keyup="(e)=>e.preventDefault"  v-on:keydown.self="inputSmbol" :contenteditable="previewEditor" v-html="htmlContent" @blur="saveData"
-          @input.prevent="handleInput" data-placeholder="请输入内容" :style="`font-size:${previewFontSize}px;`" >
+        <h1 placeholder="请输入标题" :contenteditable="previewEditor" data-placeholder="请输入标题" maxlength="20" @input="inputTitle">{{ titleTo }}</h1>
+        <div class="editContent" v-on:keyup="(e)=>e.preventDefault"  v-on:keydown.self="inputSmbol" :contenteditable="previewEditor" v-html="htmlContent" 
+          @input.prevent="inputEssay" data-placeholder="请输入内容" :style="`font-size:${previewFontSize}px;`" >
         </div>
       </div>
       <div class="buttonBox">
-        <button @click="saveTempData">保存</button>
-        <button @click="previewEditor=!previewEditor">{{ previewEditor? '编辑' : '预览' }}</button>
+        <button @click="SaveTempData">保存</button>
+        <button @click="previewEditor=!previewEditor">{{ previewEditor? '预览' : '编辑' }}</button>
         <button @click="">发布</button>
         <input type="range" min="12" max="30" step="2" v-model="previewFontSize"></input>
       </div>
@@ -63,212 +63,52 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { useAccountStore } from '../stores/accountStore'
-  //输入内容的html
-  const accountStore = useAccountStore()
+  import { EssayEditor } from '../utils/utilsEssayPage'
+  const selection = () => window.getSelection() as Selection
+  const range = () => selection().getRangeAt(0) as Range
+  const essayEditor = new EssayEditor()
   const selectedColor = ref('red')
   const selectedBgCcolor = ref('yellow')
   const selectedFontSize = ref(22)
-  const selectedTitle = ref('')
+  const selectedTitle = ref('h2')
+  const previewEditor = ref<boolean>(false)
   const previewFontSize = ref(18)
   const htmlContent = ref('')
-  const previewEditor = ref<boolean>(true)
-  let titleInfo = ref('')
-  let acticalDataValue = {
-    uuid: 100001,data:{tid:200001 , title: 'h2', author:"keyifuzao",content: '请输入内容',saveTime: new Date().toLocaleString()}
+  let titleTo = ref('')
+  let titlefrom = ''
+  const inputTitle = (event: InputEvent) => {
+    titlefrom = (event.target as HTMLInputElement).innerText
   }
-  const saveData = () => {
-    htmlContent.value = history[history.length - 1] as string
+  const inputSmbol = (event: KeyboardEvent) => essayEditor.inputSmbol(event, range(), selection())
+  const inputEssay = (event: InputEvent) => essayEditor.inputEssay(event)
+  const Bold = () => essayEditor.renderFontTag('b', range())
+  const Italic = () => essayEditor.renderFontTag('i', range())
+  const Underline = () => essayEditor.renderFontTag('u', range())
+  const Strikethrough = () => essayEditor.renderFontTag('s', range())
+  const FontColor = () => essayEditor.renderFontStyle(selectedColor.value, range()).fontColor()
+  const FontBgc = () => essayEditor.renderFontStyle(selectedBgCcolor.value, range()).fontBgc()
+  const RemoveFormat = () => essayEditor.removeFormat(range(), selection())
+  const Undo = () => htmlContent.value = essayEditor.undoContent() as string
+  const Redo = () => htmlContent.value = essayEditor.redoContent() as string
+  const SaveTempData = () => essayEditor.saveTempData(titlefrom)
+  const SaveLocalData = () => essayEditor.saveLocalData()
+  const LoadLocalData = () => {
+    const { htmlCTX,titleCTX } = essayEditor.loadLocalData() as { htmlCTX: string, titleCTX: string }
+    htmlContent.value = htmlCTX
+    titleTo.value = titleCTX
   }
-  watch(selectedFontSize, (newVal) => {
-    execAD('fontSize', newVal.toString())
-  })
-  watch(selectedTitle ,(newVal)=>{
-    execBase(newVal)
-  })
-  const inputSmbol = (event: KeyboardEvent) => {
-      const {range,selection} = selectionObj() as {range:Range,selection:Selection}
-    if(event.key === 'Enter'){
-      event.preventDefault()
-      const br = document.createElement('br')
-      range.deleteContents()
-      range.insertNode(br)
-      range.setStartAfter(br)
-      range.setEndAfter(br)
-      selection.removeAllRanges()
-      selection.addRange(range)
-    }
+  const FontSize = () => {
+    essayEditor.renderFontStyle(selectedFontSize.value.toString(), range()).fontSize()
   }
-  const titleComputed = (event: InputEvent) => {
-    titleInfo.value = (event.target as HTMLInputElement).innerText
+  const TitleSize = () => {
+    essayEditor.renderFontTag(selectedTitle.value, range())
   }
-  //记录操作历史
-  let history: string[] = []
-  //记录操作历史的索引
-  let historyIndex: number = -1
-  //初始化选区
-  let toggleStyleBtn: boolean = false
-  const selectionObj = () => {
-    const selection = window.getSelection() as Selection
-    if (!selection.rangeCount) return
-    const range = selection.getRangeAt(0)
-    return { selection, range }
-  }
-  //输入事件
-  const handleInput = (event: InputEvent) => {
-    const html = `${(event.target as HTMLElement).innerHTML}<br/>`
-    recordHistory(html)
-  }
-  //记录操作历史
-  const recordHistory = (data: string) => {
-    history = history.slice(0, historyIndex + 1)
-    history.push(data)
-    historyIndex++
-  }
-  const execBase = (command: string) => {
-    switch (command) {
-      case 'bold':
-        renderFont('b')
-        break
-      case 'italic':
-        renderFont('i')
-        break
-      case 'underline':
-        renderFont('u')
-        break
-      case 'strikethrough':
-        renderFont('del')
-        break
-      case 'h2':
-        renderFont('h2')
-        break
-      case 'h3':
-        renderFont('h3')
-        break
-      case 'h4':
-        renderFont('h4')
-        break
-      case 'h5':
-        renderFont('h5')
-        break
-      case 'h6':
-        renderFont('h6')
-        break
-      case 'fontSize':
-        execAD('fontSize', selectedFontSize.value.toString())
-        break
-      case 'fontColor':
-        execAD('fontColor', selectedColor.value)
-        break
-      case 'backgroundColor':
-        execAD('backgroundColor', selectedBgCcolor.value)
-    }
-  }
-  const execAD = (command: string, value: string) => {
-    const { range } = selectionObj() as { range: Range }
-    switch (command) {
-      case 'fontColor':
-        renderFont('span')
-        const spanNodeColor = range.cloneContents().querySelector('span')
-        if (spanNodeColor) {
-          spanNodeColor.style.color = value
-          range.deleteContents()
-          range.insertNode(spanNodeColor)
-        }
-        break
-      case 'backgroundColor':
-        renderFont('span')
-        const spanNodeBgColor = range.cloneContents().querySelector('span')
-        if (spanNodeBgColor) {
-          spanNodeBgColor.style.backgroundColor = value
-          range.deleteContents()
-          range.insertNode(spanNodeBgColor)
-        }
-        break
-      case 'fontSize':
-        renderFont('span')
-        const spanNodeSize = range.cloneContents().querySelector('span')
-        if (spanNodeSize) {
-          spanNodeSize.style.fontSize = `${value}px`
-          range.deleteContents()
-          range.insertNode(spanNodeSize)
-        }
-        break
-    }
-  }
-  //受到指令，利用extractContents从range中裁剪内容，创造tag标签并插入到range中
-  const renderFont = (tag: string) => {
-    const { range } = selectionObj() as { range: Range }
-    if (range.startOffset === range.endOffset) return
-    const selectedText = range.extractContents()
-    const newElement = document.createElement(tag)
-    newElement.appendChild(selectedText)
-    range.insertNode(newElement)
-  }
-  //将html字符串转换为fragment，插入到range中 此处不再使用
-  // const insertFragmentHTML = (fragmentHtml: string) => {
-  //   const { selection, range } = selectionObj() as { selection: Selection, range: Range }
-  //   if (range.startOffset === range.endOffset) return
-  //   range.deleteContents()
-  //   const temp = document.createElement('div')
-  //   temp.innerHTML = fragmentHtml
-  //   const frag = document.createDocumentFragment()
-  //   while (temp.firstChild) {
-  //     frag.appendChild(temp.firstChild)
-  //   }
-  //   range.insertNode(frag)
-  //   selection.removeAllRanges()
-  //   selection.addRange(range)
-  // }
-  // //移除指定标签的格式
-  const removeFormat = () => {
-    const { selection, range } = selectionObj() as { selection: Selection, range: Range }
-    if (range.startOffset === range.endOffset) return
-    const textNode = document.createTextNode(range.toString())
-    range.deleteContents()
-    range.insertNode(textNode)
-    range.collapse(false)
-    selection.removeAllRanges()
-    selection.addRange(range)
-  }
-  const undo = () => {
-    if (historyIndex > 0) {
-      historyIndex--
-      htmlContent.value = history[historyIndex] as string
-    }
-  }
-  const redo = () => {
-    if (historyIndex < history.length - 1) {
-      historyIndex++
-      htmlContent.value = history[historyIndex] as string
-    }
-  }
-  const saveTempData = () => {
-    acticalDataValue.uuid = (accountStore.getCookie('userInfo','fuzao_secret_key') as {uuid:number}).uuid
-    acticalDataValue.data.tid ++
-    acticalDataValue.data.title = titleInfo.value
-    acticalDataValue.data.author = (accountStore.getCookie('userInfo','fuzao_secret_key') as {username:string}).username
-    acticalDataValue.data.content = history[history.length - 1] as string
-    acticalDataValue.data.saveTime = new Date().toLocaleString()
-  }
-  const saveLocalData = () => {
-    localStorage.setItem('acticalData', JSON.stringify(acticalDataValue))
-  }
-  const loadLocalData = () => {
-    const localData = localStorage.getItem('acticalData')
-    if (localData) {
-      acticalDataValue = JSON.parse(localData)
-      htmlContent.value = acticalDataValue.data.content
-      titleInfo.value = acticalDataValue.data.title
-    }
-  }
-  //加载本地数据
+  
   onMounted(() => {
-    loadLocalData()
+    LoadLocalData()
   })
-  //保存本地数据
   onBeforeUnmount(() => {
-    saveLocalData()
+    SaveLocalData()
   })
 </script>
 <style scoped>
@@ -358,9 +198,7 @@
     outline: none;
     overflow-y: auto;
     transition: all 0.5s;
-
   }
-
   .leftBox .editTool .editBox .editContent:empty::before {
     content: attr(data-placeholder);
     cursor: text;
