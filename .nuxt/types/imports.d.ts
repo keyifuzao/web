@@ -2,9 +2,11 @@
 export {}
 declare global {
   const EssayEditor: typeof import('../../app/utils/utilsEssayPage').EssayEditor
-  const UtilsCookieTools: typeof import('../../app/utils/utilsAccount').UtilsCookieTools
-  const UtilsLoginRegister: typeof import('../../app/utils/utilsAccount').UtilsLoginRegister
-  const UtilsWebRequests: typeof import('../../app/utils/utilsAccount').UtilsWebRequests
+  const LoginPage: typeof import('../../app/utils/utilsUserPages').LoginPage
+  const TokenTools: typeof import('../../app/utils/utilsTokenTools').TokenTools
+  const UserCenterPage: typeof import('../../app/utils/utilsUserPages').UserCenterPage
+  const UtilsLoginOrRegister: typeof import('../../app/utils/utilsWebTools').UtilsLoginOrRegister
+  const UtilsWebRequests: typeof import('../../app/utils/utilsWebTools').UtilsWebRequests
   const abortNavigation: typeof import('../../node_modules/nuxt/dist/app/composables/router').abortNavigation
   const acceptHMRUpdate: typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables').acceptHMRUpdate
   const addRouteMiddleware: typeof import('../../node_modules/nuxt/dist/app/composables/router').addRouteMiddleware
@@ -102,7 +104,6 @@ declare global {
   const tryUseNuxtApp: typeof import('../../node_modules/nuxt/dist/app/nuxt').tryUseNuxtApp
   const unref: typeof import('vue').unref
   const updateAppConfig: typeof import('../../node_modules/nuxt/dist/app/config').updateAppConfig
-  const useAccountStore: typeof import('../../app/stores/accountStore').useAccountStore
   const useAppConfig: typeof import('../../node_modules/nuxt/dist/app/config').useAppConfig
   const useAsyncData: typeof import('../../node_modules/nuxt/dist/app/composables/asyncData').useAsyncData
   const useAttrs: typeof import('vue').useAttrs
@@ -199,9 +200,11 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EssayEditor: UnwrapRef<typeof import('../../app/utils/utilsEssayPage')['EssayEditor']>
-    readonly UtilsCookieTools: UnwrapRef<typeof import('../../app/utils/utilsAccount')['UtilsCookieTools']>
-    readonly UtilsLoginRegister: UnwrapRef<typeof import('../../app/utils/utilsAccount')['UtilsLoginRegister']>
-    readonly UtilsWebRequests: UnwrapRef<typeof import('../../app/utils/utilsAccount')['UtilsWebRequests']>
+    readonly LoginPage: UnwrapRef<typeof import('../../app/utils/utilsUserPages')['LoginPage']>
+    readonly TokenTools: UnwrapRef<typeof import('../../app/utils/utilsTokenTools')['TokenTools']>
+    readonly UserCenterPage: UnwrapRef<typeof import('../../app/utils/utilsUserPages')['UserCenterPage']>
+    readonly UtilsLoginOrRegister: UnwrapRef<typeof import('../../app/utils/utilsWebTools')['UtilsLoginOrRegister']>
+    readonly UtilsWebRequests: UnwrapRef<typeof import('../../app/utils/utilsWebTools')['UtilsWebRequests']>
     readonly abortNavigation: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['abortNavigation']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('../../node_modules/@pinia/nuxt/dist/runtime/composables')['acceptHMRUpdate']>
     readonly addRouteMiddleware: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/router')['addRouteMiddleware']>
@@ -299,7 +302,6 @@ declare module 'vue' {
     readonly tryUseNuxtApp: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/nuxt')['tryUseNuxtApp']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly updateAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/config')['updateAppConfig']>
-    readonly useAccountStore: UnwrapRef<typeof import('../../app/stores/accountStore')['useAccountStore']>
     readonly useAppConfig: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/config')['useAppConfig']>
     readonly useAsyncData: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/asyncData')['useAsyncData']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>

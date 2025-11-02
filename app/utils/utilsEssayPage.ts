@@ -1,11 +1,15 @@
-import { useAccountStore } from '../stores/accountStore'
+import { TokenTools } from "./utilsTokenTools"
 
 class EssayEditor {
-  accountStore = useAccountStore()
-  acticalDataValue: { uuid: number, data: { tid: number, title: string, author: string, content: string, saveTime: string } } = { uuid: 100001, data: { tid: 101, title: '', author: '', content: '', saveTime: '' } }
-  history: string[] = []
-  historyIndex: number = -1
+  tokenTools;
+  acticalDataValue: {uuid: number, essayId: number, title: string, content: string, author: string, create_time: string, update_time: string};
+  history: string[] ;
+  historyIndex: number ;
   constructor() {
+    this.tokenTools = new TokenTools()
+    this.acticalDataValue = { uuid: 100001, essayId: 1001, title: '', content: '', author: '', create_time: '', update_time: '' }
+    this.history = [];
+    this.historyIndex = -1
   }
   //监听键盘按键，输入回车时插入br标签
   inputSmbol(event: KeyboardEvent,range:Range,selection:Selection) {
@@ -95,18 +99,13 @@ class EssayEditor {
       return this.history[this.historyIndex] as string
     }
   }
-  //将文本内容储存在内存中
-  saveTempData(title: string) {
-    const {username,uuid} = this.accountStore.getCookie('token','fuzao_secret_key') as { username: string, uuid: number}
+  //将文本内容储存在cookies中
+  savelocalData(title: string) {
+    const {username,uuid} = this.tokenTools.getCookie('token','fuzao_secret_key') as { username: string, uuid: number}
     this.acticalDataValue.uuid = uuid
-    this.acticalDataValue.data.tid ++
-    this.acticalDataValue.data.title = title
-    this.acticalDataValue.data.author = username
-    this.acticalDataValue.data.content = this.history[this.history.length - 1] as string
-    this.acticalDataValue.data.saveTime = new Date().toLocaleString()
-  }
-  //将文本内容保存到本地
-  saveLocalData() {
+    this.acticalDataValue.title = title
+    this.acticalDataValue.author = username
+    this.acticalDataValue.content = this.history[this.history.length - 1] as string
     localStorage.setItem('acticalData', JSON.stringify(this.acticalDataValue))
   }
   //从本地加载文本内容
@@ -114,8 +113,8 @@ class EssayEditor {
     const localData = localStorage.getItem('acticalData')
       if (localData) {
       this.acticalDataValue = JSON.parse(localData)
-      const htmlCTX= this.acticalDataValue.data.content || ''
-      const titleCTX = this.acticalDataValue.data.title || ''
+      const htmlCTX= this.acticalDataValue.content || ''
+      const titleCTX = this.acticalDataValue.title || ''
       return { htmlCTX, titleCTX }
     }
   }

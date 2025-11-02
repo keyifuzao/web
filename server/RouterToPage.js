@@ -8,6 +8,7 @@ class LoginRouter {
         this.tokenTool = new JsonWebToken('fuzao_secret_key', '1h');
         this.dataVerify = new DataVerify();
         this.login();
+        this.loadChecked()
     }
     async login() {
         this.router.post('/', async (ctx, next) => {
@@ -46,7 +47,7 @@ class LoginRouter {
                     ctx.body = { code: 1, message: 'token有效'};
                 }catch(err){
                     ctx.status = 401;
-                    ctx.body = { code: 0, message: 'token无效'};
+                    ctx.body = { code: 0, message: err};
                 }
             }
         })

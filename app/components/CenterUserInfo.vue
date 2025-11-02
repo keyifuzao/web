@@ -4,7 +4,7 @@
             <form class="usrInfoForm" @submit.prevent="submitInfo">
                 <div class="uuidBox">
                     <label for="uuid">UUID:</label>
-                    <input disabled="false" type="text" id="uuid" name="uuid"  v-model="UUID"></input>
+                    <input disabled="false" type="text" id="uuid" name="uuid"  v-model="uuidInfo"></input>
                 </div>
                 <div class="usernameBox">
                     <label for="username">用户名:</label>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="cityBox">
                 <label for="city">城市:</label>
-                    <select id="city" name="city" required v-model="cityinfo">
+                    <select id="city" name="city" required v-model="cityInfo">
                         <option value="">请选择</option>
                         <option value="北京">北京</option>
                         <option value="上海">上海</option>
@@ -51,147 +51,81 @@
                 </div>
                 <div class="rolebox">
                     <label for="role">权限:</label>
-                    <input disabled="true" type="text" v-model="Role"></input>
+                    <input disabled="true" type="text" v-model="roleShow"></input>
                 </div>
                 <div class="signatureBox">
                     <label for="signature">签名:</label>
-                    <textarea id="signature" name="signature" placeholder="请输入签名" v-model="Signature" maxlength="20"></textarea>
+                    <textarea id="signature" name="signature" placeholder="请输入签名" v-model="signatureInfo" maxlength="20"></textarea>
                 </div>
                 <div class="btnBox">
-                    <button type="button" :class="{'active': toggleShow}" @click="previewInfo" >{{ toggleShow ? '关闭' : '更新数据' }}</button>
+                    <button type="button" :class="{'active': toggleUserCard }" @click="previewInfo" >{{ toggleUserCard ? '关闭' : '获取数据' }}</button>
                     <button  type="submit">保存提交</button>
                 </div>
             </form>
         </div>
         <div class="previewBox">
-            <img :class="{'active': toggleShow}" src="../assets/img/userimg.jpg" alt="userimg" >
-            <span class="title" v-if="!toggleShow">{{ userNameShow? userNameShow : '' }}</span>
-            <p class="signature" v-if="!toggleShow">{{ SignatureShow ? SignatureShow : '' }}</p>
-            <div class="previewInfo" v-if="toggleShow">
-                <span>{{userNameShow? userNameShow : 'User'}}</span>
-                <span>{{ cityShow ? cityShow : 'Beijing'}}&nbsp &nbsp{{ageShow ? ageShow : '20'}}岁</span>
-                <span>{{ eMailShow ? eMailShow : 'User@email.com'}}</span>
+            <img :class="{'active': toggleUserCard }" src="../assets/img/userimg.jpg" alt="userimg" >
+            <span class="title" v-if="!toggleUserCard">{{ userName ? userName : '' }}</span>
+            <p class="signature" v-if="!toggleUserCard">{{ signatureInfo ? signatureInfo : '' }}</p>
+            <div class="previewInfo" v-if="toggleUserCard">
+                <span>{{userName}}</span>
+                <span>{{ cityInfo}}&nbsp &nbsp{{birthDayToAge }}岁</span>
+                <span>{{ eMail}}</span>
+                <span>{{ updateTimeShow }}</span>
                 <span>{{ createTimeShow}}</span>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-    import { useAccountStore } from '../stores/accountStore'
-    import { UtilsWebRequests } from '../utils/utilsAccount'
+    import { UserCenterPage } from '../utils/utilsUserPages'
 
-    //输入部分
-    const accountStore = useAccountStore()
-    const webRequests = new UtilsWebRequests()
-    const UUID = ref<number>(100001)
+    const userCenterPage = new UserCenterPage()
+    const uuidInfo = ref<number>()
     const userName = ref('')
     const eMail = ref('')
-    const phoneNumer = ref<number>(10001)  
-    const genders = ref<number>(0)
+    const phoneNumer = ref<number>()
+    const genders = ref<number>()
     const birthDay =ref('')
-    const cityinfo = ref('')
-    const roleVal = ref<number>(0)
-    const Signature = ref('')
+    const cityInfo = ref('')
+    const roleVal = ref<number>()
+    const signatureInfo = ref('')
+    const updateTime = ref<Date>()
     const createTime = ref<Date>()
-    const Role = computed(() =>  roleVal.value? '管理员' : '普通用户'  ) 
-    const createTimeShow = computed(()=> {
-        if (createTime.value) {
-            return '陪伴您'+Math.floor((new Date().getTime() - new Date(createTime.value).getTime())/1000/60/60)+'小时了'
-        }
-        }
-     )
-    //展示区域
-    const SignatureShow = ref('')
-    const toggleShow = ref(false)
-    const userNameShow = ref('')
-    const eMailShow = ref('')
-    const ageShow = ref<number>() 
-    const cityShow = ref('')
-    //初始化用户信息
-    const preRequestInfo = async () => {
-        const CookieCheck = accountStore.getCookie('userInfo', 'fuzao_secret_key')as { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, create_time: Date } | null
-        if (!CookieCheck) {
-            const { uuid, token } = accountStore.getCookie('token', 'fuzao_secret_key') as { username: string,uuid:number, token: string }
-            await webRequests.getUsrInfo( uuid, token )
-            preShowUserInfo()
-        }else{
-            const { uuid,username, email, birthday, tel, gender, city, role, signature, create_time }= CookieCheck
-            syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role, signature, create_time)
+    const roleShow = computed(() =>  roleVal.value ? '管理员' : '普通用户'  )
+    const toggleUserCard = ref(false)
+    const birthDayToAge = computed(() =>  userCenterPage.__birthToAge(birthDay.value)  )
+    const updateTimeShow = computed(()=> {if (updateTime.value) {return Math.floor((new Date().getTime() - new Date(updateTime.value).getTime())/1000/60/60)+'小时前更新了数据'}})
+    const createTimeShow = computed(()=> {if (createTime.value) {return '陪伴您'+Math.floor((new Date().getTime() - new Date(createTime.value).getTime())/1000/60/60)+'小时了'}})
+    const previewInfo = async () => {
+        toggleUserCard.value = !toggleUserCard.value
+        if (toggleUserCard.value) {
+            const res = await userCenterPage.__previewUserInfo()
+            syncUserInfoToPage(res.uuid, res.username, res.email, res.birthday, res.tel, res.gender, res.city, res.role, res.signature, res.update_time, res.create_time)
         }
     }
-    const preShowUserInfo = () => {
-        const { uuid,username, email, birthday, tel, gender, city, role, signature, create_time } = accountStore.$state.userInfoData
-        syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role, signature, create_time)
+    const syncUserInfoToPage = (uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, update_time: Date, create_time: Date) => {
+        uuidInfo.value = uuid;userName.value = username;eMail.value = email;birthDay.value  = birthday
+        cityInfo.value = city;genders.value = gender;phoneNumer.value = tel;roleVal.value = role
+        signatureInfo.value = signature;updateTime.value = update_time;createTime.value = create_time
     }
-    const InitWebUserInfo = (): void => {
-        const webUserInfoCookie = accountStore.getCookie("userInfo", "fuzao_secret_key")
-        if (webUserInfoCookie) {
-            const { uuid,username, email, birthday, tel, gender, city, role, signature, create_time } = webUserInfoCookie as { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, create_time: Date }
-            syncUserInfoToPage(uuid,username, email, birthday, tel, gender, city, role, signature, create_time)
-        }else {
-            preRequestInfo()
-            InitWebUserInfo()
+    const submitInfo = async() => {
+        const data = {
+            uuid: uuidInfo.value as number,
+            username: userName.value,
+            email: eMail.value,
+            birthday: birthDay.value,
+            tel: phoneNumer.value as number,
+            gender: genders.value as number,
+            city: cityInfo.value,
+            signature: signatureInfo.value,
         }
+        await userCenterPage.__patchUserInfo(data)
     }
-    //同步数据
-    const syncUserInfoToPage = (uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, create_time: Date) => {
-        UUID.value = uuid
-        userName.value = userNameShow.value = username
-        eMail.value = eMailShow.value = email
-        birthDay.value  = birthday
-        ageShow.value = baithToAge(birthday)
-        cityinfo.value = cityShow.value = city
-        genders.value = gender
-        phoneNumer.value = tel
-        roleVal.value = role
-        SignatureShow.value=Signature.value = signature
-        createTime.value = create_time
-    }
-    //年龄与生日转换
-    const baithToAge = (birthDay: string): number => {
-        const birthDate = new Date(birthDay)
-        const nowDate = new Date()
-        const diffTime = Math.abs(nowDate.getTime() - birthDate.getTime())
-        const age = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
-        return age
-    }
-    //信息预览
-    const previewInfo = () => {
-        if (!toggleShow.value) {
-            preRequestInfo()
-            toggleShow.value = true
-        }else{
-            toggleShow.value = false
-        }
-    }
-    const syncStoreToWeb = () => {
-        const { uuid,username, email, birthday, tel, gender, city, role,signature, create_time } = accountStore.$state.userInfoData
-        accountStore.setCookie("userInfo", { uuid,username, email, birthday, tel, gender, city, role,signature, create_time },1, "fuzao_secret_key")
-    }
-    //信息提交
-    const submitInfo = () => {
-        const { token } = accountStore.getCookie('token', 'fuzao_secret_key') as { username: string, token: string }
-        webRequests.updateUsrInfo(
-            UUID.value,
-            userName.value,
-            token,
-            eMail.value,
-            birthDay.value,
-            phoneNumer.value,
-            genders.value,
-            cityinfo.value,
-            roleVal.value,
-            Signature.value,
-            createTime.value!,
-        )
-        accountStore.setCookie("token", { username: userName.value, uuid: UUID.value, token },1, "fuzao_secret_key")
-        syncStoreToWeb()
-    }
-
-    onMounted(() => {
-        preRequestInfo()
+    onMounted(async () => {
+        const res = await userCenterPage.__previewUserInfo()
+        syncUserInfoToPage(res.uuid, res.username, res.email, res.birthday, res.tel, res.gender, res.city, res.role, res.signature, res.update_time, res.create_time)
     })
-
 </script>
 <style scoped>
     .centerUserBox {

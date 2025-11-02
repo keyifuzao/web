@@ -3,23 +3,23 @@
         <div class="login-info"></div>
         <div class="login-container">
             <span class="login-title">欢迎使用本系统</span>
-            <form @submit.prevent="webRequests.Login(loginName,loginPassword)">
+            <form @submit.prevent="login()">
                 <label>用户名:</label>
                 <input type="text"  v-model="loginName" placeholder="请输入用户名"><br>
                 <label>密码:</label>
                 <input type="password"  v-model="loginPassword" placeholder="请输入密码"><br>
                 <button type="submit" >登录</button>
                 <p>忘记密码？<router-link to="/error">找回密码</router-link></p> 
-                <p>你还没有账号？<span @click="loginRegister.toggleModel">注册</span></p>
+                <p>你还没有账号？<span @click="handleRegisterToggle">注册</span></p>
             </form>
         </div>
     </div>
-    <ModelBox v-if="togglebox" @childboxtoggle="hideModel">
+    <ModelBox v-if="registerToggle" @childboxtoggle="hideRegister">
         <template #header>
             <h2>加入我们</h2>
         </template>
         <template #body>
-            <form class="register-form" @submit.prevent="webRequests.register(registerName,registerPassword,registerEmail)" >
+            <form class="register-form" @submit.prevent="register()" >
                 <div class="form-group">
                     <label for="name">用户名:</label>
                     <input type="text" id="name" v-model.trim="registerName" placeholder="请输入用户名"/><br/>
@@ -28,12 +28,12 @@
                     <label for="password">密  码:</label>
                     <input type="password" id="password" v-model.trim="registerPassword" placeholder="请输入密码"/><br/>
                     <label for="confirm_password">确认密码:</label>
-                    <input type="password" id="confirm_password" v-model="ConfirmPasswordInput" placeholder="请再次输入密码"/><br/>
+                    <input type="password" id="confirm_password" v-model="registerConfirmPassword" placeholder="请再次输入密码"/><br/>
                 </div>
                 <div class="form-toggle">
                     <p>{{ registerMsg }}</p>
-                    <button :disabled="isDisabled" type="submit" :style="{ backgroundColor: isDisabled? 'gray' : 'green' }">确认</button>
-                    <button @click="togglebox = false">关闭</button>
+                    <button  type="submit" >确认</button>
+                    <button @click="registerToggle = false">关闭</button>
                 </div>
             </form>
         </template>
@@ -45,21 +45,22 @@
     @import url('~/assets/css/login.css');
 </style>
 <script setup lang="ts">
-    import {UtilsWebRequests,UtilsLoginRegister} from '~/utils/utilsAccount';
-    const loginRegister = new UtilsLoginRegister();
-    const webRequests = new UtilsWebRequests();
-    //注册信息
-    const registerMsg = loginRegister.registerMsg;
+    import { LoginPage } from '~/utils/utilsUserPages';
+    const loginPage = new LoginPage();
     const loginName = ref('');
+    const loginPassword = ref('');
+    const login =() => loginPage.__login(loginName.value, loginPassword.value)
+    const registerToggle = ref(false);
+    const handleRegisterToggle = () => registerToggle.value = !registerToggle.value;
+    const hideRegister = (data: boolean) => registerToggle.value = data;
+    
     const registerName = ref('');
     const registerEmail = ref('');
     const registerPassword = ref('');
-    const loginPassword = ref('');
-    const ConfirmPasswordInput = ref('');
-    const togglebox = loginRegister.togglebox=webRequests.togglebox;
-    const tipMessage = loginRegister.tipMessage;
-    const isDisabled = computed(() => loginRegister.isDisabled(registerName.value, registerEmail.value, registerPassword.value, ConfirmPasswordInput.value))
-    const hideModel = (data: boolean) : void => {
-        togglebox.value = data;
+    const registerConfirmPassword = ref('');
+    const register = async() => {
+        await loginPage.__register(registerName.value, registerEmail.value, registerPassword.value, registerConfirmPassword.value)
+        registerToggle.value = false;
     }
+    const registerMsg = computed(()=> loginPage.checkRegisterInfo(registerName.value, registerEmail.value, registerPassword.value, registerConfirmPassword.value).message)
 </script>

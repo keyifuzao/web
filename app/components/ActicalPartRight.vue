@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="buttonBox">
-        <button @click="SaveTempData">保存</button>
+        <button @click="SaveLocalData">保存</button>
         <button @click="previewEditor=!previewEditor">{{ previewEditor? '预览' : '编辑' }}</button>
         <button @click="">发布</button>
         <input type="range" min="12" max="30" step="2" v-model="previewFontSize"></input>
@@ -90,8 +90,7 @@
   const RemoveFormat = () => essayEditor.removeFormat(range(), selection())
   const Undo = () => htmlContent.value = essayEditor.undoContent() as string
   const Redo = () => htmlContent.value = essayEditor.redoContent() as string
-  const SaveTempData = () => essayEditor.saveTempData(titlefrom)
-  const SaveLocalData = () => essayEditor.saveLocalData()
+  const SaveLocalData = () => essayEditor.savelocalData(titlefrom)
   const LoadLocalData = () => {
     const { htmlCTX,titleCTX } = essayEditor.loadLocalData() as { htmlCTX: string, titleCTX: string }
     htmlContent.value = htmlCTX
@@ -104,12 +103,9 @@
     essayEditor.renderFontTag(selectedTitle.value, range())
   }
   
-  onMounted(() => {
-    LoadLocalData()
-  })
-  onBeforeUnmount(() => {
-    SaveLocalData()
-  })
+  // onMounted(() => {
+  //   LoadLocalData()
+  // })
 </script>
 <style scoped>
   .leftBox {
