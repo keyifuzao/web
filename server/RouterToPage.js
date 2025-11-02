@@ -32,6 +32,25 @@ class LoginRouter {
             }
         })
     }
+    async loadChecked(){
+        this.router.get('/check', async (ctx, next) => {
+            await next();
+            const localtoken = ctx.request.headers['authorization'].split(' ')[1];
+            if (!localtoken) {
+                ctx.status = 401;
+                ctx.body = { code: 0, message: '请先登录'};
+            }else{
+                try{
+                    this.tokenTool.VerifyToken(localtoken)
+                    ctx.status = 200;
+                    ctx.body = { code: 1, message: 'token有效'};
+                }catch(err){
+                    ctx.status = 401;
+                    ctx.body = { code: 0, message: 'token无效'};
+                }
+            }
+        })
+    }
 }
 
 class RegisterRouter {
@@ -58,29 +77,87 @@ class RegisterRouter {
 
 class essayApiRouter {
     router = new Router({ prefix: '/api/essay' });
-    constructor() { }
+    constructor() {
+        this.dataVerify = new DataVerify();
+        this.upEssay()
+        this.getEssay()
+        this.patchEssay()
+        this.delEssay()
+    }
     async upEssay() {
         this.router.patch('/publish', async (ctx, next) => {
             await next();
-            ctx.body = { code: 1, message: '上传成功' }
+            const data = ctx.request.body;
+            const localtoken = ctx.request.headers['authorization'].split(' ')[1];
+            if (!localtoken) {
+                ctx.status = 401;
+                ctx.body = { code: 0, message: '请先登录', data: null };
+            }
+            const { code, message } = await this.dataVerify.VeriftyEssayUp(localtoken, data)
+            if (code) {
+                ctx.status = 200;
+                ctx.body = { code, message };
+            } else {
+                ctx.status = 401;
+                ctx.body = { code, message };
+            }
         })
     }
     async getEssay() {
         this.router.get('/get', async (ctx, next) => {
             await next();
-            ctx.body = { code: 1, message: '获取成功' }
+            const { essayId } = ctx.request.query;
+            const localtoken = ctx.request.headers['authorization'].split(' ')[1];
+            if (!localtoken) {
+                ctx.status = 401;
+                ctx.body = { code: 0, message: '请先登录', data: null };
+            }
+            const { code, message, data } = await this.dataVerify.VeriftyEssayGet(localtoken, essayId)
+            if (code) {
+                ctx.status = 200;
+                ctx.body = { code, message, data };
+            } else {
+                ctx.status = 401;
+                ctx.body = { code, message, data: null };
+            }
         })
     }
     async patchEssay() {
         this.router.patch('/modify', async (ctx, next) => {
             await next();
-            ctx.body = { code: 1, message: '修改成功' }
+            const data = ctx.request.body;
+            const localtoken = ctx.request.headers['authorization'].split(' ')[1];
+            if (!localtoken) {
+                ctx.status = 401;
+                ctx.body = { code: 0, message: '请先登录', data: null };
+            }
+            const { code, message } = await this.dataVerify.VeriftyEssayPatch(localtoken, data)
+            if (code) {
+                ctx.status = 200;
+                ctx.body = { code, message };
+            } else {
+                ctx.status = 401;
+                ctx.body = { code, message };
+            }
         })
     }
     async delEssay() {
         this.router.delete('/del', async (ctx, next) => {
             await next();
-            ctx.body = { code: 1, message: '删除成功' }
+            const { essayId } = ctx.request.query;
+            const localtoken = ctx.request.headers['authorization'].split(' ')[1];
+            if (!localtoken) {
+                ctx.status = 401;
+                ctx.body = { code: 0, message: '请先登录', data: null };
+            }
+            const { code, message } = await this.dataVerify.VeriftyEssayDel(localtoken, essayId)
+            if (code) {
+                ctx.status = 200;
+                ctx.body = { code, message };
+            } else {
+                ctx.status = 401;
+                ctx.body = { code, message };
+            }
         })
     }
 }

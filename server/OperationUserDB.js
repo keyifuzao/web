@@ -61,6 +61,9 @@ class OperationUserDB {
     async MakeID(obj = { uuid: -1 }) {
         if (this.Model) {
             const sortUserDb = await this.Model.find().sort(obj)
+            if (sortUserDb.length === 0) {
+                return 100001;
+            }
             const { uuid } = sortUserDb[0];
             return uuid + 1;
         }

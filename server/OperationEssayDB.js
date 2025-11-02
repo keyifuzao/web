@@ -22,7 +22,8 @@ class OperationEssayDB {
     }
     // 插入数据
     async InsertDB(data) {
-        const res = await this.FindDB(data.title);
+        console.log('测试点', data);
+        const res = await this.FindDB(data);
         if (res.data === null) {
             await new this.Model(data).save();
             return { code: 1, message: '数据插入成功' };
@@ -50,9 +51,12 @@ class OperationEssayDB {
         }
     }
     // 生成UUID
-    async MakeUUID(obj = { essayId: -1 }) {
+    async MakeID(obj = { essayId: -1 }) {
         if (this.Model) {
             const sortEssayDb = await this.Model.find().sort(obj)
+            if (sortEssayDb.length === 0) {
+                return 1001;
+            }
             const { essayId } = sortEssayDb[0];
             return essayId + 1;
         }

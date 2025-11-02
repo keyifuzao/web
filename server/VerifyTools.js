@@ -103,7 +103,7 @@ class DataVerify {
         const resChecked = await this.CheckedToken(token)
         if(resChecked.code === 1){
             console.log('token验证成功')
-            const res = await this.eMain.__find({essayId: essayId})
+            const res = await this.eMain.__find({essayId: parseInt(essayId)})
             return res.data? { code: res.code, message: res.message, data: res.data } : { code: 0, message: '请求异常', data: null };
         }else{
             return { code: 0, message: '无效token', data: null };
@@ -121,7 +121,7 @@ class DataVerify {
             return { code: 0, message: '无效token'};
         }
     }
-    async VeriftyEssayPut (token ,data){
+    async VeriftyEssayPatch (token ,data){
         const resChecked = await this.CheckedToken(token)
         if(resChecked.code === 1){
             console.log('token验证成功')

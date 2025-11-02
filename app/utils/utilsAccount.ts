@@ -19,16 +19,16 @@ class UtilsWebRequests {
     this.togglebox.value = false;
   }
   //登录请求
-  async Login(username: string, password: string) {
-    await this.AxiosService.post('/login', { username, password }).then(res => {
+  Login(username: string, password: string) {
+    this.AxiosService.post('/login', { username, password }).then(res => {
       this.loginRegister.checkLoginStatus(res.data.code, res.data.message, username, res.data.uuid, res.data.token);
     }).catch(err => {
       alert(err.response.data.message)
     })
   };
   //注册请求
-  async register(username: string, password: string, email: string): Promise<void> {
-    await this.AxiosService.post('/register', { username, password, email }).then(res => {
+  register(username: string, password: string, email: string){
+    this.AxiosService.post('/register', { username, password, email }).then(res => {
       if (res.status === 200) {
         alert(res.data.message)
         this.togglebox.value = false;
