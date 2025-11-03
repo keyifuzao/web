@@ -1,15 +1,22 @@
 <template>
   <div class="midBox">
+    <div class="topBtn">
+      <span>当前位置: 首页 > 文章列表</span>
+      <span>共{{essayList?.length}}条</span>
+      <button @click="">上一页</button>
+      <button @click="">下一页</button>
+      <button @click="refreshEssayList">刷新</button>
+    </div>
     <ul>
-      <li v-for="(item, index) in acticalMGMT" :key="item.essayId">
+      <li v-for="(item, index) in essayList" >
         <div class="titleBox">
           <h2>{{item.title}}</h2>
-          <p>{{item.author}} | {{item.publishtime}}</p>
+          <p>{{item.author}} | {{new Date(item.update_time).toLocaleString()}}</p>
         </div>
         <div class="contentBox">
           <p>{{item.content}}</p>
           <div class="handleBox">
-            <button>编辑</button>
+            <button @click="">编辑</button>
             <button>删除</button>
           </div>
         </div>
@@ -18,18 +25,20 @@
   </div>
 </template>
 <script setup lang="ts">
-  const acticalMGMT = [
-    {essayId:101, title: '这里是测试标题1',author: 'zhangsan', publishtime: '2022-01-01', content: '这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1这里是测试内容1'},
-    {essayId:102, title: '这里是测试标题2',author: 'lisi', publishtime: '2022-01-02', content: '这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2这里是测试内容2'},
-    {essayId:103, title: '这里是测试标题3',author: 'wangwu', publishtime: '2022-01-03', content: '这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3这里是测试内容3'},
-    {essayId:104, title: '这里是测试标题4',author: 'zhaoliu', publishtime: '2022-01-04', content: '这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4这里是测试内容4'},
-    {essayId:105, title: '这里是测试标题5',author: 'qianqi', publishtime: '2022-01-05', content: '这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5这里是测试内容5'},
-    {essayId:106, title: '这里是测试标题6',author: 'baozi', publishtime: '2022-01-06', content: '这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6这里是测试内容6'},
-    {essayId:107, title: '这里是测试标题7',author: 'chenliu', publishtime: '2022-01-07', content: '这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7这里是测试内容7'},
-    {essayId:108, title: '这里是测试标题8',author: 'zhoujie', publishtime: '2022-01-08', content: '这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8这里是测试内容8'},
-    {essayId:109, title: '这里是测试标题9',author: 'liushao', publishtime: '2022-01-09', content: '这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9这里是测试内容9'},
-    {essayId:110, title: '这里是测试标题10',author: 'xiaowei', publishtime: '2022-01-10', content: '这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10这里是测试内容10'}
-    ]
+  import { EssayListShow } from '#imports';
+  const essayListShow = new EssayListShow();
+  const essayList = ref<[{uuid: number, essayId: number, title: string, content: string, author: string, create_time: string, update_time: string}]>();
+  const refreshEssayList = async() => {
+    const res = await essayListShow.__getEssayList();
+    essayList.value = res as [{uuid: number, essayId: number, title: string, content: string, author: string, create_time: string, update_time: string}];
+    localStorage.setItem('essayList', JSON.stringify(res));
+  }
+  onMounted(() => {
+    const localEssayList = localStorage.getItem('essayList');
+    if (localEssayList) {
+      essayList.value = JSON.parse(localEssayList) as [{uuid: number, essayId: number, title: string, content: string, author: string, create_time: string, update_time: string}];
+    }
+  })
 </script>
 <style scoped>
   .midBox {
@@ -40,12 +49,17 @@
     background-color: rgb(235, 235, 235);
     border-radius: 30px;
   }
+  .midBox .topBtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .midBox ul {
     list-style: none;
     padding: 0;
     margin: 0;
     width: 510px;
-    height: 720px;
+    height: 700px;
     transition: all 0.3s ease-in-out;
     overflow-y: hidden;
   }
@@ -65,6 +79,8 @@
     align-items: baseline;
   }
   .midBox .titleBox h2 {
+    width: 200px;
+    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 0;

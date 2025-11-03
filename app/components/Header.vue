@@ -20,22 +20,25 @@
 </template>
 
 <script setup lang="ts">
-    import { TokenTools } from '../utils/utilsTokenTools'
-    const tokenTools = new TokenTools()
-    const userInfo = computed(() => {
-        const tokenRes = tokenTools.getCookie('token', 'fuzao_secret_key') as {username:string}
-        return tokenRes?.username || '状态检查中'
-    })
+    import { useAccountStore } from '#imports'
+    import { cookiesTools } from '#imports'
+    const accountStore = useAccountStore()
+    const cookieTools = new cookiesTools()
+    const userInfo = ref('')
     const searchToggle = ref(false)
     const searchInput = ref('')
     const handleSearchToggle = () => searchToggle.value =!searchToggle.value
-    const headerTitleInfo = [{name: '首页',path: '/home'},{name: '媒体',path: '/media'},{name: '文章',path: '/article'},{name: '工具',path: '/tool'}]
+    const headerTitleInfo = [{name: '首页',path: '/home'},{name: '媒体',path: '/media'},{name: '文章',path: '/essay'},{name: '工具',path: '/tool'}]
     const toUserCenter = () => navigateTo('/usercenter')
     const logout = () => {
-        tokenTools.clearCookie('token')
+        cookieTools.clearCookie('userInfo')
+        accountStore.clearToken()
         navigateTo('/login')
     }
-
+    onMounted(() => {
+        const userName = cookieTools.getCookie('token', 'fuzao_secret_key')? cookieTools.getCookie('token', 'fuzao_secret_key').username : '状态检查中'
+        userInfo.value = accountStore.username ? accountStore.username : userName
+    })
 </script>
 
 <style scoped>

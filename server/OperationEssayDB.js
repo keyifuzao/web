@@ -6,7 +6,8 @@ class OperationEssayDB {
     }
     // 查询数据
     async FindDB(obj) {
-        const { essayId } = obj;
+        const { uuid,essayId } = obj;
+        console.log('正在查询数据', uuid, essayId);
         if (!this.Model) {
             console.log('数据模型不存在');
             return { code: 0, message: '数据模型不存在', data: null };
@@ -15,14 +16,18 @@ class OperationEssayDB {
             console.log('正在查询文章id', essayId);
             const essayDb = await this.Model.findOne({ essayId });
             return essayDb ? { code: 1, message: '查询成功', data: essayDb } : { code: 0, message: '数据不存在', data: null };
-        } else {
+        }else if (uuid) {
+            console.log(`正在查询用户${uuid}的文章`);
+            const essayDb = await this.Model.find({ uuid });
+            return essayDb ? { code: 1, message: '查询成功', data: essayDb } : { code: 0, message: '数据不存在', data: null };
+        }
+        else {
             console.log('essayID无效');
             return { code: 0, message: '参数错误', data: null };
         }
     }
     // 插入数据
     async InsertDB(data) {
-        console.log('测试点', data);
         const res = await this.FindDB(data);
         if (res.data === null) {
             await new this.Model(data).save();

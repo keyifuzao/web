@@ -90,8 +90,8 @@
     const cityInfo = ref('')
     const roleVal = ref<number>()
     const signatureInfo = ref('')
-    const updateTime = ref<Date>()
-    const createTime = ref<Date>()
+    const updateTime = ref<string>()
+    const createTime = ref<string>()
     const roleShow = computed(() =>  roleVal.value ? '管理员' : '普通用户'  )
     const toggleUserCard = ref(false)
     const birthDayToAge = computed(() =>  userCenterPage.__birthToAge(birthDay.value)  )
@@ -101,10 +101,11 @@
         toggleUserCard.value = !toggleUserCard.value
         if (toggleUserCard.value) {
             const res = await userCenterPage.__previewUserInfo()
+            if(!res)return null
             syncUserInfoToPage(res.uuid, res.username, res.email, res.birthday, res.tel, res.gender, res.city, res.role, res.signature, res.update_time, res.create_time)
         }
     }
-    const syncUserInfoToPage = (uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, update_time: Date, create_time: Date) => {
+    const syncUserInfoToPage = (uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, update_time: string, create_time: string) => {
         uuidInfo.value = uuid;userName.value = username;eMail.value = email;birthDay.value  = birthday
         cityInfo.value = city;genders.value = gender;phoneNumer.value = tel;roleVal.value = role
         signatureInfo.value = signature;updateTime.value = update_time;createTime.value = create_time
@@ -124,6 +125,7 @@
     }
     onMounted(async () => {
         const res = await userCenterPage.__previewUserInfo()
+        if(!res)return null
         syncUserInfoToPage(res.uuid, res.username, res.email, res.birthday, res.tel, res.gender, res.city, res.role, res.signature, res.update_time, res.create_time)
     })
 </script>

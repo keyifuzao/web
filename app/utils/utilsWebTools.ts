@@ -4,7 +4,7 @@ class UtilsLoginOrRegister {
     constructor(){
     }
     async login(username: string, password: string){
-        const res:{data:{code: number, message: string, data: {uuid: string, username: string, token: string} | null }} = await axios.post('http://localhost:3600/login', {username, password},{withCredentials: true, headers: {'Content-Type': 'application/json'}})
+        const res:{data:{code: number, message: string, data: {uuid: number, username: string, token: string} | null }} = await axios.post('http://localhost:3600/login', {username, password},{withCredentials: true, headers: {'Content-Type': 'application/json'}})
         return res
     }
     async register(username: string, password: string, email: string){
@@ -17,7 +17,7 @@ class UtilsWebRequests {
     constructor(token: string) {
         this.AxiosService = axios.create({
             baseURL: 'http://localhost:3600/api',
-            withCredentials: true,
+            withCredentials: false,
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -36,5 +36,10 @@ class UtilsWebRequests {
         const res:{code: number, message: string} = await this.AxiosService.delete('/user/delete', { uuid })
         return res
     }
+    async getEssayList(){
+        const res:{data:{code: number, message: string, data: object[]}} = await this.AxiosService.get('/essay/list')
+        return res
+    }
 }
+
 export { UtilsLoginOrRegister, UtilsWebRequests }

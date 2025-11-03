@@ -82,6 +82,7 @@ class essayApiRouter {
         this.dataVerify = new DataVerify();
         this.upEssay()
         this.getEssay()
+        this.getEssayList()
         this.patchEssay()
         this.delEssay()
     }
@@ -114,6 +115,24 @@ class essayApiRouter {
                 ctx.body = { code: 0, message: '请先登录', data: null };
             }
             const { code, message, data } = await this.dataVerify.VeriftyEssayGet(localtoken, essayId)
+            if (code) {
+                ctx.status = 200;
+                ctx.body = { code, message, data };
+            } else {
+                ctx.status = 401;
+                ctx.body = { code, message, data: null };
+            }
+        })
+    }
+    async getEssayList(){
+        this.router.get('/list', async (ctx, next) => {
+            await next();
+            const localtoken = ctx.request.headers['authorization'].split(' ')[1];
+            if (!localtoken) {
+                ctx.status = 401;
+                ctx.body = { code: 0, message: '请先登录', data: null };
+            }
+            const { code, message, data } = await this.dataVerify.VeriftyEssayGetList(localtoken)
             if (code) {
                 ctx.status = 200;
                 ctx.body = { code, message, data };
@@ -161,6 +180,7 @@ class essayApiRouter {
             }
         })
     }
+
 }
 
 class userApiRouter {

@@ -1,10 +1,13 @@
 import { UtilsLoginOrRegister, UtilsWebRequests } from './utilsWebTools'
-import { TokenTools } from './utilsTokenTools';
+import { cookiesTools } from '#imports';
+import { useAccountStore } from '#imports';
+import { useAlertStore } from '#imports';
 class LoginPage {
-    loginOrRegister; tokenTools;
+    loginOrRegister;alertStore;accountStore;
     constructor() {
+        this.accountStore = useAccountStore()
+        this.alertStore = useAlertStore()
         this.loginOrRegister = new UtilsLoginOrRegister()
-        this.tokenTools = new TokenTools()
     }
     checkLoginInfo(loginName: string, loginPassword: string) {
         if (loginName.trim() === '' || loginPassword.trim() === '') {
@@ -36,99 +39,92 @@ class LoginPage {
     async __login(username: string, password: string) {
         const checkLoginInfo = this.checkLoginInfo(username, password)
         if (checkLoginInfo.code === 0) {
-            this.__alertMessage(checkLoginInfo.message)
+            this.alertStore.showAlert(checkLoginInfo.message, 'tip')
             return
         }
         try {const { data: { data } } = await this.loginOrRegister.login(username.trim(), password.trim())
             if (data) {
-                this.tokenTools.setCookie('token', { uuid: data.uuid, username: data.username, token: data.token }, 1, 'fuzao_secret_key')
+                this.accountStore.setTokenData(data)
                 return navigateTo('/home')
             }
         } catch (error: any) {
-            this.__alertMessage(error.response.data.message)
+            this.alertStore.showAlert(error.response.data.message, 'error')
+            return null
         }
 
     }
     async __register(username: string, email: string, password: string, confirmPassword: string) {
         const checkRegisterInfo = this.checkRegisterInfo(username, email, password, confirmPassword)
         if (checkRegisterInfo.code === 0) {
-            this.__alertMessage(checkRegisterInfo.message)
+            this.alertStore.showAlert(checkRegisterInfo.message, 'tip')
             return
         }
         try{const { data: { code, message } } = await this.loginOrRegister.register(username.trim(), password.trim(), email.trim())
-            code === 1 ? this.__alertMessage('注册成功') : this.__alertMessage(message)
+            code === 1 ? this.alertStore.showAlert('注册成功') : this.alertStore.showAlert(message, 'error')
         } catch (error: any) {
-            this.__alertMessage(error.response.data.message)
+            this.alertStore.showAlert(error.response.data.message, 'error')
         }
-    }
-
-    __alertMessage(message: string) {
-        let alertMessage = []
-        alertMessage.push(message)
-        return alertMessage
     }
 }
 class UserCenterPage {
-    tokenTools;webRequests;tokenRes;
+    accountStore;cookiesTools;webRequests;alertStore;token
     constructor() {
-        this.tokenTools = new TokenTools()
-        this.tokenRes = this.__getToken()
-        this.webRequests = new UtilsWebRequests(this.tokenRes)
+        this.accountStore = useAccountStore()
+        this.alertStore = useAlertStore()
+        this.cookiesTools = new cookiesTools()
+        this.token = this.__getToken()
+        this.webRequests = new UtilsWebRequests(this.token)
     }
 
     __getToken(){
-        try {const { token } = this.tokenTools.getCookie('token', 'fuzao_secret_key') as { uuid: number, username: string, token: string };return token
-        } catch (error: any) {return ''}}
-
-    __saveLocalStorageUserInfo(userInfo: { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, update_time: string, create_time: string }) {
-        localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        const tokenRes = this.cookiesTools.getCookie('token', 'fuzao_secret_key')
+        const tokenInfo = tokenRes? tokenRes.token : null
+        return this.accountStore.token? this.accountStore.token : tokenInfo
     }
-    __getLocalStorageUserInfo() {
-        const userInfo = localStorage.getItem('userInfo')
-        if (userInfo) {
-            return JSON.parse(userInfo)
-        } else {
-            return null
-        }
+
+    __saveCookiesUserInfo(userInfo: { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, update_time: string, create_time: string }) {
+        this.cookiesTools.setCookie('userInfo', userInfo, 1, 'fuzao_secret_key')
+    }
+    __getCookiesUserInfo() {
+        const res = this.cookiesTools.getCookie('userInfo', 'fuzao_secret_key')
+        if (res) return res as { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, update_time: string, create_time: string }
+        return null
     }
     async __getUserInfo() {
         try {const { data: { data } } = await this.webRequests.getUser()
-            return data
+            return data as { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string, role: number, signature: string, update_time: string, create_time: string }
         }catch (error: any) {
-            this.__alertMessage(error.response.data.message)
+            this.alertStore.showAlert(error.response.data.message, 'error')
+            return null
         }
     }
     async __patchUserInfo(dbs: { uuid: number, username: string, email: string, birthday: string, tel: number, gender: number, city: string ,signature: string }) {
         try {const res:{data:{code: number, message: string}} = await this.webRequests.patchUser(dbs)
-            this.__alertMessage(res.data.message)
-            localStorage.removeItem('userInfo')
-            this.tokenTools.setCookie('token', { uuid: dbs.uuid, username: dbs.username, token: this.tokenRes }, 1, 'fuzao_secret_key')
+            this.alertStore.showAlert(res.data.message)
+            this.cookiesTools.clearCookie('userInfo')
+            this.cookiesTools.setCookie('token', { uuid: dbs.uuid, username: dbs.username, token: this.token }, 1, 'fuzao_secret_key')
             return res.data
         } catch (error: any) {
-            this.__alertMessage(error.response.data.message)
+            this.alertStore.showAlert(error.response.data.message, 'error')
+            return null
         }
     }
     async __previewUserInfo(){
-        const userLocalInfo = this.__getLocalStorageUserInfo()
-        if (!userLocalInfo) {
+        const userCookiesInfo = this.__getCookiesUserInfo()
+        if (!userCookiesInfo) {
             const userWebInfo = await this.__getUserInfo()
-            this.__saveLocalStorageUserInfo(userWebInfo)
+            if (!userWebInfo) return null
+            this.__saveCookiesUserInfo(userWebInfo)
             return userWebInfo
         }
-        return userLocalInfo
+        return userCookiesInfo
     }
     __birthToAge = (birthDay: string): number => {
-        console.log(birthDay)
         const birthDate = new Date(birthDay)
         const nowDate = new Date()
         const diffTime = Math.abs(nowDate.getTime() - birthDate.getTime())
         const age = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
         return age
-    }
-    __alertMessage(message: string) {
-        let alertMessage = []
-        alertMessage.push(message)
-        return alertMessage
     }
 }
 export { LoginPage, UserCenterPage }

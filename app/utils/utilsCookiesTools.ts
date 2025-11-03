@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie'
 import CryptoJS from 'crypto-js'
 
-class   TokenTools {
+class   cookiesTools {
     constructor() { 
 
     }
@@ -11,14 +11,14 @@ class   TokenTools {
         const expDate = new Date();
         expDate.setTime(expDate.getTime() + exp  * 60 * 60 * 1000);  
         const cookieCryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
-        Cookies.set (cookieName, cookieCryptedData ,{ expires: expDate })
+        Cookies.set (cookieName, cookieCryptedData ,{ expires: expDate , sameSite: 'lax' })
     }
     //清除cookie
     clearCookie(cookieName: string): void {
         Cookies.remove(cookieName)
     }
     //获取cookie
-    getCookie(cookieName: string,secretKey:string): object | null {
+    getCookie(cookieName: string,secretKey:string) {
         const cookieData = Cookies.get(cookieName)
         if (cookieData) {
             const bytes = CryptoJS.AES.decrypt(cookieData, secretKey)
@@ -30,4 +30,4 @@ class   TokenTools {
     }
 }
 
-export { TokenTools }
+export { cookiesTools }

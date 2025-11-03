@@ -22,6 +22,7 @@ interface _GlobalComponents {
   'CenterUserStyle': typeof import("../../app/components/CenterUserStyle.vue")['default']
   'Footer': typeof import("../../app/components/Footer.vue")['default']
   'Header': typeof import("../../app/components/Header.vue")['default']
+  'MessageAlert': typeof import("../../app/components/MessageAlert.vue")['default']
   'ModelBox': typeof import("../../app/components/ModelBox.vue")['default']
   'WidgetsClock': typeof import("../../app/components/WidgetsClock.vue")['default']
   'WidgetsDays': typeof import("../../app/components/WidgetsDays.vue")['default']
@@ -61,6 +62,7 @@ interface _GlobalComponents {
   'LazyCenterUserStyle': LazyComponent<typeof import("../../app/components/CenterUserStyle.vue")['default']>
   'LazyFooter': LazyComponent<typeof import("../../app/components/Footer.vue")['default']>
   'LazyHeader': LazyComponent<typeof import("../../app/components/Header.vue")['default']>
+  'LazyMessageAlert': LazyComponent<typeof import("../../app/components/MessageAlert.vue")['default']>
   'LazyModelBox': LazyComponent<typeof import("../../app/components/ModelBox.vue")['default']>
   'LazyWidgetsClock': LazyComponent<typeof import("../../app/components/WidgetsClock.vue")['default']>
   'LazyWidgetsDays': LazyComponent<typeof import("../../app/components/WidgetsDays.vue")['default']>
