@@ -1,17 +1,28 @@
 import { cookiesTools } from "./utilsCookiesTools"
 import { UtilsWebRequests } from "#imports";
 import { useAccountStore } from "../stores/accountStore";
+import { useAlertStore } from "#imports";
 
 class EssayEditor {
   cookiesTools;
-  acticalDataValue: { uuid: number, essayId: number, title: string, content: string, author: string, create_time: string, update_time: string };
+  acticalDataValue: { uuid: number, essayId: number,type: string, title: string, content: string, author: string};
   history: string[];
   historyIndex: number;
+  webRequests; accountStore; token; alertStore
   constructor() {
     this.cookiesTools = new cookiesTools()
-    this.acticalDataValue = { uuid: 100001, essayId: 1001, title: '', content: '', author: '', create_time: '', update_time: '' }
+    this.alertStore = useAlertStore()
+    this.acticalDataValue = { uuid: 100001, essayId: 1001, type: '', title: '', content: '', author: ''}
     this.history = [];
     this.historyIndex = -1
+    this.accountStore = useAccountStore()
+    this.token = this.__getToken()
+    this.webRequests = new UtilsWebRequests(this.token)
+  }
+  __getToken() {
+    const tokenRes = this.cookiesTools.getCookie('token', 'fuzao_secret_key')
+    const tokenInfo = tokenRes ? tokenRes.token : null
+    return this.accountStore.token ? this.accountStore.token : tokenInfo
   }
   //监听键盘按键，输入回车时插入br标签
   inputSmbol(event: KeyboardEvent, range: Range, selection: Selection) {
@@ -102,10 +113,11 @@ class EssayEditor {
     }
   }
   //将文本内容储存在cookies中
-  savelocalData(title: string) {
+  savelocalData(title: string, type: string) {
     const { username, uuid } = this.cookiesTools.getCookie('token', 'fuzao_secret_key') as { username: string, uuid: number }
     this.acticalDataValue.uuid = uuid
     this.acticalDataValue.title = title
+    this.acticalDataValue.type = type
     this.acticalDataValue.author = username
     this.acticalDataValue.content = this.history[this.history.length - 1] as string
     localStorage.setItem('acticalData', JSON.stringify(this.acticalDataValue))
@@ -119,6 +131,13 @@ class EssayEditor {
       const titleCTX = this.acticalDataValue.title || ''
       return { htmlCTX, titleCTX }
     }
+  }
+  async publishEssay(title: string, type: string) {
+    this.savelocalData(title, type)
+    const res =await this.webRequests.patchEssay(this.acticalDataValue)
+    this.alertStore.showAlert(res.data.message, 'info')
+    this.history = []
+    this.historyIndex = -1
   }
 }
 

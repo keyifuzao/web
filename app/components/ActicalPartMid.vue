@@ -11,7 +11,7 @@
       <li v-for="(item, index) in essayList" >
         <div class="titleBox">
           <h2>{{item.title}}</h2>
-          <p>{{item.author}} | {{new Date(item.update_time).toLocaleString()}}</p>
+          <p>{{item.author}} | {{new Date(item.update_time).toLocaleString()}} | {{item.essayId}}</p>
         </div>
         <div class="contentBox">
           <p>{{item.content}}</p>
@@ -51,8 +51,22 @@
   }
   .midBox .topBtn {
     display: flex;
+    margin: 10px auto;
     justify-content: space-between;
     align-items: center;
+  }
+  .midBox .topBtn span {
+    font-size: 16px;
+    color: rgb(100, 100, 100);
+  }
+  .midBox .topBtn button {
+    width: 60px;
+    height: 30px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgb(200, 200, 200);
+    color: rgb(0, 0, 0);
+    cursor: pointer;
   }
   .midBox ul {
     list-style: none;
@@ -64,7 +78,6 @@
     overflow-y: hidden;
   }
   .midBox ul:hover {
-    overflow-y: scroll;
     transition: all 0.3s ease-in-out;
   }
   .midBox li {
@@ -99,7 +112,7 @@
   }
   .midBox .contentBox p {
     display:block;
-    width: 380px;
+    width: 400px;
     margin: 0;
     height: 58px;
     font-size: 18px;

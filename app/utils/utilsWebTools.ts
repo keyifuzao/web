@@ -40,6 +40,10 @@ class UtilsWebRequests {
         const res:{data:{code: number, message: string, data: object[]}} = await this.AxiosService.get('/essay/list')
         return res
     }
+    async patchEssay(data:{uuid:number, essayId: number, type: string, title: string, content: string, author: string}){
+        const res:{data:{code: number, message: string}} = await this.AxiosService.patch('/essay/modify', data)
+        return res
+    }
 }
 
 export { UtilsLoginOrRegister, UtilsWebRequests }

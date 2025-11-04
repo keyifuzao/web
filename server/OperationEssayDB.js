@@ -72,6 +72,7 @@ class EssayModel {
         this.essayDbStructure =  {
             uuid: { type: Number, required: true, minlength: 6, default: 100001 },
             essayId: { type: Number, required: true, minlength: 4, default: 1001 },
+            type: { type: String, required: true, trim: true, minlength: 5, default: 'default_type' },
             title: { type: String, required: true, trim: true, minlength: 5, default: 'default_title' },
             content: { type: String, required: true, trim: true, minlength: 5, default: 'default_content' },
             author: { type: String, required: true, trim: true, minlength: 5, default: 'default_author' },

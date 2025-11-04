@@ -54,9 +54,13 @@
         </div>
       </div>
       <div class="buttonBox">
-        <button @click="SaveLocalData">保存</button>
-        <button @click="previewEditor=!previewEditor">{{ previewEditor? '预览' : '编辑' }}</button>
-        <button @click="">发布</button>
+        <select name="type" id="type" v-model="typeSelect">
+          <option value="tech">技术</option>
+          <option value="life">生活</option>
+        </select>
+        <button @click="previewEditor=!previewEditor">{{ previewEditor? '文档预览' : '文档编辑' }}</button>
+        <button @click="PatchAndPublishData">保存并发布</button>
+        <button @click="NewFileAndPublishData">发布为新文档</button>
         <input type="range" min="12" max="30" step="2" v-model="previewFontSize"></input>
       </div>
     </div>
@@ -64,6 +68,8 @@
 </template>
 <script setup lang="ts">
   import { EssayEditor } from '../utils/utilsEssayPage'
+  import { useAlertStore } from '#imports'
+  const alertStore = useAlertStore()
   const selection = () => window.getSelection() as Selection
   const range = () => selection().getRangeAt(0) as Range
   const essayEditor = new EssayEditor()
@@ -74,6 +80,7 @@
   const previewEditor = ref<boolean>(false)
   const previewFontSize = ref(18)
   const htmlContent = ref('')
+  const typeSelect = ref('tech')
   let titleTo = ref('')
   let titlefrom = ''
   const inputTitle = (event: InputEvent) => {
@@ -90,7 +97,12 @@
   const RemoveFormat = () => essayEditor.removeFormat(range(), selection())
   const Undo = () => htmlContent.value = essayEditor.undoContent() as string
   const Redo = () => htmlContent.value = essayEditor.redoContent() as string
-  const SaveLocalData = () => essayEditor.savelocalData(titlefrom)
+  const PatchAndPublishData = () => {
+    essayEditor.publishEssay(titlefrom, typeSelect.value)
+  }
+  const NewFileAndPublishData = () => {
+
+  }
   const LoadLocalData = () => {
     const { htmlCTX,titleCTX } = essayEditor.loadLocalData() as { htmlCTX: string, titleCTX: string }
     htmlContent.value = htmlCTX
@@ -207,13 +219,19 @@
 
   .leftBox .editTool .buttonBox {
     display: flex;
-    justify-content:right;
+    justify-content:space-between;
     width: 640px;
     height: 50px;
     background: rgb(235, 235, 235);
     border-radius: 20px;
   }
-
+  .leftBox .editTool .buttonBox select {
+    margin: 10px;
+    width: 100px;
+    height: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+  }
   .leftBox .editTool .buttonBox button {
     margin: 10px;
     width: 100px;
@@ -227,7 +245,7 @@
     transition: all 0.5s;
   }
   .leftBox .editTool .buttonBox input[type="range"] {
-    margin:0 50px 0 10px;
+    margin:0 20px;
     width: 100px;
   }
 </style>
