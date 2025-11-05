@@ -2,17 +2,21 @@ import { cookiesTools } from "./utilsCookiesTools"
 import { UtilsWebRequests } from "#imports";
 import { useAccountStore } from "../stores/accountStore";
 import { useAlertStore } from "#imports";
+import { useEssayStore } from "#imports";
 
 class EssayEditor {
   cookiesTools;
-  acticalDataValue: { uuid: number, essayId: number,type: string, title: string, content: string, author: string};
+  acticalDataValue: { uuid: number, essayId: number,type: string, title: string, content: string, author: string, create_time: string, update_time: string };
   history: string[];
   historyIndex: number;
-  webRequests; accountStore; token; alertStore
+  webRequests; accountStore; token; essayStore;alertStore;
+  typeSelect:Ref<string>
   constructor() {
     this.cookiesTools = new cookiesTools()
+    this.essayStore = useEssayStore()
     this.alertStore = useAlertStore()
-    this.acticalDataValue = { uuid: 100001, essayId: 1001, type: '', title: '', content: '', author: ''}
+    this.typeSelect = ref('tech')
+    this.acticalDataValue = { uuid: 100001, essayId: 1001, type: '', title: '', content: '', author: '', create_time: '', update_time: ''}
     this.history = [];
     this.historyIndex = -1
     this.accountStore = useAccountStore()
@@ -36,6 +40,9 @@ class EssayEditor {
       selection.removeAllRanges()
       selection.addRange(range)
     }
+  }
+  inputTitle(event: InputEvent) {
+    this.acticalDataValue.title = (event.target as HTMLInputElement).innerText
   }
   //监听内容输入事件，响应式更新编辑器并显示内容
   inputEssay(event: InputEvent) {
@@ -113,28 +120,28 @@ class EssayEditor {
     }
   }
   //将文本内容储存在cookies中
-  savelocalData(title: string, type: string) {
+  savelocalData() {
     const { username, uuid } = this.cookiesTools.getCookie('token', 'fuzao_secret_key') as { username: string, uuid: number }
     this.acticalDataValue.uuid = uuid
-    this.acticalDataValue.title = title
-    this.acticalDataValue.type = type
+    this.acticalDataValue.essayId = this.acticalDataValue.essayId
+    this.acticalDataValue.type = this.typeSelect.value
+    this.acticalDataValue.title = this.acticalDataValue.title
     this.acticalDataValue.author = username
     this.acticalDataValue.content = this.history[this.history.length - 1] as string
-    localStorage.setItem('acticalData', JSON.stringify(this.acticalDataValue))
+    console.log(this.acticalDataValue)
+    this.essayStore.setEssayData(this.acticalDataValue)
   }
-  //从本地加载文本内容
-  loadLocalData() {
-    const localData = localStorage.getItem('acticalData')
-    if (localData) {
-      this.acticalDataValue = JSON.parse(localData)
-      const htmlCTX = this.acticalDataValue.content || ''
-      const titleCTX = this.acticalDataValue.title || ''
-      return { htmlCTX, titleCTX }
-    }
+
+  async publishEssay() {
+    this.savelocalData()
+    const res =await this.webRequests.upEssay(this.acticalDataValue)
+    this.alertStore.showAlert(res.data.message, 'info')
+    this.history = []
+    this.historyIndex = -1
   }
-  async publishEssay(title: string, type: string) {
-    this.savelocalData(title, type)
-    const res =await this.webRequests.patchEssay(this.acticalDataValue)
+  async modifyEssay() {
+    this.savelocalData()
+    const res = await this.webRequests.patchEssay(this.acticalDataValue)
     this.alertStore.showAlert(res.data.message, 'info')
     this.history = []
     this.historyIndex = -1
@@ -142,8 +149,9 @@ class EssayEditor {
 }
 
 class EssayListShow {
-  accountStore; webRequests; cookiesTools; token
+  accountStore; webRequests; cookiesTools; token; alertStore;
   constructor() {
+    this.alertStore = useAlertStore()
     this.accountStore = useAccountStore()
     this.cookiesTools = new cookiesTools()
     this.token = this.__getToken()
@@ -154,12 +162,27 @@ class EssayListShow {
     const tokenInfo = tokenRes ? tokenRes.token : null
     return this.accountStore.token ? this.accountStore.token : tokenInfo
   }
-
-  async __getEssayList() {
-    try {const { data:{data}} = await this.webRequests.getEssayList()
+  async __getEssayList(pageSize: number, pageNum: number) {
+    try {const { data:{data}} = await this.webRequests.getEssayList(pageSize, pageNum)
       return data
-    }catch (error) {
-      console.log("测试点2",error)
+    }catch (error: any) {
+      this.alertStore.showAlert(error.response.data.message, 'error')
+    }
+  }
+  async __getEssayBy(type: string, pageSize: number, pageNum: number){
+    try { const { data:{data} } = await this.webRequests.getEssayBy(type, pageSize, pageNum)
+      return data
+    }catch (error: any){
+      this.alertStore.showAlert(error.response.data.message, 'error')
+    }
+  }
+  async delEssay(essayId: number) {
+    try {
+      const {data} = await this.webRequests.delEssay(essayId)
+      this.alertStore.showAlert(data.message, 'info')
+      return data
+    } catch (error: any) {
+      console.log(error.response.data.message,'error')
     }
   }
 }

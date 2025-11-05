@@ -2,28 +2,33 @@
     <Header></Header>
     <div class="essayShow">
         <div class="titleBox">
-            <h2>网友吐槽山姆APP界面盒马化, 前阿里高管接手引会员担忧</h2>
+            <h2>{{ getEssayContent?.title || '标题不存在' }}</h2>
         </div>
         <div class="contentInfo">
-            <span>编号:1001</span>
-            <span>作者: Fuzao</span>
-            <span>发布日期: 2022-01-01</span>
-            <p>来源：鲁中晨报【#网友吐槽山姆变得像盒马#:APP产品图换成高饱和美图】#山姆的阿里味儿越来越重了#
-近日,不少网友在小红书发文吐槽,自从前阿里高管接手山姆业务后,山姆变得越来越像盒马了:APP高饱和精修图、商品详情页放做好的菜、支付宝碰一下付款…..
-有网友吐槽称，马上就能凑满减、先用后付、免密支付、跳转老东家淘宝了。
-也有网友表示，喜欢山姆就是因为简单、界面清楚、不需要凑单，如果继续阿里化下去，就不打算续会员卡了。还有人分享退卡流程，帮助需要退卡的人。
-10月27日,沃尔玛中国宣布,前阿里巴巴高管刘鹏加入沃尔玛中国并担任山姆会员店业态总裁。
-你认为前阿里高管会“毁了”山姆，还是给山姆带来新的辉煌呢？
-#山姆变得像盒马#（搜狐财经）</p>
+            <span>文章ID:{{getEssayContent?.essayId || 'undefined'}}</span>&emsp;&emsp;&emsp;
+            <span>作者:{{ getEssayContent?.author || 'undefined' }}</span>&emsp;&emsp;&emsp;
+            <span>创建日期:{{ getEssayContent?.create_time || 'undefined' }}</span>&emsp;&emsp;&emsp;
+            <p v-html="htmlContent"></p>
         </div>
     </div>
     <Footer></Footer>
 </template>
 
 <script setup lang="ts">
-import Footer from '~/components/Footer.vue';
-import Header from '~/components/Header.vue';
-
+    import Footer from '~/components/Footer.vue';
+    import Header from '~/components/Header.vue';
+    const router = useRoute();
+    const htmlContent = computed(() => {
+        return getEssayContent.value?.content || '内容不存在'
+    })
+    const essayId = router.params.id as string
+    const getEssayContent:Ref<{uuid: string, essayId: number,type: string, title: string, content: string, author: string, create_time: string, update_time: string} | null> = computed(() => {
+        const techEssay = localStorage.getItem('techList')? JSON.parse(localStorage.getItem('techList') as string) : []
+        const lifeEssay = localStorage.getItem('lifeList') ? JSON.parse(localStorage.getItem('lifeList') as string) : []
+        let essayObj = [ ...techEssay,...lifeEssay ]
+        const essayRes = essayObj.filter(item => item.essayId === parseInt(essayId))
+        return essayRes[0]
+    })
 
 </script>
 <style scoped>

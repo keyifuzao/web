@@ -48,9 +48,9 @@
         <button @click="RemoveFormat" >F</button>
       </div>
       <div class="editBox">
-        <h1 placeholder="请输入标题" :contenteditable="previewEditor" data-placeholder="请输入标题" maxlength="20" @input="inputTitle">{{ titleTo }}</h1>
+        <h1 placeholder="请输入标题" :contenteditable="previewEditor" maxlength="20" @input="inputTitle" v-text="titleInfo" :style="contentStyle"></h1>
         <div class="editContent" v-on:keyup="(e)=>e.preventDefault"  v-on:keydown.self="inputSmbol" :contenteditable="previewEditor" v-html="htmlContent" 
-          @input.prevent="inputEssay" data-placeholder="请输入内容" :style="`font-size:${previewFontSize}px;`" >
+          @input.prevent="inputEssay" :style="`font-size:${previewFontSize}px;`&& contentStyle" >
         </div>
       </div>
       <div class="buttonBox">
@@ -58,7 +58,7 @@
           <option value="tech">技术</option>
           <option value="life">生活</option>
         </select>
-        <button @click="previewEditor=!previewEditor">{{ previewEditor? '文档预览' : '文档编辑' }}</button>
+        <button @click="previewEditorBtn">{{ previewEditor? '文档预览' : '文档编辑' }}</button>
         <button @click="PatchAndPublishData">保存并发布</button>
         <button @click="NewFileAndPublishData">发布为新文档</button>
         <input type="range" min="12" max="30" step="2" v-model="previewFontSize"></input>
@@ -68,26 +68,38 @@
 </template>
 <script setup lang="ts">
   import { EssayEditor } from '../utils/utilsEssayPage'
-  import { useAlertStore } from '#imports'
-  const alertStore = useAlertStore()
+  import { useEssayStore } from '#imports'
+  const essayStore = useEssayStore()
   const selection = () => window.getSelection() as Selection
   const range = () => selection().getRangeAt(0) as Range
   const essayEditor = new EssayEditor()
+  //顶部选择框
   const selectedColor = ref('red')
   const selectedBgCcolor = ref('yellow')
   const selectedFontSize = ref(22)
   const selectedTitle = ref('h2')
-  const previewEditor = ref<boolean>(false)
+  //底部按钮
   const previewFontSize = ref(18)
-  const htmlContent = ref('')
-  const typeSelect = ref('tech')
-  let titleTo = ref('')
-  let titlefrom = ''
-  const inputTitle = (event: InputEvent) => {
-    titlefrom = (event.target as HTMLInputElement).innerText
+  const previewEditor = ref<boolean>(false)
+  const previewEditorBtn = () => {
+    previewEditor.value = !previewEditor.value
+    if (previewEditor.value) {
+      titleInfo.value = essayStore.title ? essayStore.title : ''
+      htmlContent.value = essayStore.content ? essayStore.content : ''
+    }else {
+      titleInfo.value = essayStore.title ? essayStore.title :'请在这里可以输入文字'
+      htmlContent.value = essayStore.content ? essayStore.content:'请在这里可以输入文字'
+    }
   }
+  //1-文本展示控制
+  const htmlContent = ref('请在这里可以输入文字')
+  const titleInfo = ref('请在这里可以输入标题')
+  const typeSelect = essayEditor.typeSelect
+  //2-文本输入控制
+  const inputTitle = (event: InputEvent) => essayEditor.inputTitle(event)
   const inputSmbol = (event: KeyboardEvent) => essayEditor.inputSmbol(event, range(), selection())
   const inputEssay = (event: InputEvent) => essayEditor.inputEssay(event)
+  //格式化控制
   const Bold = () => essayEditor.renderFontTag('b', range())
   const Italic = () => essayEditor.renderFontTag('i', range())
   const Underline = () => essayEditor.renderFontTag('u', range())
@@ -98,26 +110,31 @@
   const Undo = () => htmlContent.value = essayEditor.undoContent() as string
   const Redo = () => htmlContent.value = essayEditor.redoContent() as string
   const PatchAndPublishData = () => {
-    essayEditor.publishEssay(titlefrom, typeSelect.value)
+    essayEditor.modifyEssay()
+    titleInfo.value = ''
+    htmlContent.value = ''
   }
   const NewFileAndPublishData = () => {
-
+    essayEditor.publishEssay()
+    titleInfo.value = ''
+    htmlContent.value = ''
   }
-  const LoadLocalData = () => {
-    const { htmlCTX,titleCTX } = essayEditor.loadLocalData() as { htmlCTX: string, titleCTX: string }
-    htmlContent.value = htmlCTX
-    titleTo.value = titleCTX
-  }
+  const contentStyle = computed(() => {
+    if (!previewEditor.value) {
+      return `color:rgb(150, 150, 150);`
+    }
+  })
   const FontSize = () => {
     essayEditor.renderFontStyle(selectedFontSize.value.toString(), range()).fontSize()
   }
   const TitleSize = () => {
     essayEditor.renderFontTag(selectedTitle.value, range())
   }
-  
-  // onMounted(() => {
-  //   LoadLocalData()
-  // })
+  watch(essayStore.$state, () => {
+    htmlContent.value = essayStore.content? essayStore.content : '参数有误'
+    titleInfo.value = essayStore.title ? essayStore.title : '参数有误'
+    typeSelect.value = essayStore.type ? essayStore.type : ''
+  })
 </script>
 <style scoped>
   .leftBox {
@@ -190,13 +207,7 @@
     overflow: hidden;
   }
 
-  .leftBox .editTool .editBox h1:empty::before {
-    content: attr(data-placeholder);
-    cursor: text;
-    color: rgb(150, 150, 150);
-  }
-
-  .leftBox .editTool .editBox h1:focus::before {
+  .leftBox .editTool .editBox h1:focus {
     transition: all 0.5s;
   }
 
@@ -207,13 +218,7 @@
     overflow-y: auto;
     transition: all 0.5s;
   }
-  .leftBox .editTool .editBox .editContent:empty::before {
-    content: attr(data-placeholder);
-    cursor: text;
-    color: rgb(150, 150, 150);
-  }
-
-  .leftBox .editTool .editBox .editContent:hover::before {
+  .leftBox .editTool .editBox .editContent:hover {
     transition: all 0.5s;
   }
 

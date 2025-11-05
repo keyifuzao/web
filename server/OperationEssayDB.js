@@ -1,3 +1,4 @@
+import { create } from 'domain';
 import mongoose from 'mongoose';
 class OperationEssayDB {
     constructor(baseSchema, baseModel) {
@@ -6,7 +7,7 @@ class OperationEssayDB {
     }
     // 查询数据
     async FindDB(obj) {
-        const { uuid,essayId } = obj;
+        const { uuid,essayId,pageSize,pageNum } = obj;
         console.log('正在查询数据', uuid, essayId);
         if (!this.Model) {
             console.log('数据模型不存在');
@@ -18,13 +19,22 @@ class OperationEssayDB {
             return essayDb ? { code: 1, message: '查询成功', data: essayDb } : { code: 0, message: '数据不存在', data: null };
         }else if (uuid) {
             console.log(`正在查询用户${uuid}的文章`);
-            const essayDb = await this.Model.find({ uuid });
+            const essayDb = await this.Model.find({ uuid }).skip((pageNum - 1) * pageSize).limit(pageSize).sort({ create_time: -1 });
             return essayDb ? { code: 1, message: '查询成功', data: essayDb } : { code: 0, message: '数据不存在', data: null };
         }
         else {
             console.log('essayID无效');
             return { code: 0, message: '参数错误', data: null };
         }
+    }
+    async FindDBby(obj){
+        const { type, pageSize, pageNum } = obj;
+        if (!this.Model) {
+            console.log('数据模型不存在');
+            return { code: 0, message: '数据模型不存在', data: null };
+        }
+        const essayDb = await this.Model.find({ type }).skip((pageNum - 1) * pageSize).limit(pageSize).sort({ create_time: -1 });
+        return essayDb ? { code: 1, message: '查询成功', data: essayDb } : { code: 0, message: '数据不存在', data: null };
     }
     // 插入数据
     async InsertDB(data) {
@@ -72,12 +82,12 @@ class EssayModel {
         this.essayDbStructure =  {
             uuid: { type: Number, required: true, minlength: 6, default: 100001 },
             essayId: { type: Number, required: true, minlength: 4, default: 1001 },
-            type: { type: String, required: true, trim: true, minlength: 5, default: 'default_type' },
-            title: { type: String, required: true, trim: true, minlength: 5, default: 'default_title' },
+            type: { type: String, required: true, trim: true, default: 'default_type' },
+            title: { type: String, required: true, trim: true, minlength: 2, default: 'default_title' },
             content: { type: String, required: true, trim: true, minlength: 5, default: 'default_content' },
             author: { type: String, required: true, trim: true, minlength: 5, default: 'default_author' },
-            create_time: { type: Date, default: new Date() },
-            update_time: { type: Date, default: new Date() }
+            create_time: { type: String, default: '' },
+            update_time: { type: String, default: '' }
         }
     }
     get __essaySchema() {

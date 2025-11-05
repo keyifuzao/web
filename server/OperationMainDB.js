@@ -41,6 +41,11 @@ class Main{
         console.log('已完成查询', res.message);
         return res;
     }
+    async __findBy(obj){
+        const res = await this.opDB.FindDBby(obj);
+        console.log('已完成查询', res.message);
+        return res;
+    }
     //这里的obj必须是对象，默认是{uuid:-1}，如果是其他模型，应该传入其他参数
     async __makeID(obj) {
         const res = await this.opDB.MakeID(obj);

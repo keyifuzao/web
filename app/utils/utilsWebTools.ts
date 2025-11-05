@@ -33,11 +33,15 @@ class UtilsWebRequests {
         return res
     }
     async delUser(uuid: number){
-        const res:{code: number, message: string} = await this.AxiosService.delete('/user/delete', { uuid })
+        const res:{code: number, message: string} = await this.AxiosService.delete('/user/delete', { params: { uuid } })
         return res
     }
-    async getEssayList(){
-        const res:{data:{code: number, message: string, data: object[]}} = await this.AxiosService.get('/essay/list')
+    async getEssayList(pageSize: number, pageNum: number){
+        const res:{data:{code: number, message: string, data: object[]}} = await this.AxiosService.get('/essay/list', { params: { pageSize, pageNum } })
+        return res
+    }
+    async getEssayBy(type: string, pageSize: number, pageNum: number){
+        const res:{data:{code: number, message: string, data: object[]}} = await this.AxiosService.get('/essay/type', { params: { type, pageSize, pageNum } })
         return res
     }
     async patchEssay(data:{uuid:number, essayId: number, type: string, title: string, content: string, author: string}){
@@ -46,6 +50,10 @@ class UtilsWebRequests {
     }
     async upEssay(data:{uuid:number, essayId: number, type: string, title: string, content: string, author: string}){
         const res:{data:{code: number, message: string}} = await this.AxiosService.patch('/essay/publish', data)
+        return res
+    }
+    async delEssay(essayId: number){
+        const res:{data:{code: number, message: string}} = await this.AxiosService.delete('/essay/del', { params: { essayId } })
         return res
     }
 }

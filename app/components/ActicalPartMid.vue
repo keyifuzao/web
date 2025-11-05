@@ -2,22 +2,22 @@
   <div class="midBox">
     <div class="topBtn">
       <span>当前位置: 首页 > 文章列表</span>
-      <span>共{{essayList?.length}}条</span>
-      <button @click="">上一页</button>
-      <button @click="">下一页</button>
-      <button @click="refreshEssayList">刷新</button>
+      <span>第{{ page }}页</span>
+      <button @click="page>1?page--:page;refreshEssayList()">上一页</button>
+      <button @click="page++;refreshEssayList()">下一页</button>
+      <button @click="refreshEssayList()">刷新</button>
     </div>
     <ul>
-      <li v-for="(item, index) in essayList" >
+      <li v-for="item in essayList" :key="item.essayId">
         <div class="titleBox">
           <h2>{{item.title}}</h2>
-          <p>{{item.author}} | {{new Date(item.update_time).toLocaleString()}} | {{item.essayId}}</p>
+          <p>{{item.author}} | {{item.create_time}} | {{item.essayId}}</p>
         </div>
         <div class="contentBox">
-          <p>{{item.content}}</p>
+          <p v-html="item.content"></p>
           <div class="handleBox">
-            <button @click="">编辑</button>
-            <button>删除</button>
+            <button @click="editEssayItem(item)">编辑</button>
+            <button @click="removeEssay(item.essayId)">删除</button>
           </div>
         </div>
       </li>
@@ -26,17 +26,27 @@
 </template>
 <script setup lang="ts">
   import { EssayListShow } from '#imports';
+  import { useEssayStore } from '#imports';
   const essayListShow = new EssayListShow();
-  const essayList = ref<[{uuid: number, essayId: number, title: string, content: string, author: string, create_time: string, update_time: string}]>();
+  const essayStore = useEssayStore();
+  const essayList = ref<[{uuid: number, essayId: number,type: string, title: string, content: string, author: string, create_time: string, update_time: string}]>();
+  const page = ref(1);
   const refreshEssayList = async() => {
-    const res = await essayListShow.__getEssayList();
-    essayList.value = res as [{uuid: number, essayId: number, title: string, content: string, author: string, create_time: string, update_time: string}];
+    const res = await essayListShow.__getEssayList(6, page.value);
+    essayList.value = res as [{uuid: number, essayId: number,type: string, title: string, content: string, author: string, create_time: string, update_time: string}];
     localStorage.setItem('essayList', JSON.stringify(res));
+  }
+  const editEssayItem = (item: {uuid: number, essayId: number,type: string, title: string, content: string, author: string, create_time: string, update_time: string}) => {
+    essayStore.setEssayData(item);
+  }
+  const removeEssay = async(essayId: number) => {
+    await essayListShow.delEssay(essayId);
+    await refreshEssayList();
   }
   onMounted(() => {
     const localEssayList = localStorage.getItem('essayList');
     if (localEssayList) {
-      essayList.value = JSON.parse(localEssayList) as [{uuid: number, essayId: number, title: string, content: string, author: string, create_time: string, update_time: string}];
+      essayList.value = JSON.parse(localEssayList) as [{uuid: number, essayId: number,type: string, title: string, content: string, author: string, create_time: string, update_time: string}];
     }
   })
 </script>
@@ -73,7 +83,7 @@
     padding: 0;
     margin: 0;
     width: 510px;
-    height: 700px;
+    height: 680px;
     transition: all 0.3s ease-in-out;
     overflow-y: hidden;
   }
@@ -83,7 +93,7 @@
   .midBox li {
     margin-bottom: 10px;
     width: 100%;
-    height: 100px;
+    height: 105px;
   }
   .midBox .titleBox {
     height: 40px;
@@ -105,7 +115,7 @@
     color: rgb(100, 100, 100);
   }
   .midBox .contentBox {
-    height: 60px;
+    height: 70px;
     display: flex;
     justify-content:flex-start;
     align-items: center;

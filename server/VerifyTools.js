@@ -109,11 +109,21 @@ class DataVerify {
             return { code: 0, message: '无效token', data: null };
         }
     }
-    async VeriftyEssayGetList(token){
+    async VeriftyEssayGetList(token,pageSize,pageNum){
         const resChecked = await this.CheckedToken(token)
         if (resChecked.code === 1) {
             console.log('token验证成功')
-            const res = await this.eMain.__find({uuid:parseInt(resChecked.data.uuid),essayId:null})
+            const res = await this.eMain.__find({uuid:parseInt(resChecked.data.uuid),essayId:null,pageSize:parseInt(pageSize),pageNum:parseInt(pageNum)})
+            return res.data ? { code: res.code, message: res.message, data: res.data } : { code: 0, message: '请求异常', data: null };
+        } else {
+            return { code: 0, message: '无效token', data: null };
+        }
+    }
+    async VeriftyEssayBy(token, type, pageSize, pageNum){
+        const resChecked = await this.CheckedToken(token)
+        if (resChecked.code === 1) {
+            console.log('token验证成功')
+            const res = await this.eMain.__findBy({type, pageSize:parseInt(pageSize), pageNum:parseInt(pageNum)})
             return res.data ? { code: res.code, message: res.message, data: res.data } : { code: 0, message: '请求异常', data: null };
         } else {
             return { code: 0, message: '无效token', data: null };
@@ -124,7 +134,7 @@ class DataVerify {
         if (resChecked.code === 1) {
             console.log('token验证成功')
             data.essayId = await this.eMain.__makeID({ essayId: -1 })
-            data.create_time = new Date()
+            data.create_time = new Date().toLocaleString()
             const res = await this.eMain.__insert(data)
             return res.code === 1 ? { code: res.code, message: res.message } : { code: 0, message: '请求异常' };
         } else {
@@ -135,7 +145,7 @@ class DataVerify {
         const resChecked = await this.CheckedToken(token)
         if (resChecked.code === 1) {
             console.log('token验证成功')
-            data.update_time = new Date()
+            data.update_time = new Date().toLocaleString()
             const res = await this.eMain.__update(data.essayId, data)
             return res.code === 1 ? { code: res.code, message: res.message } : { code: 0, message: '请求异常' };
         } else {

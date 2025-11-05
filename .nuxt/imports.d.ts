@@ -37,6 +37,7 @@ export { LoginPage, UserCenterPage } from '../app/utils/utilsUserPages';
 export { UtilsLoginOrRegister, UtilsWebRequests } from '../app/utils/utilsWebTools';
 export { useAccountStore } from '../app/stores/accountStore';
 export { useAlertStore } from '../app/stores/alertStore';
+export { useEssayStore } from '../app/stores/essayStore';
 export { useHomeStore } from '../app/stores/homeStore';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
 export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
