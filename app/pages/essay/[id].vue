@@ -1,6 +1,6 @@
 <template>
     <Header></Header>
-    <div class="essayShow">
+    <main class="essayShow">
         <div class="titleBox">
             <h2>{{ getEssayContent?.title || '标题不存在' }}</h2>
         </div>
@@ -10,7 +10,7 @@
             <span>创建日期:{{ getEssayContent?.create_time || 'undefined' }}</span>&emsp;&emsp;&emsp;
             <p v-html="htmlContent"></p>
         </div>
-    </div>
+    </main>
     <Footer></Footer>
 </template>
 
