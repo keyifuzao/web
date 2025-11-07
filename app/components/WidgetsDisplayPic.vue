@@ -3,13 +3,54 @@
     <div class="leftPic">
         <div class="playPic" >
             <h2>{{ picList[activeIndex]?.title as string}}</h2>
-            <img :src="setPic" alt="home" @mouseover.self="mouseoverHandler()" @mouseleave.self="mouseoutHandler()">
+            <img :src="activePic" alt="home" @mouseover.self="mouseoverHandler()" @mouseleave.self="mouseoutHandler()">
         </div>
         <ul>
             <li v-for="(pic,index) in picList" :key="pic.name" @click="changePic(index)" :class="{active:index===activeIndex}"><img :src="pic.pUrl" :alt="pic.name"></li>
         </ul>
     </div>
 </template>
+<script setup lang="ts">
+    import { useTimerStore } from '#imports'
+    const timerStore = useTimerStore()
+    const picList = [
+        {name:"homeA",pUrl:"/_nuxt/assets/img/homeA.jpg",title:"爱上早晨的阳光"},
+        {name:"homeB",pUrl:"/_nuxt/assets/img/homeB.jpg",title:"城市的色彩"},
+        {name:"homeC",pUrl:"/_nuxt/assets/img/homeC.jpg",title:"湛蓝的天空"},
+        {name:"homeD",pUrl:"/_nuxt/assets/img/homeD.jpg",title:"佛光普照"},
+        {name:"homeE",pUrl:"/_nuxt/assets/img/homeE.jpg",title:"水花的瞬间"},
+        {name:"homeF",pUrl:"/_nuxt/assets/img/homeF.jpg",title:"城市的美好"},
+        {name:"homeG",pUrl:"/_nuxt/assets/img/homeG.jpg",title:"海上的黑云"}
+    ]
+    watch(timerStore.$state, (newVal)=>{
+        numCounter.value = newVal.homePictime
+    })
+    const setPic = ref("/_nuxt/assets/img/homeA.jpg")
+    const activePic = computed(() => {
+        return picList[activeIndex.value]?.pUrl
+    })
+    const activeIndex = computed(() => {
+        return numCounter.value % picList.length
+    })
+    const numCounter = ref(7)
+    const changePic = (index: number) => {
+        setPic.value = picList[index]?.pUrl as string
+        numCounter.value = index
+        timerStore.$patch({homePictime: index})
+    }
+    const mouseoverHandler = () => {
+        timerStore.stopPicTimer()
+    }
+    const mouseoutHandler = () => {
+        timerStore.startPicTimer()
+    }
+    onMounted(() => {
+        timerStore.startPicTimer()
+    })
+    onUnmounted(() => {
+        timerStore.stopPicTimer()
+    })
+</script>
 <style scoped>
     .leftPic {
         margin: 0 0 0 10px;
@@ -71,69 +112,3 @@
         height: 90px;
     }
 </style>
-<script setup lang="ts">
-
-    const picList = [
-        {name:"homeA",pUrl:"/_nuxt/assets/img/homeA.jpg",title:"爱上早晨的阳光"},
-        {name:"homeB",pUrl:"/_nuxt/assets/img/homeB.jpg",title:"城市的色彩"},
-        {name:"homeC",pUrl:"/_nuxt/assets/img/homeC.jpg",title:"湛蓝的天空"},
-        {name:"homeD",pUrl:"/_nuxt/assets/img/homeD.jpg",title:"佛光普照"},
-        {name:"homeE",pUrl:"/_nuxt/assets/img/homeE.jpg",title:"水花的瞬间"},
-        {name:"homeF",pUrl:"/_nuxt/assets/img/homeF.jpg",title:"城市的美好"},
-        {name:"homeG",pUrl:"/_nuxt/assets/img/homeG.jpg",title:"海上的黑云"}
-    ]
-
-    const setPic = ref("/_nuxt/assets/img/homeA.jpg")
-    const activeIndex = ref(0)
-
-    const changePic = (index: number) => {
-        setPic.value = picList[index]?.pUrl as string
-        activeIndex.value = index
-    }
-
-    const playPics = (i: number) => {
-        activeIndex.value = i
-        setPic.value = picList[i]?.pUrl as string
-    }
-//方案一
-    // let timer: number
-
-    // const mouseoverHandler = () => {
-    //     timer = setInterval((i:number) => {
-    //         i = activeIndex.value + 1
-    //         if (i >= picList.length) {
-    //             i = 0
-    //         }
-    //         playPics(i)
-    //     }, 2000)
-    // }
-    // const mouseoutHandler = () => {
-    //     clearInterval(timer)
-    // }
-//方案二
-
-    let __this: any = {}
-
-    const mouseoverHandler = () => {
-        clearInterval(__this.timer)
-        __this.timer = null
-    }
-
-    const mouseoutHandler = () => {
-        autoPic()
-    }
-
-    const autoPic = () => {
-        const timer = setInterval((i:number) => {
-            i = activeIndex.value + 1
-            if (i >= picList.length) {
-                i = 0
-            }
-            playPics(i)
-        }, 3000)
-        __this.timer = timer
-    }
-    onMounted(() => {
-        autoPic()
-    })
-</script>

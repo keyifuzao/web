@@ -2,14 +2,15 @@
     <Header></Header>
     <div class="codeBox">
         <ul>
-            <li v-for="(item,index) in toolItems" :class="{active:index===activeIndex}" :style="changeStyle" @click="toToolPage(item.tool_id)"><h3>{{ item.toolName }}</h3><p>{{ item.toolDesc }}</p></li>
+            <li v-for="(item,index) in toolItems" :class="{active:numCounter%21 === index+1}" :style="changeStyle" @click="toToolPage(item.tool_id)"><h3>{{ item.toolName }}</h3><p>{{ item.toolDesc }}</p></li>
         </ul>
     </div>
     <Footer></Footer>
 </template>
 
 <script setup lang="ts">
-    let timer: any;
+    import { useTimerStore } from '#imports'
+    const toolStore = useTimerStore()
     const toolItems = [
         {tool_id:'tools01',toolName: '简历', toolDesc: '在线简历制作工具', toolImg: '', toolLink: ''},
         {tool_id:'tools02',toolName: '开发中', toolDesc: '开发中', toolImg: '', toolLink: ''},
@@ -33,26 +34,24 @@
         {tool_id:'tools20',toolName: '开发中', toolDesc: '开发中', toolImg: '', toolLink: ''},
         {tool_id:'tools21',toolName: '开发中', toolDesc: '开发中', toolImg: '', toolLink: ''},
     ]
-    const activeIndex = ref<number>()
-    const colorRed = ref<number>()
-    const colorGreen = ref<number>()
-    const colorBlue = ref<number>()
+    const numCounter = ref<number>(22)
+    const color = ref<string>('')
     const changeStyle = computed(() => {
-        return {'--backgroundColorHover': `rgb(${colorRed.value}, ${colorGreen.value}, ${colorBlue.value})`}
+        return {'--backgroundColorHover': color.value}
     })
     const toToolPage = (id: string) =>{
         return navigateTo(`/tool/${id}`)
     }
+
+    watch(toolStore.$state, (newVal)=>{
+        color.value = newVal.toolcolor
+        numCounter.value = newVal.toolstime
+    })
     onMounted(() => {
-    timer = setInterval(() => {
-        colorRed.value = Math.floor(Math.random() * 255)
-        colorGreen.value = Math.floor(Math.random() * 255)
-        colorBlue.value = Math.floor(Math.random() * 255)
-        activeIndex.value = Math.floor(Math.random() * toolItems.length)
-    }, 3000);
+        toolStore.getRandomtime()
     })
     onUnmounted(() => {
-        clearInterval(timer)
+        toolStore.stoptoolTimer()
     })
 </script>
 <style scoped>

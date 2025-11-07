@@ -180,7 +180,9 @@ declare global {
   const useSlots: typeof import('vue').useSlots
   const useState: typeof import('../../node_modules/nuxt/dist/app/composables/state').useState
   const useTemplateRef: typeof import('vue').useTemplateRef
+  const useTimerStore: typeof import('../../app/stores/timerStore').useTimerStore
   const useTransitionState: typeof import('vue').useTransitionState
+  const useWebFetchStore: typeof import('../../app/stores/webFetchStore').useWebFetchStore
   const utilsHomePage: typeof import('../../app/utils/utilsHomePage').default
   const watch: typeof import('vue').watch
   const watchEffect: typeof import('vue').watchEffect
@@ -382,7 +384,9 @@ declare module 'vue' {
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useState: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/state')['useState']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
+    readonly useTimerStore: UnwrapRef<typeof import('../../app/stores/timerStore')['useTimerStore']>
     readonly useTransitionState: UnwrapRef<typeof import('vue')['useTransitionState']>
+    readonly useWebFetchStore: UnwrapRef<typeof import('../../app/stores/webFetchStore')['useWebFetchStore']>
     readonly utilsHomePage: UnwrapRef<typeof import('../../app/utils/utilsHomePage')['default']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>

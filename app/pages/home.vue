@@ -3,9 +3,9 @@
     <main class="home_box">
         <WidgetsDisplayPic></WidgetsDisplayPic>
         <div class="middle_box">
-            <WidgetsClock :class="{active: Status[idx]![0]}"></WidgetsClock>
-            <WidgetsTimeCounter :class="{active: Status[idx]![1]}"></WidgetsTimeCounter>
-            <WidgetsDays :class="{active: Status[idx]![2]}"></WidgetsDays>
+            <WidgetsClock :class="{active: numCounter%12===1}" :style="changeStyle"></WidgetsClock>
+            <WidgetsWeather :class="{active: numCounter%12===3}" :style="changeStyle"></WidgetsWeather>
+            <WidgetsDays :class="{active: numCounter%12===5}" :style="changeStyle"></WidgetsDays>
         </div>
         <div class="rightBox">
             <div class="rightBoxTop">
@@ -18,19 +18,17 @@
     <Footer></Footer>
 </template>
 <script setup lang="ts">
-    import { useHomeStore } from '../stores/homeStore';
-    const homeStore = useHomeStore();
-    const Status = [[0,0,0],[1,0,0],[0,0,0],[0,1,0],[0,0,0],[0,0,1],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
-    const idx = ref<number>(0)
-    const toogleCard = () => {
-        homeStore.autoStylePlay.timerCount = 0
-        homeStore.AutoPlayCompute
-    }
-    onMounted(() => {
-        toogleCard()
-    })
-    watch(homeStore.autoStylePlay,(val)=>{
-        idx.value = val.timerCount%12
+    import { useTimerStore } from '#imports';
+import WidgetsWeather from '~/components/WidgetsWeather.vue';
+    const timerStore = useTimerStore()
+    const numCounter = ref<number>(12)
+    const color = ref<string>('')
+    const changeStyle = computed(() => {
+        return { '--backgroundColorHover': color.value,
+            '--transformHover': 'scale(1.1)'}})
+    watch(timerStore.$state, (newVal) => {
+        numCounter.value = newVal.homeMidtime
+        color.value = newVal.color
     })
 </script>
 
@@ -61,8 +59,8 @@
       
     }
     .home_box .middle_box div.active{
-        background-color: rgba(255, 135, 0,0.5);
-        transform: scale(1.1);
+        background-color: var(--backgroundColorHover);
+        transform: var(--transformHover);
         transition: all 1s;
     }
 

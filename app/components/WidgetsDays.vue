@@ -11,10 +11,33 @@
             <h2>参数设置</h2>
             <input type="text" placeholder="请输入标题" v-model="titleShow"/><br />
             <input type="date" v-model="dateShow"/><br />
-            <button @click="timeCounter.saveDate" >获取</button>
+            <button @click="saveData()" >获取</button>
+            <button @click="showData()" >返回</button>
         </div>
     </div>
 </template>
+<script setup lang="ts">
+    import { useHomeStore } from '#imports'
+    const homeStore = useHomeStore()
+    const titleShow = ref<string>("我们已经结婚")
+    const toggleShow = ref<boolean>(false)
+    const Hours = ref<string>("")
+    const Days = ref<string>("")
+    const dateShow = ref<string>("2025-08-29")
+    const saveData = () => {
+        homeStore.setDays(dateShow.value)
+    }
+    const showData = () => {
+        toggleShow.value = !toggleShow.value
+        Hours.value = homeStore.widgetsClock.Hours
+        Days.value = homeStore.widgetsClock.Days
+    }
+    onMounted(() => {
+        saveData()
+        Hours.value = homeStore.widgetsClock.Hours
+        Days.value = homeStore.widgetsClock.Days
+    })
+</script>
 <style scoped>
     .days h2 {
         display: block;
@@ -84,14 +107,3 @@
     }
 
 </style>
-<script setup lang="ts">
-    import TimeCounter from '~/utils/utilsHomePage';
-    const timeCounter = new TimeCounter.TimeCounter();
-    const Days = timeCounter.Days;
-    const Hours = timeCounter.Hours;
-    const titleShow = timeCounter.titleShow;
-    const dateShow = timeCounter.dateShow;
-    const toggleShow = timeCounter.toggleShow;
-    timeCounter.initDays();
-
-</script>

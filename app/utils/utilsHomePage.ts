@@ -1,13 +1,6 @@
 import { useHomeStore } from '../stores/homeStore'
 import * as lyricCTX from '~/assets/jsSource/lyric';
 
-
-class InitWebSetting {
-    constructor() {
-    }
-    
-}
-
 //home页面音乐播放器
 class MusicPlayer {
     //播放器元数据
@@ -159,12 +152,7 @@ class TimeCounter {
     touchedToggle = ref<boolean>(false)
     startToggle = ref<boolean>(false)
     timeLeft = ref<number>(30)
-    //以下为纪念日参数
-    Days = ref<string>("")
-    Hours = ref<string>("")
-    titleShow = ref<string>("我们已经结婚")
-    dateShow = ref<string>("2025-08-29")
-    toggleShow = ref<boolean>(false)
+
     constructor() {
     }
     //以下为倒计时方法
@@ -178,23 +166,6 @@ class TimeCounter {
         this.homeStore.stopCounter
         this.startToggle.value = false
     }
-    //以下为纪念日方法
-    saveDate(){
-        this.homeStore.widgetsClock.titleShow=this.titleShow.value
-        this.homeStore.widgetsClock.dateShow=this.dateShow.value
-        this.homeStore.setDays
-        setTimeout(() => {
-            this.Days.value=this.homeStore.widgetsClock.Days
-            this.Hours.value=this.homeStore.widgetsClock.Hours
-            this.toggleShow.value = false
-        }, 1000)
-    }
-
-    initDays(){
-        this.homeStore.setDays
-        this.Days.value = this.homeStore.widgetsClock.Days
-        this.Hours.value = this.homeStore.widgetsClock.Hours
-    }
 }
 
-export default {TimeCounter, MusicPlayer, InitWebSetting}
+export default {TimeCounter, MusicPlayer}

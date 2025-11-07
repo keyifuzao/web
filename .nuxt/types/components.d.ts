@@ -28,8 +28,8 @@ interface _GlobalComponents {
   'WidgetsDays': typeof import("../../app/components/WidgetsDays.vue")['default']
   'WidgetsDisplayPic': typeof import("../../app/components/WidgetsDisplayPic.vue")['default']
   'WidgetsMusic': typeof import("../../app/components/WidgetsMusic.vue")['default']
-  'WidgetsTimeCounter': typeof import("../../app/components/WidgetsTimeCounter.vue")['default']
   'WidgetsTxtBar': typeof import("../../app/components/WidgetsTxtBar.vue")['default']
+  'WidgetsWeather': typeof import("../../app/components/WidgetsWeather.vue")['default']
   'WidgetsWebTool': typeof import("../../app/components/WidgetsWebTool.vue")['default']
   'NuxtWelcome': typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']
   'NuxtLayout': typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
@@ -68,8 +68,8 @@ interface _GlobalComponents {
   'LazyWidgetsDays': LazyComponent<typeof import("../../app/components/WidgetsDays.vue")['default']>
   'LazyWidgetsDisplayPic': LazyComponent<typeof import("../../app/components/WidgetsDisplayPic.vue")['default']>
   'LazyWidgetsMusic': LazyComponent<typeof import("../../app/components/WidgetsMusic.vue")['default']>
-  'LazyWidgetsTimeCounter': LazyComponent<typeof import("../../app/components/WidgetsTimeCounter.vue")['default']>
   'LazyWidgetsTxtBar': LazyComponent<typeof import("../../app/components/WidgetsTxtBar.vue")['default']>
+  'LazyWidgetsWeather': LazyComponent<typeof import("../../app/components/WidgetsWeather.vue")['default']>
   'LazyWidgetsWebTool': LazyComponent<typeof import("../../app/components/WidgetsWebTool.vue")['default']>
   'LazyNuxtWelcome': LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
   'LazyNuxtLayout': LazyComponent<typeof import("../../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>

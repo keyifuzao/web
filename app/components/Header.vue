@@ -22,6 +22,8 @@
 <script setup lang="ts">
     import { useAccountStore } from '#imports'
     import { cookiesTools } from '#imports'
+    import { useTimerStore } from '#imports'
+    const timerStore = useTimerStore()
     const accountStore = useAccountStore()
     const cookieTools = new cookiesTools()
     const userInfo = ref('')
@@ -36,8 +38,13 @@
         navigateTo('/login')
     }
     onMounted(() => {
+        timerStore.startTimer()
         const userName = cookieTools.getCookie('token', 'fuzao_secret_key')? cookieTools.getCookie('token', 'fuzao_secret_key').username : '状态检查中'
         userInfo.value = accountStore.username ? accountStore.username : userName
+
+    })
+    onUnmounted(() => {
+        timerStore.stopTimer()
     })
 </script>
 

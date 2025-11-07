@@ -7,6 +7,26 @@
         <p>{{year}}年{{month}}月{{day}}日</p>
     </div>
  </template>
+ <script setup lang="ts">
+ import { useTimerStore } from '#imports';
+    const timerStore = useTimerStore();
+    const clock = ref('00:00:00');
+    const week = ref('星期一');
+    const year = ref('2025');
+    const month = ref('10');
+    const day = ref('01');
+    watch(timerStore.$state, (newVal) => {
+        clock.value = newVal.clock;
+        week.value = newVal.week;
+        year.value = newVal.year;
+        month.value = newVal.month;
+        day.value = newVal.day;
+    })
+
+    onMounted(() => {
+        timerStore.getClockTimer;
+    })
+</script>
  <style scoped>
     div h2 {
         display: block;
@@ -35,25 +55,3 @@
         text-align: center;
     }
 </style>
- <script setup lang="ts">
-    const clock = ref('00:00:00');
-    const week = ref('星期一');
-    const year = ref('2025');
-    const month = ref('10');
-    const day = ref('01');
-    const getTimer=()=>{
-        const date = new Date();
-        clock.value = `${date.getHours() < 10 ? '0' : ''}${date.getHours()}:${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()}:${date.getSeconds() < 10 ? '0' : ''}${date.getSeconds()}`;
-        week.value = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][date.getDay()]as string;
-        year.value = (date.getFullYear()).toString();
-        month.value = (date.getMonth() + 1).toString();
-        day.value = date.getDate().toString();
-    }
-
-    getTimer();
-    onMounted(() => {
-        setInterval(() => {
-            getTimer();
-        },1000)
-    })
-</script>

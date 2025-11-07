@@ -28,8 +28,8 @@ export const WidgetsClock: typeof import("../app/components/WidgetsClock.vue")['
 export const WidgetsDays: typeof import("../app/components/WidgetsDays.vue")['default']
 export const WidgetsDisplayPic: typeof import("../app/components/WidgetsDisplayPic.vue")['default']
 export const WidgetsMusic: typeof import("../app/components/WidgetsMusic.vue")['default']
-export const WidgetsTimeCounter: typeof import("../app/components/WidgetsTimeCounter.vue")['default']
 export const WidgetsTxtBar: typeof import("../app/components/WidgetsTxtBar.vue")['default']
+export const WidgetsWeather: typeof import("../app/components/WidgetsWeather.vue")['default']
 export const WidgetsWebTool: typeof import("../app/components/WidgetsWebTool.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
@@ -68,8 +68,8 @@ export const LazyWidgetsClock: LazyComponent<typeof import("../app/components/Wi
 export const LazyWidgetsDays: LazyComponent<typeof import("../app/components/WidgetsDays.vue")['default']>
 export const LazyWidgetsDisplayPic: LazyComponent<typeof import("../app/components/WidgetsDisplayPic.vue")['default']>
 export const LazyWidgetsMusic: LazyComponent<typeof import("../app/components/WidgetsMusic.vue")['default']>
-export const LazyWidgetsTimeCounter: LazyComponent<typeof import("../app/components/WidgetsTimeCounter.vue")['default']>
 export const LazyWidgetsTxtBar: LazyComponent<typeof import("../app/components/WidgetsTxtBar.vue")['default']>
+export const LazyWidgetsWeather: LazyComponent<typeof import("../app/components/WidgetsWeather.vue")['default']>
 export const LazyWidgetsWebTool: LazyComponent<typeof import("../app/components/WidgetsWebTool.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>

@@ -1,30 +1,30 @@
 <!-- 这是/home页面的网络工具组件 -->
 <template>
     <ul class="web-tool">
-        <li v-for="(item,index) in cardList" class="card" @click="" :class="{active:item.Status[idx]![1]}">
-            <div v-show="item.Status[idx]![0]" class="web-tool-front">{{ item.titleA }}</div>
-            <div v-show="item.Status[idx]![1]" class="web-tool-back" >{{ item.titleB }}</div>
+        <li v-for="(item,index) in cardList" class="card" @click="" :class="{active:numCounter%12 === index*2+7  }" :style="changeStyle">
+            <div v-show="numCounter%12 !== index*2+7" class="web-tool-front">{{ item.titleA }}</div>
+            <div v-show="numCounter%12 === index*2+7" class="web-tool-back" >{{ item.titleB }}</div>
         </li>
     </ul>
 </template>
 <script setup lang="ts">
-    import { useHomeStore } from '../stores/homeStore'
+    import { useTimerStore } from '#imports'
+    const timerStore = useTimerStore()
     const cardList = [
-        {titleA: '1正面', titleB: '1反面',Status:[[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[0,1],[1,0],[1,0],[1,0],[1,0]]}, 
-        {titleA: '2正面', titleB: '2反面',Status:[[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[0,1],[1,0],[1,0]]}, 
-        {titleA: '3正面', titleB: '3反面',Status:[[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[1,0],[0,1]]}
+        {titleA: '1正面', titleB: '1反面'}, 
+        {titleA: '2正面', titleB: '2反面'}, 
+        {titleA: '3正面', titleB: '3反面'}
     ]
-    // onMounted(() => {
-    //     toogleCard()
-    // })
-    const idx = ref<number>(0)
-    const homeStore = useHomeStore()
-    // const toogleCard = () => {
-    //     homeStore.autoStylePlay.timerCount = 0
-    //     homeStore.AutoPlayCompute
-    // }
-    watch(homeStore.autoStylePlay, (val) => {
-        idx.value = homeStore.autoStylePlay.timerCount % 12
+    const numCounter = ref<number>(12)
+    const color = ref<string>('')
+    const changeStyle = computed(() => {
+        return { '--transformHover': 'rotateY(180deg)',
+            '--backgroundColorHover':  color.value,
+        }
+    })
+    watch(timerStore.$state, (newVal) => {
+        numCounter.value = newVal.homeWebTooltime
+        color.value = newVal.color
     })
 </script>
 
@@ -48,7 +48,7 @@
 
 }
 .web-tool .card.active{
-    transform: rotateY(180deg);
+    transform: var(--transformHover);
 }
 .card .web-tool-front, .card .web-tool-back{
     position: absolute;
@@ -59,7 +59,7 @@
     backface-visibility: hidden;
 }
 .card .web-tool-back{
-    background-color: rgba(255,135,0,0.5);
+    background-color:var(--backgroundColorHover);
     transform: rotateY(-180deg);
 }
 </style>

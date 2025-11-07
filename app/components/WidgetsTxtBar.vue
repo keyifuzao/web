@@ -1,17 +1,48 @@
 <!-- 这个是home文章的组件 -->
 <template>
     <div class="txt-bar">
+        <div class="clickbtnBox">
+            <select v-model="source">
+                <option value="baidu">百度</option>
+                <option value="bilibili">哔哩哔哩</option>
+                <option value="zhihu">知乎</option>
+                <option value="jinritoutiao">今日头条</option>
+                <option value="tengxunwang">腾讯网</option>
+            </select>
+            <button @click="getHotNews()">刷新</button>
+        </div>
         <ul>
-            <li v-for="(item, index) in acticalList" :key="item.title" v-show="index < 6">
+            <li v-for="(item, index) in hotNewsList" :key="item.title" v-show="index < 6">
                 <div>
                     <h2 class="txt-bar-title">{{item.title}}</h2>
-                    <b><i>{{ item.author }}</i> {{item.time}}</b>
+                    <b><i>{{ item.source }}</i> {{item.publish_time}}</b>
                 </div>
-                <p>{{ item.desc }}</p>
+                <p><NuxtLink :to="item.url" target="_blank">{{ item.content }}</NuxtLink></p>
             </li>
         </ul>
     </div>
 </template>
+<script setup>
+    import { NuxtLink } from '#components'
+    import { useWebFetchStore } from '~/stores/webFetchStore'
+    const source = ref('baidu')
+    const hotNewsList= ref([])
+    const webFetchStore = useWebFetchStore()
+    const getHotNews = () => {
+        webFetchStore.$patch({
+            source: source.value
+        })
+        webFetchStore.fetchHomePageNews()
+    }
+    watch(webFetchStore.$state, (newVal)=>{
+        if(newVal.homePageNews.length > 0){
+            hotNewsList.value = newVal.homePageNews
+        }
+    })
+    onMounted(() => {
+        getHotNews()
+    })
+</script>
 <style scoped>
     .txt-bar {
         width: 565px;
@@ -20,12 +51,36 @@
         margin-top: 10px;
         border-radius: 20px;
     }
+    .txt-bar .clickbtnBox {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    .txt-bar button {
+        margin:10px;
+        margin-right: 20px;
+        width: 80px;
+        height: 20px;
+        background-color: rgb(200, 200, 200);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    .txt-bar select {
+        margin:10px;
+        width: 80px;
+        height: 20px;
+        background-color: rgb(200, 200, 200);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
     .txt-bar ul {
         list-style: none;
         margin: 0 auto;
         padding: 0;
-        width: 540px;
-        height: 500px;
+        width: 520px;
+        height: 480px;
     }
     .txt-bar ul li {
         border-radius: 10px;
@@ -40,7 +95,7 @@
     .txt-bar ul li div{
         margin: 0;
         width: 100%;
-        height: 30px;
+        height: 25px;
         display: flex;
         align-items: center;
 
@@ -48,10 +103,10 @@
     .txt-bar ul li div h2 {
         flex:2;
         width: 200px;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: bold;
         color: rgb(30, 30, 30);
-        margin: 5px auto;
+        margin: 0 auto;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -62,32 +117,22 @@
         font-size: 14px;
         color: #666;
         text-align: right;
-        margin: 5px auto;
+        margin: 0 auto;
     }   
 
     .txt-bar ul li p{
         display:block;
         width: 100%;
         height: 45px;
-        margin: 5px auto;
+        margin: 0 auto 6px;
         font-size: 16px;
         line-height: 24px;
         color: #808080;
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .txt-bar ul li p a{
+        color: rgb(120,120,120);
+        text-decoration: none;
+    }
 </style>
-<script setup>
-// 这里是文章组件的js代码
-    const acticalList = [
-        { title: '测试文章标题1', author: '张三', time: '2022-10-01', desc: '这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述' },
-        { title: '测试文章标题2', author: '李四', time: '2022-10-02', desc: '这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述' },
-        { title: '测试文章标题3', author: '王五', time: '2022-10-03', desc: '这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述' },
-        { title: '测试文章标题4', author: '赵六', time: '2022-10-04', desc: '这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述' },
-        { title: '测试文章标题5', author: '孙七', time: '2022-10-05', desc: '这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述' },
-        { title: '测试文章标题6', author: '周八', time: '2022-10-06', desc: '这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述,这是一个文章的描述' },
-        { title: '测试文章标题7', author: '吴九', time: '2022-10-07', desc: '这是一个文章的描述,这是一个文章的描述' },
-        { title: '测试文章标题8', author: '郑十', time: '2022-10-08', desc: '这是一个文章的描述,这是一个文章的描述' },
-        { title: '测试文章标题9', author: '冯十一', time: '2022-10-09', desc: '这是一个文章的描述,这是一个文章的描述' },
-        ]
-</script>

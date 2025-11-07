@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useHomeStore = defineStore('homeStore', {
+export const useHomeStore = defineStore('home', {
     state: () => ({
         widgetsTimer: {
             timeLeft: 0 as number,
@@ -9,14 +9,9 @@ export const useHomeStore = defineStore('homeStore', {
             starttoggle: false as boolean,
         },
         widgetsClock: {
-            titleShow: '我们已经结婚' as string,
-            dateShow: '2025-08-29' as string,
             Days: '' as string,
             Hours: '' as string,
         },
-        autoStylePlay:{
-            timerCount: 0 as number,
-        }
     }),
     getters: {
         //widgetsTimer相关getters
@@ -40,25 +35,14 @@ export const useHomeStore = defineStore('homeStore', {
             }
         },
         //widgetsClock相关getters
-        setDays() {
-            const startdate = new Date(this.widgetsClock.dateShow);
+    },
+    actions: {
+        setDays(date: string = '2025-08-29') {
+            const startdate = new Date(date);
             const enddate = new Date();
             const diffTime = Math.abs(enddate.getTime() - startdate.getTime());
             this.widgetsClock.Days = Math.floor(diffTime / (1000 * 60 * 60 * 24)).toString();
             this.widgetsClock.Hours = Math.floor(diffTime / (1000 * 60 * 60)).toString();
         },
-        //home页面图片轮播，卡片自动播放相关getters
-
-        AutoPlayCompute(){
-            setInterval(() => {
-                this.autoStylePlay.timerCount += 1;
-                if(this.autoStylePlay.timerCount >= 36){
-                    this.autoStylePlay.timerCount = 0;
-                }
-            }, 3000)
-        }
-    },
-    actions: {
-
     }
 })
