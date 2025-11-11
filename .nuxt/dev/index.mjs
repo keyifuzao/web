@@ -1005,26 +1005,9 @@ async function errorHandler(error, event) {
   // H3 will handle fallback
 }
 
-const script = `
-if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
-  Object.defineProperty(window, '__NUXT_DEVTOOLS_TIME_METRIC__', {
-    value: {},
-    enumerable: false,
-    configurable: true,
-  })
-}
-window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
-`;
-
-const _PZQ3mq2Pq_5SjTESV3ecbL02wAHyrTryqHSS3_phOjQ = (function(nitro) {
-  nitro.hooks.hook("render:html", (htmlContext) => {
-    htmlContext.head.push(`<script>${script}<\/script>`);
-  });
-});
-
 const rootDir = "/home/fuzao/study/web";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"},{"charset":"utf-8"}],"link":[{"rel":"icon","type":"image/x-icon","href":"./public/favicon.ico"}],"style":[],"script":[],"noscript":[],"title":"浮躁的个人小站","charset":"utf-8","viewport":"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no","htmlAttrs":{"lang":"zh-CN"}};
 
 const appRootTag = "div";
 
@@ -1115,8 +1098,7 @@ function onConsoleLog(callback) {
 }
 
 const plugins = [
-  _PZQ3mq2Pq_5SjTESV3ecbL02wAHyrTryqHSS3_phOjQ,
-_LXUZpglbUCt7o69YpMDkwAT2hMx92wqvf7j8WQQwfxY
+  _LXUZpglbUCt7o69YpMDkwAT2hMx92wqvf7j8WQQwfxY
 ];
 
 const assets = {};

@@ -42,4 +42,3 @@ export { useHomeStore } from '../app/stores/homeStore';
 export { useTimerStore } from '../app/stores/timerStore';
 export { useWebFetchStore } from '../app/stores/webFetchStore';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';
-export { useNuxtDevTools } from '../node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';

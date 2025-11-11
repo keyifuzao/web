@@ -1,4 +1,13 @@
+<template>
+  <div>
+      <NuxtLayout :name="layout">
+        <NuxtLoadingIndicator :throttle="0" color="red" text="Loading..." />
+        <NuxtPage />
+      </NuxtLayout>
+  </div>
+</template>
 <script setup lang="ts">
+import { flexible } from './assets/js/flexible';
 import type { LayoutKey } from '#build/types/layouts';
 import { NuxtLayout, NuxtPage } from '#components';
 
@@ -7,18 +16,11 @@ import { NuxtLayout, NuxtPage } from '#components';
 // function changeLayout() {
 //   layout.value = layout.value === 'default'? 'custom' : 'default';
 // }
+onMounted(() => {
+  flexible(window, document);
+});
 
 </script>
-
-<template>
-  <!-- <button @click="changeLayout">改变布局</button> -->
-  <div>
-      <NuxtLayout :name="layout">
-        <NuxtPage />
-      </NuxtLayout>
-  </div>
-</template>
-
-<style>
-  body { overflow-x: hidden; }
+<style scoped lang="scss">
+  // body { overflow-x: hidden; }
 </style>

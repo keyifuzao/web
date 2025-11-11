@@ -7,7 +7,7 @@
             <img :src="getWeatherIcon" alt="weatherIcon"
                 @click="toggleWeather = !toggleWeather"><br />
             <div class="weather_info">
-                <span>{{ weatherBaseInfo }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ weatherBaseInfo }}</span>&nbsp;&nbsp;
                 <span>{{ weatherAddInfo }}</span><br />
                 <span>{{ weatherWindInfo }}</span>
             </div>
@@ -79,12 +79,14 @@
         return `../_nuxt/assets/weatherSource/QWeather-Icons-1.8.0/icons/${weatherIcon.value? weatherIcon.value: '100'}.svg`
     })
     const asnycWeatherData= () => {
-            let dbs = webFetchStore.homePageWeather as { icon: string, temp: string, text: string, humidity: string, feelsLike: string, windDir: string, wind360: string, windScale: string, windSpeed: string }
-            weatherIcon.value = dbs.icon as string
-            weatherBaseInfo.value = `${dbs.temp}°C ${dbs.text}`
-            weatherAddInfo.value = `湿度${dbs.humidity}% 体感${dbs.feelsLike}°C`
-            weatherWindInfo.value = `风向${dbs.windDir}${dbs.wind360}° 风力${dbs.windScale}级 风速${dbs.windSpeed}km/h`
-    }
+            let dbs = webFetchStore.homePageWeather as { icon: string, temp: string, text: string, humidity: string, feelsLike: string, windDir: string, wind360: string, windScale: string, windSpeed: string } | null
+            if(dbs){
+                weatherIcon.value = dbs.icon
+                weatherBaseInfo.value = `${dbs.temp}°C ${dbs.text}`
+                weatherAddInfo.value = `湿度${dbs.humidity}% 体感${dbs.feelsLike}°C`
+                weatherWindInfo.value = `风向${dbs.windDir}${dbs.wind360}° 风力${dbs.windScale}级 风速${dbs.windSpeed}km/h`
+            }
+        }
     const webInit = async() => {
         if(webFetchStore.region){
             regionInfo.value = webFetchStore.region as [{name:string, id:string}]
@@ -127,6 +129,7 @@
 }
 
 .weather_front p {
+    display: inline-block;
     margin: 0;
     padding: 0;
     color: rgb(100, 100, 100)
@@ -138,7 +141,6 @@
     margin: 5px 85px;
     cursor: pointer;
 }
-
 .weather_front .weather_info span {
     color: rgb(100, 100, 100);
 }

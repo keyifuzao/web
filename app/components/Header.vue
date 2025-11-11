@@ -1,21 +1,20 @@
 <template>
     <header>
-        <div class="navTop">
+        <nav class="navTop">
             <div class="logo">
                 <img src="../assets/img/logo.jpg" alt="logo">
                 <span>你好呀<i>{{ userInfo}}</i>,欢迎来到FZWEB系统</span>
             </div>
-            <div class="searchBox" v-show="searchToggle">
-                    <input type="text" v-model="searchInput" placeholder="请输入您的问题">
-                    <button class="searchBtn" @click="">搜索</button>
+            <div class="searchBox" >
+                <input id="searchInput" type="text" v-model="searchInput" placeholder="请输入您的问题">
+                <button id="searchBtn" @click="">搜索</button>
             </div>
-            <button class="toggleBtn" @click="handleSearchToggle">{{ searchToggle? '叠' : '搜' }}</button>
-            <ul >
-                <li  v-for="(item, index) in headerTitleInfo" :key="item.name"><NuxtLink :to="item.path" :class="{active: $route.path === item.path}">{{ item.name }}</NuxtLink></li>
-                <li class="userInfo" @click="toUserCenter"><img src="../assets/img/userimg.jpg" alt="user">{{ userInfo }}</li>
-                <li class="logout" @click="logout">退出</li>
+            <ul class="navList">
+                <li id="nav" v-for="(item, index) in headerTitleInfo" :key="item.name" :class="{active: $route.path === item.path}"><NuxtLink :to="item.path" >{{ item.name }}</NuxtLink></li>
+                <li id="userInfo" @click="toUserCenter"><img src="../assets/img/userimg.jpg" alt="user">{{ userInfo }}</li>
+                <li id="logout" @click="logout">退出</li>
             </ul>
-        </div>
+        </nav>
     </header>
 </template>
 
@@ -27,9 +26,7 @@
     const accountStore = useAccountStore()
     const cookieTools = new cookiesTools()
     const userInfo = ref('')
-    const searchToggle = ref(false)
     const searchInput = ref('')
-    const handleSearchToggle = () => searchToggle.value =!searchToggle.value
     const headerTitleInfo = [{name: '首页',path: '/home'},{name: '媒体',path: '/media'},{name: '文章',path: '/essay'},{name: '工具',path: '/tool'}]
     const toUserCenter = () => navigateTo('/usercenter')
     const logout = () => {
@@ -48,6 +45,28 @@
     })
 </script>
 
-<style scoped>
-    @import url('../assets/css/header.css');
+<style scoped lang="scss">
+    @use '../assets/scss/variables' as _varStyle;
+    @use '../assets/scss/headerStyle' as _hStyle;
+    $fontSize: 0.12rem;
+    $bgColor: rgba(235,235,235,1);
+    $color: rgba(10,10,10,1);
+    $selectedColor: rgba(255,110,0,1);
+    .navTop {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: $fontSize*1.2 $fontSize;
+        @each $name, $params in ('xxlarge': 0.12rem ,'xlarge':0.14rem,'large':0.16rem,'medium':0.25rem,'small':0.3rem,'xsmall':0.38rem,'xxsmall':0.48rem){
+            @include _varStyle.responsive($name){
+                @if $name == 'xxlarge'{
+                    @include _hStyle.headerStyle($params,$bgColor,$color,$selectedColor);
+                }@else if $name == 'xlarge' or $name == 'large'{
+                    @include _hStyle.headerStyleSEA($params,$bgColor,$color,$selectedColor);
+                }@else{
+                    @include _hStyle.headerStyleSEB($params,$bgColor,$color,$selectedColor);
+                }
+            }
+        }
+    }
 </style>

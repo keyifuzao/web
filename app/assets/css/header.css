@@ -82,6 +82,7 @@
         background-color: rgba(255, 135, 0, 0.5);
     }
     .navTop ul li a {
+        font-size: 16px;
         display: inline-block;
         text-align: center;
         width: 80px;

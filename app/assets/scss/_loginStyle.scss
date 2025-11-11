@@ -1,0 +1,174 @@
+@mixin loginStyle ($name, $fontSize:0.12rem,$fontColor:rgb(50,50,50), $containerBgColor:rgba(235, 235, 235, 0.6),$radius: 30px) {
+    %inputLabelBox#{$name} {
+        margin: $fontSize*0.6 0;
+        label {
+            display: inline-block;
+            width: $fontSize*5;
+            font-size: $fontSize;
+            color: $fontColor;
+        }
+        input {
+            padding: $fontSize*0.6;
+            width: $fontSize*10;
+            height: $fontSize*1.5;
+            font-size: $fontSize;
+            color: $fontColor;
+            background-color: rgba(235, 235, 235, 0.8);
+            border-radius: $fontSize*0.7;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
+            &:focus{
+                background-color: rgba(255, 255, 255, 1);
+            }
+        }
+    }
+    .loginInfo {
+        margin: 0 20px;
+        padding: 1%;
+        flex: 0 0 $fontSize*25;
+        height: $fontSize*30;
+        background-color: $containerBgColor;
+        border-radius: $radius - 10;
+        box-sizing: border-box;
+        &:hover {
+            transform: scale(1.02);
+            transition: all 0.5s ease-in-out;
+        }
+    }
+    .loginContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 20px;
+        padding: 1%;
+        flex: 0 0 $fontSize*18;
+        height: $fontSize*30;
+        background-color: $containerBgColor;
+        border-radius: $radius - 10;
+        box-sizing: border-box;
+        &:hover {
+            transform: scale(1.02);
+            transition: all 0.5s ease-in-out;
+        }
+        #loginTitle {
+            margin-top: $fontSize*4;
+            font-size: $fontSize * 1.4;
+            color: $fontColor;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: $fontSize*4 0;
+            #usrName {
+                @extend %inputLabelBox#{$name};
+            }
+            #usrPassword {
+                @extend %inputLabelBox#{$name};
+            }
+            button {
+                margin: $fontSize*4 0 0 0;
+                width: 95%;
+                height: $fontSize*1.5;
+                font-size: $fontSize;
+                border-radius: $fontSize*0.75;
+                border: none;
+                cursor: pointer;
+                &:hover {
+                    transform: scale(1.1);
+                    transition: all 0.5s ease-in-out;
+                }
+            }
+            #usrOption {
+                margin: $fontSize * 1.5  0 0 65%;
+                width: 50%;
+                font-size: $fontSize * 0.6;
+                color: $fontColor;
+
+                span {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+@mixin loginStyleSE ($name, $fontSize:0.12rem,$fontColor:rgb(50,50,50), $containerBgColor:rgba(235, 0.6),$radius: 30px,$width: 25) {
+    %inputLabelBox#{$name} {
+        margin: $fontSize*0.6 0;
+        label {
+            display: inline-block;
+            width: 30%;
+            font-size: $fontSize;
+            color: $fontColor;
+        }
+        input {
+            width: 65%;
+            font-size: $fontSize;
+            color: $fontColor;
+            background-color: rgba(200, 200, 200, 0.8);
+            border-radius: $fontSize*0.5;
+            border: none;
+            outline: none;
+            &:focus{
+                background-color: rgba(255, 255, 255, 1);
+            }
+        }
+    }
+    .loginInfo {
+        opacity: 0;
+    }
+    .loginContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 20px;
+        padding: 1%;
+        flex: 0 0 $fontSize*$width;
+        height: 80%;
+        background-color: $containerBgColor;
+        border-radius: $radius - 10;
+        box-sizing: border-box;
+        &:hover {
+            transform: scale(1.02);
+            transition: all 0.5s ease-in-out;
+        }
+        #loginTitle {
+            margin-top: $fontSize*5;
+            font-size: $fontSize * 1.4;
+            color: $fontColor;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: $fontSize*6 0;
+            #usrName {
+                @extend %inputLabelBox#{$name};
+            }
+            #usrPassword {
+                @extend %inputLabelBox#{$name};
+            }
+            button {
+                margin: $fontSize*4 0 0 0;
+                width: 95%;
+                height: $fontSize*1.5;
+                font-size: $fontSize;
+                border-radius: $fontSize*0.75;
+                border: none;
+                cursor: pointer;
+            }
+            #usrOption {
+                margin: $fontSize * 1.5  0 0 65%;
+                width: 50%;
+                font-size: $fontSize * 0.65;
+                color: $fontColor;
+
+                span {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

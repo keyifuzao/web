@@ -1,5 +1,5 @@
 import { useHomeStore } from '../stores/homeStore'
-import * as lyricCTX from '~/assets/jsSource/lyric';
+import * as lyricCTX from '~/assets/js/lyric';
 
 //home页面音乐播放器
 class MusicPlayer {

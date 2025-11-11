@@ -44,7 +44,7 @@ export const useWebFetchStore = defineStore('webFetch', {
                 },
                 lazy: true
             }) as {location: Array<Object>}
-            this.region = location
+            this.region = location?location:null
         }
     }
 });

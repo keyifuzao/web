@@ -1,0 +1,31 @@
+$breakpointsMin:(
+    'xxsmall': 0px,
+    'xsmall': 480px,
+    'small': 640px,
+    'medium': 768px,
+    'large': 1024px,
+    'xlarge': 1280px,
+    'xxlarge': 1440px
+);
+$breakpointsMax:(
+    'xxsmall': 479px,
+    'xsmall': 639px,
+    'small': 767px,
+    'medium': 1023px,
+    'large': 1279px,
+    'xlarge': 1439px,
+    'xxlarge': 4096px
+);
+@use 'sass:map';
+
+@mixin responsive($breakpoint) {
+    $sizeMin: map.get($breakpointsMin, $breakpoint) ;
+    $sizeMax: map.get($breakpointsMax, $breakpoint) ;
+    @if $sizeMin != null and $sizeMax != null {
+        @media (min-width: $sizeMin) and (max-width: $sizeMax) { 
+            @content;
+        }
+    } @else {
+        @warn "No value found for breakpoint: #{$breakpoint}";
+    }
+}

@@ -102,6 +102,10 @@
     overflow: hidden;
     overflow-y: none;
   }
+  .leftBox .essayBox .techBox ul li a, .leftBox .essayBox .lifeBox ul li a{
+    text-decoration: none;
+    color: rgb(100, 100, 100);
+  }
   .leftBox .essayBox .lifeBox {
     margin-left: 10px;
     width: 270px;

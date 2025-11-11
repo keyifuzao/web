@@ -34,13 +34,20 @@
         })
         webFetchStore.fetchHomePageNews()
     }
+    const webInit = () => {
+        if (webFetchStore.homePageNews){
+            hotNewsList.value = webFetchStore.homePageNews
+        }else{
+            webFetchStore.fetchHomePageNews()
+        }
+    }
     watch(webFetchStore.$state, (newVal)=>{
-        if(newVal.homePageNews.length > 0){
+        if(newVal.homePageNews){
             hotNewsList.value = newVal.homePageNews
         }
     })
     onMounted(() => {
-        getHotNews()
+        webInit()
     })
 </script>
 <style scoped>

@@ -2,15 +2,17 @@
 用于显示全局的模态框，比如登录、注册、修改密码等 -->
 <template>
     <transition name="model-box-fade">
-        <div class="model-box" @click.self="boxhide">
-            <div class="model-box-header">
-                <slot name="header"></slot>
-            </div>
-            <div class="model-box-body">
-                <slot name="body"></slot>
-            </div>
-            <div class="model-box-footer">
-                <slot name="footer"></slot>
+        <div class="modelBox" @click.self="boxhide">
+            <div class ="modelMain">
+                <div id="modelHeader">
+                    <slot name="header"></slot>
+                </div>
+                <div id="modelBody">
+                    <slot name="body"></slot>
+                </div>
+                <div id="modelFooter">
+                    <slot name="footer"></slot>
+                </div>
             </div>
         </div>
     </transition>
@@ -21,12 +23,11 @@
     const boxhide = () => {
         emit('childboxtoggle', false)
     }
-
-
 </script>
 
-<style scoped>
-    .model-box {
+<style scoped lang="scss">
+    @use '../assets/scss/variables' as _varStyle;
+    .modelBox{
         position: fixed;
         top: 0;
         left: 0;
@@ -38,43 +39,33 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        @each $name, $fontSize in ('xxlarge': 0.12rem ,'xlarge':0.14rem,'large':0.16rem,'medium':0.18rem,'small':0.2rem,'xsmall':0.25rem,'xxsmall':0.3rem) {
+            @include _varStyle.responsive($name){
+            .modelMain{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: $fontSize * 20;
+                height: $fontSize * 15;
+                background-color: rgba(235,235,235,0.8);
+                border-radius: 30px;
+                #modelHeader, #modelFooter{
+                    padding: $fontSize * 0.4;
+                    font-size: $fontSize * 0.6;
+                    text-align: center;
+                    width: 100%;
+                    height: $fontSize *1.2;
 
+                }
+                #modelBody{
+                    width: 100%;
+                    height: $fontSize * 12.6;
+                    font-size: $fontSize * 0.7;
+                    
+                }
+            }
+        }
     }
-
-   .model-box-header {
-        width: 600px;
-        height: 50px;
-        background-color:rgba(235,235,235,0.8);
-        border-radius: 30px 30px 0 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-   .model-box-body {
-        width: 600px;
-        height: 400px;
-        background-color: rgba(235,235,235,0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-   .model-box-footer {
-        width: 600px;
-        height: 50px;
-        background-color:rgba(235,235,235,0.8);
-        border-radius: 0 0 30px 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .model-box-fade-enter-active, .model-box-fade-leave-active {
-        transition: opacity 0.5s;
-    }
-
-   .model-box-fade-enter, .model-box-fade-leave-to {
-        opacity: 0;
-   }
+}
 </style>
