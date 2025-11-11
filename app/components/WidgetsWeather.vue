@@ -78,17 +78,29 @@
     const getWeatherIcon = computed(() => {
         return `../_nuxt/assets/weatherSource/QWeather-Icons-1.8.0/icons/${weatherIcon.value? weatherIcon.value: '100'}.svg`
     })
+    const asnycWeatherData= () => {
+            let dbs = webFetchStore.homePageWeather as { icon: string, temp: string, text: string, humidity: string, feelsLike: string, windDir: string, wind360: string, windScale: string, windSpeed: string }
+            weatherIcon.value = dbs.icon as string
+            weatherBaseInfo.value = `${dbs.temp}°C ${dbs.text}`
+            weatherAddInfo.value = `湿度${dbs.humidity}% 体感${dbs.feelsLike}°C`
+            weatherWindInfo.value = `风向${dbs.windDir}${dbs.wind360}° 风力${dbs.windScale}级 风速${dbs.windSpeed}km/h`
+    }
     const webInit = async() => {
-        await webFetchStore.getCityInfo('郑州市');
-        await webFetchStore.fetchHomePageWeather();
+        if(webFetchStore.region){
+            regionInfo.value = webFetchStore.region as [{name:string, id:string}]
+        }else{
+            await webFetchStore.getCityInfo('郑州市');  
+        }
+        if(webFetchStore.homePageWeather){
+            asnycWeatherData();
+            updateTime.value = '更新于' + new Date(webFetchStore.updateTime).toLocaleString().split(' ')[1] as string
+        }else{
+            await webFetchStore.fetchHomePageWeather();          
+        }
     }
     watch(webFetchStore.$state, (newVal) => {
         updateTime.value = '更新于' + new Date(newVal.updateTime).toLocaleString().split(' ')[1] as string
-        let dbs = newVal.homePageWeather as { icon: string, temp: string, text: string, humidity: string, feelsLike: string, windDir: string, wind360: string, windScale: string, windSpeed: string }
-        weatherIcon.value = dbs.icon as string
-        weatherBaseInfo.value = `${dbs.temp}°C ${dbs.text}`
-        weatherAddInfo.value = `湿度${dbs.humidity}% 体感${dbs.feelsLike}°C`
-        weatherWindInfo.value = `风向${dbs.windDir}${dbs.wind360}° 风力${dbs.windScale}级 风速${dbs.windSpeed}km/h`
+        asnycWeatherData();
         regionInfo.value = newVal.region as [{name:string, id:string}]
 
     })

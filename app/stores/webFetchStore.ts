@@ -3,14 +3,14 @@ import { defineStore } from "pinia";
 export const useWebFetchStore = defineStore('webFetch', {
     state: () => ({
         //主页新闻
-        homePageNews:[] as Object[] ,
+        homePageNews:null as Object[] | null,
         source: 'baidu' as string,
         //主页天气
-        homePageWeather: {} as Object,
+        homePageWeather: null as Object | null,
         updateTime: '' as string,
         location: '101180109' as string,
         key: '301485d5a35d49a6b42b644122575025' as string,
-        region: [] as Array<Object>,
+        region: null as Array<Object> | null,
     }),
     actions: {
         async fetchHomePageNews() {
