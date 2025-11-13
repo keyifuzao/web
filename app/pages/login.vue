@@ -67,7 +67,7 @@ $radius: 30px;
 $color: rgb(10, 10, 10);
 $fortSize: 0.11rem;
 .loginPage {
-    max-width: 100%;
+    width: 100%;
     height: 100vh;
     overflow: hidden;
     .loginMain {

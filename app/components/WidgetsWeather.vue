@@ -1,38 +1,38 @@
 <!-- 这个是home页面倒计时的组件 -->
 <template>
     <div>
-        <div class="weather_front" v-if="!toggleWeather">
+        <div class="weatherFront" v-if="!toggleWeather">
             <h2>天气预报</h2>
             <p>{{ updateTime }}&nbsp;&nbsp;{{ city }}</p>
             <img :src="getWeatherIcon" alt="weatherIcon"
                 @click="toggleWeather = !toggleWeather"><br />
-            <div class="weather_info">
+            <div class="weatherInfo">
                 &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ weatherBaseInfo }}</span>&nbsp;&nbsp;
                 <span>{{ weatherAddInfo }}</span><br />
                 <span>{{ weatherWindInfo }}</span>
             </div>
         </div>
-        <div class="weather_back" v-else="toggleWeather">
+        <div class="weatherBack" v-else="toggleWeather">
             <h2>参数设置</h2>
-            <div class="weather_params">
-                <div class="weather_params_input">
+            <div class="weatherParams">
+                <div class="weatherInput">
                     <label for="secretKey">密钥：</label>
                     <input type="text" id="secretKey" v-model="secretKey">
                 </div>
-                <div class="weather_params_selectCity">
+                <div class="weatherSelectCity">
                     <label for="city">城市：</label>
                     <select id="city" v-model="city" @change="getcityInfo()">
                         <option v-for="item in cityInfo" :value="item.name">{{ item.name }}</option>
                     </select>
                 </div>
-                <div class="weather_params_selectRegion">
+                <div class="weatherSelectRegion">
                     <label for="region">区划：</label>
                     <select id="region" v-model="region">
                         <option v-for="item in regionInfo" :value="item.id">{{ item.name }}</option>
                     </select>
                 </div>
             </div>
-            <div class="weather_buttons">
+            <div class="weatherButtons">
                 <button @click="getWeather()">获取天气</button>
                 <button @click="toggleWeather = !toggleWeather">返回</button>
             </div>
@@ -111,71 +111,132 @@
     })
 
 </script>
-<style scoped>
-.weather_front {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.weather_front h2,
-.weather_back h2 {
-    display: block;
-    font-family: 'Times New Roman', Times, serif;
-    margin: 0 auto;
-    font-size: 16px;
-    font-weight: lighter;
-    text-align: center;
-}
-
-.weather_front p {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    color: rgb(100, 100, 100)
-}
-
-.weather_front img {
-    width: 120px;
-    height: 120px;
-    margin: 5px 85px;
-    cursor: pointer;
-}
-.weather_front .weather_info span {
-    color: rgb(100, 100, 100);
-}
-
-.weather_back {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.weather_back .weather_params .weather_params_input, .weather_back .weather_params .weather_params_selectRegion, .weather_back .weather_params .weather_params_selectCity {
-    font-size: 18px;
-    margin: 15px;
-}
-.weather_back .weather_params .weather_params_input input {
-    padding: 10px;
-    width: 150px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-}
-.weather_back .weather_params .weather_params_selectRegion select, .weather_back .weather_params .weather_params_selectCity select {
-    padding: 10px;
-    width: 170px;
-    border-radius: 5px;
-    background-color: white;
-    border: none;
-    outline: none;
-}
-.weather_back .weather_buttons button {
-    margin: 10px;
-    padding: 5px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    background-color: rgba(235, 135, 0,0.6);
-    cursor: pointer;
-}
+<style scoped lang="scss">
+    $fontSize: 0.12rem;
+    .weatherFront{
+        padding: $fontSize*0.8;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        font-family: 'Times New Roman', Times, serif;
+        box-sizing: border-box;
+        h2 {
+            padding: 0;
+            margin: 0;
+            font-size: $fontSize*0.8;
+            color: rgb(100, 100, 100);
+        }
+        p {
+            margin: $fontSize*0.2;
+            font-size: $fontSize*0.6;
+            color: rgb(100, 100, 100);
+        }
+        img {
+            margin: $fontSize*0.5;
+            width:$fontSize*4;
+            height:$fontSize*4;
+            cursor: pointer;
+        }
+        .weatherInfo {
+            font-size: $fontSize*0.6;
+            color: rgb(100, 100, 100);
+        }
+    }
+    .weatherBack {
+        padding: $fontSize*0.8;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        font-family: 'Times New Roman', Times, serif;
+        box-sizing: border-box;
+        h2 {
+            padding: 0;
+            margin: 0;
+            font-size: $fontSize*0.8;
+            color: rgb(100, 100, 100);
+        }
+        .weatherParams {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            .weatherInput {
+                display: flex;
+                align-items: center;
+                label {
+                    display: inline-block;
+                    font-size: $fontSize*0.6;
+                }
+                input {
+                    margin: $fontSize*0.5;
+                    padding: $fontSize*0.5;
+                    width: $fontSize*6;
+                    height: $fontSize;
+                    font-size: $fontSize*0.6;
+                    border-radius: $fontSize*0.5;
+                    border: none;
+                    outline: none;
+                    box-sizing: border-box;
+                }
+            }
+            .weatherSelectCity {
+                display: flex;
+                align-items: center;
+                label {
+                    display: inline-block;
+                    font-size: $fontSize*0.6;
+                }
+                select {
+                    margin: $fontSize*0.5;
+                    padding: $fontSize*0.5;
+                    width: $fontSize*6;
+                    height: $fontSize;
+                    font-size: $fontSize*0.6;
+                    background-color: rgb(255,255,255);
+                    border-radius: $fontSize*0.5;
+                    border: none;
+                    outline: none;
+                    box-sizing: border-box;
+                }
+            }
+           .weatherSelectRegion {
+                display: flex;
+                align-items: center;
+                label {
+                    display: inline-block;
+                    font-size: $fontSize*0.6;
+                }
+                select {
+                    margin: $fontSize*0.5;
+                    padding: $fontSize*0.5;
+                    width: $fontSize*6;
+                    height: $fontSize;
+                    font-size: $fontSize*0.6;
+                    background-color: rgb(255,255,255);
+                    border-radius: $fontSize*0.5;
+                    border: none;
+                    outline: none;
+                    box-sizing: border-box;
+                }
+            }
+        }
+        .weatherButtons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            button {
+                margin: $fontSize*0.5;
+                height: $fontSize*1.2;
+                font-size: $fontSize*0.6;
+                border-radius: $fontSize*0.5;
+                border: none;
+                background-color: rgba(200, 200,200,1);
+                cursor: pointer;
+            }
+        }
+    }
 </style>

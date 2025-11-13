@@ -1,6 +1,6 @@
 @mixin headerStyle($fontSize: 0.12rem,$bgColor: rgba(235,235,235,1),$color: rgba(10,10,10,1),$selectedColor: rgba(255,110,0,1)){
     .logo {
-        flex: 0 0 $fontSize*5;
+        flex: 1;
         display: flex;
         align-items: center;
         flex: 0 0 $fontSize*25;
@@ -20,7 +20,7 @@
         }
     }
     .searchBox {
-        flex: 0 0 $fontSize*5;
+        flex: 1;
         display: flex;
         height: $fontSize*2;
         #searchInput {
@@ -56,12 +56,11 @@
             }
         }
     }
-
     .navList {
         margin: 0;
         padding: 0;
         height: $fontSize*2;
-        flex: 0 0 $fontSize*35;
+        flex: 1;
         display: flex;
         justify-content: space-around;
         list-style: none;
@@ -151,7 +150,7 @@
         margin: 0;
         padding: 0;
         height: $fontSize*2;
-        flex: 0 0 $fontSize*35;
+        flex: 0 0 $fontSize*30;
         display: flex;
         justify-content: space-around;
         list-style: none;
@@ -223,7 +222,7 @@
         margin: 0;
         padding: 0;
         height: $fontSize*2;
-        flex: 0 0 $fontSize*35;
+        flex: 0 0 80%;
         display: flex;
         justify-content: space-around;
         list-style: none;

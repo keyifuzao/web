@@ -56,7 +56,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: $fontSize*1.2 $fontSize;
+        width: 90%;
+        margin: $fontSize*1.2 auto;
         @each $name, $params in ('xxlarge': 0.12rem ,'xlarge':0.14rem,'large':0.16rem,'medium':0.25rem,'small':0.3rem,'xsmall':0.38rem,'xxsmall':0.48rem){
             @include _varStyle.responsive($name){
                 @if $name == 'xxlarge'{

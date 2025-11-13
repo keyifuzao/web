@@ -9,10 +9,14 @@
         </div>
         <div class="input" v-show="toggleShow">
             <h2>参数设置</h2>
-            <input type="text" placeholder="请输入标题" v-model="titleShow"/><br />
-            <input type="date" v-model="dateShow"/><br />
-            <button @click="saveData()" >获取</button>
-            <button @click="showData()" >返回</button>
+            <div class="inputGroup">
+                <input type="text" placeholder="请输入标题" v-model="titleShow"/>
+                <input type="date" v-model="dateShow"/>
+            </div>
+            <div class="btn">
+                <button @click="saveData()" >获取</button>
+                <button @click="showData()" >返回</button>
+            </div>
         </div>
     </div>
 </template>
@@ -38,8 +42,75 @@
         Days.value = homeStore.widgetsClock.Days
     })
 </script>
-<style scoped>
-    .days h2 {
+<style scoped lang="scss">
+    $fontSize: 0.12rem;
+   .days {
+        padding: $fontSize*0.8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        font-family: 'Times New Roman', Times, serif;
+        box-sizing: border-box;
+        h2 {
+            padding: 0;
+            margin: 0;
+            font-size: $fontSize*0.8;
+            color: rgb(100, 100, 100);
+        }
+        p {
+            color: rgb(100, 100, 100);
+            font-size: $fontSize*0.8;
+            margin: $fontSize*0.6 0;
+            padding: 0;
+        }
+        span {
+            font-size: $fontSize*4;
+            cursor: pointer;
+            b {
+                font-size: $fontSize;
+            }
+        }
+    }
+    .input {
+        padding: $fontSize*0.8;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        font-family: 'Times New Roman', Times, serif;
+        box-sizing: border-box;
+        h2 {
+            padding: 0;
+            margin: 0;
+            font-size: $fontSize*0.8;
+            color: rgb(100, 100, 100);
+        }
+        .inputGroup {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            input {
+                width:$fontSize*8;
+                margin-bottom: $fontSize*0.6;
+                border: none;
+            }
+        }
+        .btn {
+            button {
+                margin: $fontSize*0.5;
+                height: $fontSize*1.2;
+                font-size: $fontSize*0.6;
+                border-radius: $fontSize*0.5;
+                border: none;
+                background-color: rgba(200, 200,200,1);
+                cursor: pointer;
+            }
+        }
+    }
+    /* .days h2 {
         display: block;
         font-family: 'Times New Roman', Times, serif;
         margin: 0 auto;
@@ -104,6 +175,6 @@
         background-color: rgb(255, 165, 0);
         transform: scale(1.1);
         transition: all 0.3s ease-out;
-    }
+    } */
 
 </style>

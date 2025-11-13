@@ -11,7 +11,7 @@
             </select>
             <button @click="getHotNews()">刷新</button>
         </div>
-        <ul>
+        <ul class="newsList">
             <li v-for="(item, index) in hotNewsList" :key="item.title" v-show="index < 6">
                 <div>
                     <h2 class="txt-bar-title">{{item.title}}</h2>
@@ -50,8 +50,26 @@
         webInit()
     })
 </script>
-<style scoped>
+<style scoped lang="scss">
+    $fontSize: 0.12rem;
     .txt-bar {
+        width:$fontSize*24;
+        height:100%;
+        background-color:rgb(235, 235, 235);
+        border-radius: $fontSize;
+        .clickbtnBox {
+            height: $fontSize*1.2;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: yellow;
+            select {
+                margin: $fontSize*0.2;
+            }
+        }
+
+    }
+    /* .txt-bar {
         width: 565px;
         height: 516px;
         background-color: rgb(235, 235, 235);
@@ -141,5 +159,5 @@
     .txt-bar ul li p a{
         color: rgb(120,120,120);
         text-decoration: none;
-    }
+    } */
 </style>

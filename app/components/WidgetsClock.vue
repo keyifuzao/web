@@ -1,6 +1,6 @@
 <!-- 这个是home页面时钟的组件 -->
  <template>
-    <div >
+    <div class="clock">
         <h2>时钟clock</h2>
         <span>{{clock}}</span><br/>
         <p>{{week}}</p>
@@ -27,31 +27,31 @@
         timerStore.getClockTimer;
     })
 </script>
- <style scoped>
-    div h2 {
-        display: block;
+ <style scoped lang="scss">
+    $fontSize: 0.12rem;
+    .clock {
+        padding: $fontSize*0.8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
         font-family: 'Times New Roman', Times, serif;
-        margin: 0 auto;
-        font-size: 16px;
-        font-weight:lighter;
-        text-align: center;
-    }
-    div span {
-        display: block;
-        margin: 20px auto;
-        font-family: 'Times New Roman', Times, serif;
-        font-size: 60px;
-        font-weight: bold;
-        color: rgb(50, 50, 50);
-        text-align: center;
-    }
-    div p {
-        display: block;
-        margin: 0 auto;
-        font-family: 'Times New Roman', Times, serif;
-        font-size: 18px;
-        font-weight: bold;
-        color: rgb(50, 50, 50);
-        text-align: center;
+        box-sizing: border-box;
+        h2 {
+            padding: 0;
+            margin: 0;
+            font-size: $fontSize*0.8;
+            color: rgb(100, 100, 100);
+        }
+        span {
+            margin: $fontSize*1.7 0;
+            font-size: $fontSize*2.4;
+            font-weight: bolder;
+        }
+        p {
+            margin: $fontSize*0.3 0;
+            font-size: $fontSize*0.8;
+            color: rgb(100, 100, 100);
+        }
     }
 </style>
