@@ -21,16 +21,16 @@
                 <div class="genderBox">
                     <label for="gender">性别:</label>
                     <input type="radio" id="male" name="gender" value="1" required v-model="genders"></input>
-                    <label class="genderlabel" for="male">男</label>
+                    <label for="male">男</label>
                     <input type="radio" id="female" name="gender" value="0" required v-model="genders"></input>
-                    <label class="genderlabel" for="female">女</label>
+                    <label for="female">女</label>
                 </div>
                 <div class="ageBox">
                     <label for="birthday">生日:</label>
                     <input type="date" id="birthday" name="birthday" required placeholder="请选择生日" v-model="birthDay"></input>
                 </div>
                 <div class="cityBox">
-                <label for="city">城市:</label>
+                    <label for="city">城市:</label>
                     <select id="city" name="city" required v-model="cityInfo">
                         <option value="">请选择</option>
                         <option value="北京">北京</option>
@@ -65,9 +65,11 @@
         </div>
         <div class="previewBox">
             <img :class="{'active': toggleUserCard }" src="../assets/img/userimg.jpg" alt="userimg" >
-            <span class="title" v-if="!toggleUserCard">{{ userName ? userName : '' }}</span>
-            <p class="signature" v-if="!toggleUserCard">{{ signatureInfo ? signatureInfo : '' }}</p>
-            <div class="previewInfo" v-if="toggleUserCard">
+            <div class="previewInfoBase" v-if="!toggleUserCard">
+                <span class="title" >{{ userName ? userName : '' }}</span>
+                <p class="signature" >{{ signatureInfo ? signatureInfo : '' }}</p>
+            </div>
+            <div class="previewInfoMore" v-if="toggleUserCard">
                 <span>{{userName}}</span>
                 <span>{{ cityInfo}}&nbsp &nbsp{{birthDayToAge }}岁</span>
                 <span>{{ eMail}}</span>
@@ -129,135 +131,195 @@
         syncUserInfoToPage(res.uuid, res.username, res.email, res.birthday, res.tel, res.gender, res.city, res.role, res.signature, res.update_time, res.create_time)
     })
 </script>
-<style scoped>
+<style scoped lang="scss">
+    $fontSize: 0.12rem;
+    $color: rgb(235, 235, 235);
+    $bgColor: rgb(235, 235, 235);
+    $bgColorB: rgb(200, 200, 200);
+    $bcColorC: rgb(255, 135, 0);
     .centerUserBox {
         display: flex;
-        justify-content:space-between;
-        width: 1010px;
-        margin: 10px auto;
+        justify-content: space-between;
+        width: $fontSize * 40.5;
+        height: $fontSize * 36;
+        .centerUserInfo {
+            flex: 0 0 $fontSize*20;
+            border-radius: $fontSize;
+            background-color: $bgColor;
+            padding: $fontSize 0;
+            font-size: $fontSize * 0.8;
+            .usrInfoForm {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                div {
+                  display: flex;
+                  margin: $fontSize * 0.3;
+                  width: $fontSize *16; 
+                  height: $fontSize *2; 
+                    label {
+                        flex:0 0 $fontSize * 4;
+                        line-height: $fontSize * 2;
+                        text-align: left;
+                        display: inline-block;
+                    }
+                    input, select{
+                        flex:1;
+                        margin: $fontSize * 0.25;
+                        height: $fontSize * 1.5;
+                        border: none;
+                        border-radius: $fontSize * 0.75;
+                    }
+                }
+                .genderBox {
+                    #male, #female {
+                        margin: $fontSize *0.6;
+                        width: $fontSize * 0.8;
+                        height: $fontSize * 0.8;
+                    }
+                }
+                .signatureBox {
+                    height: $fontSize * 4;
+                    textarea {
+                        width: $fontSize * 12;
+                        height: $fontSize * 4;
+                        border: none;
+                        border-radius: $fontSize * 0.8;
+                    }
+                }
+                .btnBox {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    margin: $fontSize 0;
+                    width: $fontSize * 16;
+                    height: $fontSize * 6;
+                    button {
+                        margin: $fontSize * 0.3;
+                        width: $fontSize * 16;
+                        height: $fontSize * 2;
+                        border: none;
+                        border-radius: $fontSize ;
+                        background-color: $bgColorB;
+                        cursor: pointer;
+                        &:hover {
+                             background-color:$bcColorC
+                        }
+                        &.active {
+                            transform: scale(1.1);
+                            transition: all 0.5s ease-in-out;
+                            color: $color;
+                            background-color: $bcColorC;
+                        }
+                    }
+                }
+            }
+        }
+        .previewBox {
+            flex:0 0 $fontSize*20;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            border-radius: $fontSize;
+            font-size: $fontSize * 0.8;
+            background-color: $bgColor;
+            img {
+                width: $fontSize * 14;
+                height: $fontSize * 14;
+                border-radius: $fontSize * 7;
+                transition: all 0.5s ease-in-out;
+                &.active {
+                    width: $fontSize * 12;
+                    height: $fontSize * 12;
+                    border-radius: $fontSize * 6;
+                    transform:translateY(- $fontSize * 4);
+                    transition: all 0.5s ease-in-out;
+                }
+            }
+            .previewInfoBase {
+                flex: 0 0 $fontSize*12;
+                padding: $fontSize;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                .title {
+                    font-size: $fontSize * 1.5;
+                    font-weight: bolder;
+                    text-align: center;
+                }
+                .signature {
+                    font-size: $fontSize * 0.8;
+                    font-weight: lighter;
+                    text-align: center;
+                }
+            
+            }
+            .previewInfoMore {
+                flex: 0 0 $fontSize*12;
+                padding: $fontSize;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                span {
+                    margin: $fontSize * 0.4;
+                    font-size: $fontSize ;
+                    text-align: center;
+                    &:nth-child(4), &:nth-child(5) {
+                        font-size: $fontSize * 0.9;
+                        font-weight: lighter;
+                    }
+                }
+            }
+        }
     }
-    .centerUserInfo {
-        width: 500px;
-        height: 780px;
-        border-radius: 30px;
-        background-color:rgb(235, 235, 235);
-    }
-    .centerUserInfo .usrInfoForm {
-        margin: 30px;
-    }
-    .centerUserInfo .usrInfoForm div{
-        margin: 15px;
-        height: 40px;
-    }
-    .centerUserInfo .usrInfoForm div label {
-        display: inline-block;
-        width: 80px;
-        font-size: 20px;
-        text-align: center;
-    }
-    .centerUserInfo .usrInfoForm div input {
-        width: 300px;
-        height: 40px;
-        border: none;
-        border-radius: 10px;
-        font-size: 20px;
-    }
-    .centerUserInfo .usrInfoForm .genderBox input {
-        width: 20px;
-        height: 20px;
-
-    }
-    .centerUserInfo .usrInfoForm .cityBox select {
-        width: 300px;
-        height: 40px;
-        border: none;
-        border-radius: 10px;
-        font-size: 20px;
-        background-color: rgb(255, 255, 255)
-    }
-    .centerUserInfo .usrInfoForm .signatureBox{
-        display: flex;
-        height: 100px;
-    }
-    .centerUserInfo .usrInfoForm .signatureBox textarea {
-        align-items:first baseline;
-        width: 300px;
-        height: 100px;
-        border: none;
-        border-radius: 10px;
-        font-size: 20px;
-        resize: none;
-    }
-    .centerUserInfo .usrInfoForm .btnBox {
-        margin: 30px auto;
-        width: 420px;
-        height: 140px;
-
-    }
-    .centerUserInfo .usrInfoForm .btnBox button {
-        margin: 10px;
-        width: 400px;
-        height: 50px;
-        border: none;
-        border-radius: 25px;
-        font-size: 20px;
-        background-color: rgb(200, 200, 200);
-        color: rgb(50 , 50, 50);
-        cursor: pointer;
-        transition: all 0.5s ease-in-out;
-    }
-    .centerUserInfo .usrInfoForm .btnBox button:hover {
-        background-color: rgb(255, 135, 0);
-    }
-    .centerUserInfo .usrInfoForm .btnBox button.active {
-        transform: scale(1.1);
-        transition: all 0.5s ease-in-out;
-        color: white;
-        background-color: rgb(255 , 135, 0);
-    }
-    .previewBox {
-        width: 500px;
-        height: 780px;
-        border-radius: 30px;
-        background-color: rgb(235, 235, 235);;
-    }
-    .previewBox img {
-        margin: 150px 80px 30px 80px;
-        width: 340px;
-        height: 340px;
-        border-radius: 50%;
-        transition: all 0.5s ease-in-out;
-    }
-    .previewBox img:hover {
-        transform: scale(1.1);
-        transition: all 0.5s ease-in-out;
-    }
-    .previewBox img.active {
-        margin: 100px;
-        width: 300px;
-        height: 300px;
-        transform:translateY(-5px);
-        transition: all 0.5s ease-in-out;
-    }
-    .previewBox .title {
-        display: block;
-        margin: 30px 50px;
-        font-size: 36px;
-        font-weight:bold;
-        text-align: center;
-    }
-    .previewBox .signature {
-        display: block;
-        margin: 30px 50px;
-        font-size: 20px;
-        font-weight:lighter;
-        text-align: center;
-    }
-    .previewBox .previewInfo span {
-        display: block;
-        margin: 10px;
-        font-size: 24px;
-        font-weight:lighter;
-        text-align: center;
-    }
+    // .previewBox {
+    //     width: 500px;
+    //     height: 780px;
+    //     border-radius: 30px;
+    //     background-color: rgb(235, 235, 235);;
+    // }
+    // .previewBox img {
+    //     margin: 150px 80px 30px 80px;
+    //     width: 340px;
+    //     height: 340px;
+    //     border-radius: 50%;
+    //     transition: all 0.5s ease-in-out;
+    // }
+    // .previewBox img:hover {
+    //     transform: scale(1.1);
+    //     transition: all 0.5s ease-in-out;
+    // }
+    // .previewBox img.active {
+    //     margin: 100px;
+    //     width: 300px;
+    //     height: 300px;
+    //     transform:translateY(-5px);
+    //     transition: all 0.5s ease-in-out;
+    // }
+    // .previewBox .title {
+    //     display: block;
+    //     margin: 30px 50px;
+    //     font-size: 36px;
+    //     font-weight:bold;
+    //     text-align: center;
+    // }
+    // .previewBox .signature {
+    //     display: block;
+    //     margin: 30px 50px;
+    //     font-size: 20px;
+    //     font-weight:lighter;
+    //     text-align: center;
+    // }
+    // .previewBox .previewInfo span {
+    //     display: block;
+    //     margin: 10px;
+    //     font-size: 24px;
+    //     font-weight:lighter;
+    //     text-align: center;
+    // }
 </style>

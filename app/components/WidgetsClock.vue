@@ -44,7 +44,7 @@
             color: rgb(100, 100, 100);
         }
         span {
-            margin: $fontSize*1.7 0;
+            margin: $fontSize*1.6 0 $fontSize*0.8 0;
             font-size: $fontSize*2.4;
             font-weight: bolder;
         }

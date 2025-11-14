@@ -46,7 +46,7 @@
 </script>
 
 <style scoped lang="scss">
-    @use '../assets/scss/variables' as _varStyle;
+    // @use '../assets/scss/variables' as _varStyle;
     @use '../assets/scss/headerStyle' as _hStyle;
     $fontSize: 0.12rem;
     $bgColor: rgba(235,235,235,1);
@@ -56,18 +56,19 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 90%;
+        width: $fontSize*75;
         margin: $fontSize*1.2 auto;
-        @each $name, $params in ('xxlarge': 0.12rem ,'xlarge':0.14rem,'large':0.16rem,'medium':0.25rem,'small':0.3rem,'xsmall':0.38rem,'xxsmall':0.48rem){
-            @include _varStyle.responsive($name){
-                @if $name == 'xxlarge'{
-                    @include _hStyle.headerStyle($params,$bgColor,$color,$selectedColor);
-                }@else if $name == 'xlarge' or $name == 'large'{
-                    @include _hStyle.headerStyleSEA($params,$bgColor,$color,$selectedColor);
-                }@else{
-                    @include _hStyle.headerStyleSEB($params,$bgColor,$color,$selectedColor);
-                }
-            }
-        }
+        @include _hStyle.headerStyle($fontSize,$bgColor,$color,$selectedColor);
+        // @each $name, $params in ('xxlarge': 0.12rem ,'xlarge':0.14rem,'large':0.16rem,'medium':0.25rem,'small':0.3rem,'xsmall':0.38rem,'xxsmall':0.48rem){
+        //     @include _varStyle.responsive($name){
+        //         @if $name == 'xxlarge'{
+        //             @include _hStyle.headerStyle($params,$bgColor,$color,$selectedColor);
+        //         }@else if $name == 'xlarge' or $name == 'large'{
+        //             @include _hStyle.headerStyleSEA($params,$bgColor,$color,$selectedColor);
+        //         }@else{
+        //             @include _hStyle.headerStyleSEB($params,$bgColor,$color,$selectedColor);
+        //         }
+        //     }
+        // }
     }
 </style>

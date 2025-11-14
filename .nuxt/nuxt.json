@@ -1,9 +1,9 @@
 {
-  "_hash": "ZbMPIkRuAmaV-an5H1JEYcd_YcHn099SRjHJaRArETE",
+  "_hash": "DuCckpLksYVsIQcbPzYTCRabQud78oJcMRrYuurBoKI",
   "project": {
-    "rootDir": "/home/fuzao/study/web"
+    "rootDir": "D:/code/vue/web"
   },
   "versions": {
-    "nuxt": "4.1.3"
+    "nuxt": "4.2.1"
   }
 }

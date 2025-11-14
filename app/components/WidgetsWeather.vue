@@ -7,9 +7,9 @@
             <img :src="getWeatherIcon" alt="weatherIcon"
                 @click="toggleWeather = !toggleWeather"><br />
             <div class="weatherInfo">
-                &nbsp;&nbsp;&nbsp;&nbsp;<span>{{ weatherBaseInfo }}</span>&nbsp;&nbsp;
-                <span>{{ weatherAddInfo }}</span><br />
-                <span>{{ weatherWindInfo }}</span>
+                <p>{{ weatherBaseInfo }}</p>
+                <p>{{ weatherAddInfo }}</p>
+                <p>{{ weatherWindInfo }}</p>
             </div>
         </div>
         <div class="weatherBack" v-else="toggleWeather">
@@ -119,7 +119,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         font-family: 'Times New Roman', Times, serif;
         box-sizing: border-box;
         h2 {
@@ -134,14 +134,18 @@
             color: rgb(100, 100, 100);
         }
         img {
-            margin: $fontSize*0.5;
+            margin: 0;
             width:$fontSize*4;
             height:$fontSize*4;
             cursor: pointer;
         }
         .weatherInfo {
-            font-size: $fontSize*0.6;
+            font-size: $fontSize*0.8;
             color: rgb(100, 100, 100);
+            p {
+                margin: $fontSize*0.2;
+                text-align: center;
+            }
         }
     }
     .weatherBack {

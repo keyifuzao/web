@@ -1,41 +1,42 @@
 import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import { tmpdir } from 'node:os';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, createError, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, getRouterParam, getResponseStatusText } from 'file:///home/fuzao/study/web/node_modules/h3/dist/index.mjs';
 import { Server } from 'node:http';
 import { resolve, dirname, join } from 'node:path';
 import nodeCrypto from 'node:crypto';
 import { parentPort, threadId } from 'node:worker_threads';
-import { escapeHtml } from 'file:///home/fuzao/study/web/node_modules/@vue/shared/dist/shared.cjs.js';
-import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file:///home/fuzao/study/web/node_modules/vue-bundle-renderer/dist/runtime.mjs';
-import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, decodePath, withLeadingSlash, withoutTrailingSlash, joinRelativeURL } from 'file:///home/fuzao/study/web/node_modules/ufo/dist/index.mjs';
-import destr, { destr as destr$1 } from 'file:///home/fuzao/study/web/node_modules/destr/dist/index.mjs';
-import { createHooks } from 'file:///home/fuzao/study/web/node_modules/hookable/dist/index.mjs';
-import { createFetch, Headers as Headers$1 } from 'file:///home/fuzao/study/web/node_modules/ofetch/dist/node.mjs';
-import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file:///home/fuzao/study/web/node_modules/node-mock-http/dist/index.mjs';
-import { createStorage, prefixStorage } from 'file:///home/fuzao/study/web/node_modules/unstorage/dist/index.mjs';
-import unstorage_47drivers_47fs from 'file:///home/fuzao/study/web/node_modules/unstorage/drivers/fs.mjs';
-import { digest } from 'file:///home/fuzao/study/web/node_modules/ohash/dist/index.mjs';
-import { klona } from 'file:///home/fuzao/study/web/node_modules/klona/dist/index.mjs';
-import defu, { defuFn } from 'file:///home/fuzao/study/web/node_modules/defu/dist/defu.mjs';
-import { snakeCase } from 'file:///home/fuzao/study/web/node_modules/scule/dist/index.mjs';
-import { getContext } from 'file:///home/fuzao/study/web/node_modules/unctx/dist/index.mjs';
-import { toRouteMatcher, createRouter } from 'file:///home/fuzao/study/web/node_modules/radix3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, createError, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, getRouterParam, getResponseStatusText } from 'file://D:/code/vue/web/node_modules/h3/dist/index.mjs';
+import { escapeHtml } from 'file://D:/code/vue/web/node_modules/@vue/shared/dist/shared.cjs.js';
+import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file://D:/code/vue/web/node_modules/vue-bundle-renderer/dist/runtime.mjs';
+import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, decodePath, withLeadingSlash, withoutTrailingSlash, joinRelativeURL } from 'file://D:/code/vue/web/node_modules/ufo/dist/index.mjs';
+import destr, { destr as destr$1 } from 'file://D:/code/vue/web/node_modules/destr/dist/index.mjs';
+import process$1 from 'node:process';
+import { renderToString } from 'file://D:/code/vue/web/node_modules/vue/server-renderer/index.mjs';
+import { klona } from 'file://D:/code/vue/web/node_modules/klona/dist/index.mjs';
+import defu, { defuFn } from 'file://D:/code/vue/web/node_modules/defu/dist/defu.mjs';
+import { snakeCase } from 'file://D:/code/vue/web/node_modules/scule/dist/index.mjs';
+import { createHead as createHead$1, propsToString, renderSSRHead } from 'file://D:/code/vue/web/node_modules/unhead/dist/server.mjs';
+import { stringify, uneval } from 'file://D:/code/vue/web/node_modules/devalue/index.js';
+import { isVNode, toValue, isRef } from 'file://D:/code/vue/web/node_modules/vue/index.mjs';
+import { createHooks } from 'file://D:/code/vue/web/node_modules/hookable/dist/index.mjs';
+import { createFetch, Headers as Headers$1 } from 'file://D:/code/vue/web/node_modules/ofetch/dist/node.mjs';
+import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file://D:/code/vue/web/node_modules/node-mock-http/dist/index.mjs';
+import { createStorage, prefixStorage } from 'file://D:/code/vue/web/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file://D:/code/vue/web/node_modules/unstorage/drivers/fs.mjs';
+import { digest } from 'file://D:/code/vue/web/node_modules/ohash/dist/index.mjs';
+import { toRouteMatcher, createRouter } from 'file://D:/code/vue/web/node_modules/radix3/dist/index.mjs';
 import { readFile } from 'node:fs/promises';
-import consola, { consola as consola$1 } from 'file:///home/fuzao/study/web/node_modules/consola/dist/index.mjs';
-import { ErrorParser } from 'file:///home/fuzao/study/web/node_modules/youch-core/build/index.js';
-import { Youch } from 'file:///home/fuzao/study/web/node_modules/youch/build/index.js';
-import { SourceMapConsumer } from 'file:///home/fuzao/study/web/node_modules/source-map/source-map.js';
+import consola, { consola as consola$1 } from 'file://D:/code/vue/web/node_modules/consola/dist/index.mjs';
+import { ErrorParser } from 'file://D:/code/vue/web/node_modules/youch-core/build/index.js';
+import { Youch } from 'file://D:/code/vue/web/node_modules/youch/build/index.js';
+import { SourceMapConsumer } from 'file://D:/code/vue/web/node_modules/source-map/source-map.js';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { stringify, uneval } from 'file:///home/fuzao/study/web/node_modules/devalue/index.js';
-import { captureRawStackTrace, parseRawStackTrace } from 'file:///home/fuzao/study/web/node_modules/errx/dist/index.js';
-import { isVNode, toValue, isRef } from 'file:///home/fuzao/study/web/node_modules/vue/index.mjs';
+import { getContext } from 'file://D:/code/vue/web/node_modules/unctx/dist/index.mjs';
+import { captureRawStackTrace, parseRawStackTrace } from 'file://D:/code/vue/web/node_modules/errx/dist/index.js';
 import { promises } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname as dirname$1, resolve as resolve$1 } from 'file:///home/fuzao/study/web/node_modules/pathe/dist/index.mjs';
-import { createHead as createHead$1, propsToString, renderSSRHead } from 'file:///home/fuzao/study/web/node_modules/unhead/dist/server.mjs';
-import { renderToString } from 'file:///home/fuzao/study/web/node_modules/vue/server-renderer/index.mjs';
-import { walkResolver } from 'file:///home/fuzao/study/web/node_modules/unhead/dist/utils.mjs';
+import { dirname as dirname$1, resolve as resolve$1 } from 'file://D:/code/vue/web/node_modules/pathe/dist/index.mjs';
+import { walkResolver } from 'file://D:/code/vue/web/node_modules/unhead/dist/utils.mjs';
 
-const serverAssets = [{"baseName":"server","dir":"/home/fuzao/study/web/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"D:/code/vue/web/server/assets"}];
 
 const assets$1 = createStorage();
 
@@ -47,11 +48,11 @@ const storage = createStorage({});
 
 storage.mount('/assets', assets$1);
 
-storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/fuzao/study/web","watchOptions":{"ignored":[null]}}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/fuzao/study/web/server","watchOptions":{"ignored":[null]}}));
-storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/fuzao/study/web/.nuxt"}));
-storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/fuzao/study/web/.nuxt/cache"}));
-storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"/home/fuzao/study/web/.data/kv"}));
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"D:/code/vue/web","watchOptions":{"ignored":[null]}}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"D:/code/vue/web/server","watchOptions":{"ignored":[null]}}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"D:/code/vue/web/.nuxt"}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"D:/code/vue/web/.nuxt/cache"}));
+storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"D:/code/vue/web/.data/kv"}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;
@@ -692,11 +693,6 @@ new Proxy(/* @__PURE__ */ Object.create(null), {
   }
 });
 
-getContext("nitro-app", {
-  asyncContext: false,
-  AsyncLocalStorage: void 0
-});
-
 const config = useRuntimeConfig();
 const _routeRulesMatcher = toRouteMatcher(
   createRouter({ routes: config.nitro.routeRules })
@@ -810,6 +806,341 @@ function hasReqHeader(event, name, includes) {
   return value && typeof value === "string" && value.toLowerCase().includes(includes);
 }
 
+const iframeStorageBridge = (nonce) => (
+  /* js */
+  `
+(function() {
+  const memoryStore = {};
+
+  const NONCE = ${JSON.stringify(nonce)}
+  
+  const mockStorage = {
+    getItem: function(key) {
+      return memoryStore[key] !== undefined ? memoryStore[key] : null;
+    },
+    setItem: function(key, value) {
+      memoryStore[key] = String(value);
+      window.parent.postMessage({
+        type: 'storage-set',
+        key: key,
+        value: String(value),
+        nonce: NONCE
+      }, '*');
+    },
+    removeItem: function(key) {
+      delete memoryStore[key];
+      window.parent.postMessage({
+        type: 'storage-remove',
+        key: key,
+        nonce: NONCE
+      }, '*');
+    },
+    clear: function() {
+      for (const key in memoryStore) {
+        delete memoryStore[key];
+      }
+      window.parent.postMessage({
+        type: 'storage-clear',
+        nonce: NONCE
+      }, '*');
+    },
+    key: function(index) {
+      const keys = Object.keys(memoryStore);
+      return keys[index] !== undefined ? keys[index] : null;
+    },
+    get length() {
+      return Object.keys(memoryStore).length;
+    }
+  };
+  
+  try {
+    Object.defineProperty(window, 'localStorage', {
+      value: mockStorage,
+      writable: false,
+      configurable: true
+    });
+  } catch (e) {
+    window.localStorage = mockStorage;
+  }
+  
+  window.addEventListener('message', function(event) {
+    if (event.data.type === 'storage-sync-data' && event.data.nonce === NONCE) {
+      const data = event.data.data;
+      for (const key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+          memoryStore[key] = data[key];
+        }
+      }
+      if (typeof window.initTheme === 'function') {
+        window.initTheme();
+      }
+      window.dispatchEvent(new Event('storage-ready'));
+    }
+  });
+  
+  window.parent.postMessage({ 
+    type: 'storage-sync-request',
+    nonce: NONCE
+  }, '*');
+})();
+`
+);
+const parentStorageBridge = (nonce) => (
+  /* js */
+  `
+(function() {
+  const host = document.querySelector('nuxt-error-overlay');
+  if (!host) return;
+  
+  // Wait for shadow root to be attached
+  const checkShadow = setInterval(function() {
+    if (host.shadowRoot) {
+      clearInterval(checkShadow);
+      const iframe = host.shadowRoot.getElementById('frame');
+      if (!iframe) return;
+
+      const NONCE = ${JSON.stringify(nonce)}
+      
+      window.addEventListener('message', function(event) {
+        if (!event.data || event.data.nonce !== NONCE) return;
+        
+        const data = event.data;
+        
+        if (data.type === 'storage-set') {
+          localStorage.setItem(data.key, data.value);
+        } else if (data.type === 'storage-remove') {
+          localStorage.removeItem(data.key);
+        } else if (data.type === 'storage-clear') {
+          localStorage.clear();
+        } else if (data.type === 'storage-sync-request') {
+          const allData = {};
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            allData[key] = localStorage.getItem(key);
+          }
+          iframe.contentWindow.postMessage({
+            type: 'storage-sync-data',
+            data: allData,
+            nonce: NONCE
+          }, '*');
+        }
+      });
+    }
+  }, 10);
+})();
+`
+);
+const errorCSS = (
+  /* css */
+  `
+:host {
+  --preview-width: 240px;
+  --preview-height: 180px;
+  --base-width: 1200px;
+  --base-height: 900px;
+  --z-base: 999999998;
+  all: initial;
+  display: contents;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+#frame {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  z-index: var(--z-base);
+}
+#frame[inert] {
+  right: 5px;
+  bottom: 5px;
+  left: auto;
+  top: auto;
+  width: var(--base-width);
+  height: var(--base-height);
+  transform: scale(calc(240 / 1200));
+  transform-origin: bottom right;
+  overflow: hidden;
+  border-radius: calc(1200 * 8px / 240);
+}
+#preview {
+  position: fixed;
+  right: 5px;
+  bottom: 5px;
+  width: var(--preview-width);
+  height: var(--preview-height);
+  overflow: hidden;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: var(--z-base);
+  background: white;
+  display: none;
+}
+#frame:not([inert]) + #preview {
+  display: block;
+}
+#toggle {
+  position: fixed;
+  right: 5px;
+  bottom: 5px;
+  width: var(--preview-width);
+  height: var(--preview-height);
+  background: none;
+  border: 3px solid #00DC82;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s, box-shadow 0.2s;
+  z-index: calc(var(--z-base) + 1);
+}
+#toggle:hover,
+#toggle:focus {
+  opacity: 1;
+  box-shadow: 0 0 20px rgba(0, 220, 130, 0.6);
+}
+#toggle:focus-visible {
+  outline: 3px solid #00DC82;
+  outline-offset: 3px;
+  box-shadow: 0 0 24px rgba(0, 220, 130, 0.8);
+}
+@media (prefers-reduced-motion: reduce) {
+  #toggle {
+    transition: none;
+  }
+}
+`
+);
+function webComponentScript(base64HTML, startMinimized) {
+  return (
+    /* js */
+    `
+  (function() {
+    try {
+      const host = document.querySelector('nuxt-error-overlay');
+      if (!host) return;
+      
+      const shadow = host.attachShadow({ mode: 'open' });
+      
+      // Create elements
+      const style = document.createElement('style');
+      style.textContent = ${JSON.stringify(errorCSS)};
+      
+      const iframe = document.createElement('iframe');
+      iframe.id = 'frame';
+      iframe.src = 'data:text/html;base64,${base64HTML}';
+      iframe.title = 'Detailed error stack trace';
+      iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+      
+      const preview = document.createElement('div');
+      preview.id = 'preview';
+      
+      const button = document.createElement('button');
+      button.id = 'toggle';
+      button.setAttribute('aria-expanded', 'true');
+      button.setAttribute('type', 'button');
+      button.innerHTML = '<span class="sr-only">Toggle detailed error view</span>';
+      
+      const liveRegion = document.createElement('div');
+      liveRegion.setAttribute('role', 'status');
+      liveRegion.setAttribute('aria-live', 'polite');
+      liveRegion.className = 'sr-only';
+      
+      // Update preview snapshot
+      function updatePreview() {
+        try {
+          let previewIframe = preview.querySelector('iframe');
+          if (!previewIframe) {
+            previewIframe = document.createElement('iframe');
+            previewIframe.style.cssText = 'width: 1200px; height: 900px; transform: scale(0.2); transform-origin: top left; border: none;';
+            previewIframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
+            preview.appendChild(previewIframe);
+          }
+          
+          const doctype = document.doctype ? '<!DOCTYPE ' + document.doctype.name + '>' : '';
+          const cleanedHTML = document.documentElement.outerHTML
+            .replace(/<nuxt-error-overlay[^>]*>.*?<\\/nuxt-error-overlay>/gs, '')
+            .replace(/<script[^>]*>.*?<\\/script>/gs, '');
+          
+          const iframeDoc = previewIframe.contentDocument || previewIframe.contentWindow.document;
+          iframeDoc.open();
+          iframeDoc.write(doctype + cleanedHTML);
+          iframeDoc.close();
+        } catch (error) {
+          console.error('Failed to update preview:', error);
+        }
+      }
+      
+      function toggleView() {
+        const isMinimized = iframe.hasAttribute('inert');
+        
+        if (isMinimized) {
+          updatePreview();
+          iframe.removeAttribute('inert');
+          button.setAttribute('aria-expanded', 'true');
+          liveRegion.textContent = 'Showing detailed error view';
+          setTimeout(function() {
+            try { iframe.contentWindow.focus(); } catch {}
+          }, 100);
+        } else {
+          iframe.setAttribute('inert', '');
+          button.setAttribute('aria-expanded', 'false');
+          liveRegion.textContent = 'Showing error page';
+          button.focus();
+        }
+      }
+      
+      button.onclick = toggleView;
+      
+      document.addEventListener('keydown', function(e) {
+        if ((e.key === 'Escape' || e.key === 'Esc') && !iframe.hasAttribute('inert')) {
+          toggleView();
+        }
+      });
+      
+      // Append to shadow DOM
+      shadow.appendChild(style);
+      shadow.appendChild(liveRegion);
+      shadow.appendChild(iframe);
+      shadow.appendChild(preview);
+      shadow.appendChild(button);
+      
+      if (${startMinimized}) {
+        iframe.setAttribute('inert', '');
+        button.setAttribute('aria-expanded', 'false');
+      }
+      
+      // Initialize preview
+      setTimeout(updatePreview, 100);
+      
+    } catch (error) {
+      console.error('Failed to initialize Nuxt error overlay:', error);
+    }
+  })();
+  `
+  );
+}
+function generateErrorOverlayHTML(html, options) {
+  const nonce = Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, "0")).join("");
+  const errorPage = html.replace("<head>", `<head><script>${iframeStorageBridge(nonce)}<\/script>`);
+  const base64HTML = Buffer.from(errorPage, "utf8").toString("base64");
+  return `
+    <script>${parentStorageBridge(nonce)}<\/script>
+    <nuxt-error-overlay></nuxt-error-overlay>
+    <script>${webComponentScript(base64HTML, options?.startMinimized ?? false)}<\/script>
+  `;
+}
+
 const errorHandler$0 = (async function errorhandler(error, event, { defaultHandler }) {
   if (event.handled || isJsonRequest(event)) {
     return;
@@ -846,7 +1177,7 @@ const errorHandler$0 = (async function errorhandler(error, event, { defaultHandl
     return;
   }
   if (!res) {
-    const { template } = await Promise.resolve().then(function () { return errorDev; }) ;
+    const { template } = await Promise.resolve().then(function () { return error500; });
     {
       errorObject.description = errorObject.message;
     }
@@ -862,7 +1193,10 @@ const errorHandler$0 = (async function errorhandler(error, event, { defaultHandl
     setResponseHeader(event, header, value);
   }
   setResponseStatus(event, res.status && res.status !== 200 ? res.status : defaultRes.status, res.statusText || defaultRes.statusText);
-  return send(event, html);
+  {
+    const prettyResponse = await defaultHandler(error, event, { json: false });
+    return send(event, html.replace("</body>", `${generateErrorOverlayHTML(prettyResponse.body, { startMinimized: 300 <= statusCode && statusCode < 500 })}</body>`));
+  }
 });
 
 function defineNitroErrorHandler(handler) {
@@ -1005,9 +1339,9 @@ async function errorHandler(error, event) {
   // H3 will handle fallback
 }
 
-const rootDir = "/home/fuzao/study/web";
+const rootDir = "D:/code/vue/web";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"},{"charset":"utf-8"}],"link":[{"rel":"icon","type":"image/x-icon","href":"./public/favicon.ico"}],"style":[],"script":[],"noscript":[],"title":"浮躁的个人小站","charset":"utf-8","viewport":"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no","htmlAttrs":{"lang":"zh-CN"}};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"},{"charset":"utf-8"}],"link":[{"rel":"icon","type":"image/x-icon","href":"./_nuxt/public/favicon.ico"}],"style":[],"script":[],"noscript":[],"title":"浮躁的个人小站","charset":"utf-8","viewport":"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no","htmlAttrs":{"lang":"zh-CN"}};
 
 const appRootTag = "div";
 
@@ -1028,7 +1362,7 @@ const devReducers = {
   URL: (data) => data instanceof URL ? data.toString() : void 0
 };
 const asyncContext = getContext("nuxt-dev", { asyncContext: true, AsyncLocalStorage });
-const _LXUZpglbUCt7o69YpMDkwAT2hMx92wqvf7j8WQQwfxY = (nitroApp) => {
+const _9FnLQ1zimewiBUUhEr6eqeHTJ6g4tZRqgrdeluG6bc = (nitroApp) => {
   const handler = nitroApp.h3App.handler;
   nitroApp.h3App.handler = (event) => {
     return asyncContext.callAsync({ logs: [], event }, () => handler(event));
@@ -1098,7 +1432,7 @@ function onConsoleLog(callback) {
 }
 
 const plugins = [
-  _LXUZpglbUCt7o69YpMDkwAT2hMx92wqvf7j8WQQwfxY
+  _9FnLQ1zimewiBUUhEr6eqeHTJ6g4tZRqgrdeluG6bc
 ];
 
 const assets = {};
@@ -1126,7 +1460,7 @@ function getAsset (id) {
 
 const METHODS = /* @__PURE__ */ new Set(["HEAD", "GET"]);
 const EncodingMap = { gzip: ".gz", br: ".br" };
-const _SHdo78 = eventHandler((event) => {
+const _2WCIgJ = eventHandler((event) => {
   if (event.method && !METHODS.has(event.method)) {
     return;
   }
@@ -1262,26 +1596,23 @@ function publicAssetsURL(...path) {
 
 const APP_ROOT_OPEN_TAG = `<${appRootTag}${propsToString(appRootAttrs)}>`;
 const APP_ROOT_CLOSE_TAG = `</${appRootTag}>`;
-const getServerEntry = () => import('file:///home/fuzao/study/web/.nuxt//dist/server/server.mjs').then((r) => r.default || r);
-const getClientManifest = () => import('file:///home/fuzao/study/web/.nuxt//dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
+const getServerEntry = () => import('file://D:/code/vue/web/.nuxt//dist/server/server.mjs').then((r) => r.default || r);
+const getClientManifest = () => import('file://D:/code/vue/web/.nuxt//dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
 const getSSRRenderer = lazyCachedFunction(async () => {
-  const manifest = await getClientManifest();
-  if (!manifest) {
-    throw new Error("client.manifest is not available");
-  }
   const createSSRApp = await getServerEntry();
   if (!createSSRApp) {
     throw new Error("Server bundle is not available");
   }
-  const options = {
-    manifest,
+  const precomputed = void 0 ;
+  const renderer = createRenderer(createSSRApp, {
+    precomputed,
+    manifest: await getClientManifest() ,
     renderToString: renderToString$1,
     buildAssetsURL
-  };
-  const renderer = createRenderer(createSSRApp, options);
+  });
   async function renderToString$1(input, context) {
     const html = await renderToString(input, context);
-    if (process.env.NUXT_VITE_NODE_OPTIONS) {
+    if (process$1.env.NUXT_VITE_NODE_OPTIONS) {
       renderer.rendererContext.updateManifest(await getClientManifest());
     }
     return APP_ROOT_OPEN_TAG + html + APP_ROOT_CLOSE_TAG;
@@ -1289,7 +1620,7 @@ const getSSRRenderer = lazyCachedFunction(async () => {
   return renderer;
 });
 const getSPARenderer = lazyCachedFunction(async () => {
-  const manifest = await getClientManifest();
+  const precomputed = void 0 ;
   const spaTemplate = await Promise.resolve().then(function () { return _virtual__spaTemplate; }).then((r) => r.template).catch(() => "").then((r) => {
     {
       const APP_SPA_LOADER_OPEN_TAG = `<${appSpaLoaderTag}${propsToString(appSpaLoaderAttrs)}>`;
@@ -1299,13 +1630,13 @@ const getSPARenderer = lazyCachedFunction(async () => {
       return appTemplate + loaderTemplate;
     }
   });
-  const options = {
-    manifest,
+  const renderer = createRenderer(() => () => {
+  }, {
+    precomputed,
+    manifest: await getClientManifest() ,
     renderToString: () => spaTemplate,
     buildAssetsURL
-  };
-  const renderer = createRenderer(() => () => {
-  }, options);
+  });
   const result = await renderer.renderToString({});
   const renderToString = (ssrContext) => {
     const config = useRuntimeConfig(ssrContext.event);
@@ -1514,13 +1845,13 @@ async function getIslandContext(event) {
   return ctx;
 }
 
-const _lazy_a5UfNk = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_m0reGJ = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '', handler: _SHdo78, lazy: false, middleware: true, method: undefined },
-  { route: '/__nuxt_error', handler: _lazy_a5UfNk, lazy: true, middleware: false, method: undefined },
+  { route: '', handler: _2WCIgJ, lazy: false, middleware: true, method: undefined },
+  { route: '/__nuxt_error', handler: _lazy_m0reGJ, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_a5UfNk, lazy: true, middleware: false, method: undefined }
+  { route: '/**', handler: _lazy_m0reGJ, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -1826,13 +2157,13 @@ async function shutdown() {
   parentPort?.postMessage({ event: "exit" });
 }
 
-const _messages = { "appName": "Nuxt", "statusCode": 500, "statusMessage": "Server error", "description": "An error occurred in the application and the page could not be served.", "stack": "" };
+const _messages = { "appName": "Nuxt", "statusCode": 500, "statusMessage": "Internal server error", "description": "This page is temporarily unavailable.", "refresh": "Refresh this page" };
 const template$1 = (messages) => {
   messages = { ..._messages, ...messages };
-  return '<!DOCTYPE html><html lang="en"><head><title>' + escapeHtml(messages.statusCode) + " - " + escapeHtml(messages.statusMessage || "Internal Server Error") + `</title><meta charset="utf-8"><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0" name="viewport"><script>!function(){const e=document.createElement("link").relList;if(!(e&&e.supports&&e.supports("modulepreload"))){for(const e of document.querySelectorAll('link[rel="modulepreload"]'))r(e);new MutationObserver(e=>{for(const o of e)if("childList"===o.type)for(const e of o.addedNodes)"LINK"===e.tagName&&"modulepreload"===e.rel&&r(e)}).observe(document,{childList:!0,subtree:!0})}function r(e){if(e.ep)return;e.ep=!0;const r=function(e){const r={};return e.integrity&&(r.integrity=e.integrity),e.referrerPolicy&&(r.referrerPolicy=e.referrerPolicy),"use-credentials"===e.crossOrigin?r.credentials="include":"anonymous"===e.crossOrigin?r.credentials="omit":r.credentials="same-origin",r}(e);fetch(e.href,r)}}();<\/script><style>*,:after,:before{border-color:var(--un-default-border-color,#e5e7eb);border-style:solid;border-width:0;box-sizing:border-box}:after,:before{--un-content:""}html{line-height:1.5;-webkit-text-size-adjust:100%;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-moz-tab-size:4;tab-size:4;-webkit-tap-highlight-color:transparent}body{line-height:inherit;margin:0}h1{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}h1,p{margin:0}*,:after,:before{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 transparent;--un-ring-shadow:0 0 transparent;--un-shadow-inset: ;--un-shadow:0 0 transparent;--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: }.absolute{position:absolute}.top-6{top:1.5rem}.z-10{z-index:10}.mx-auto{margin-left:auto;margin-right:auto}.mb-4{margin-bottom:1rem}.mb-8{margin-bottom:2rem}.inline-block{display:inline-block}.h-auto{height:auto}.min-h-screen{min-height:100vh}.flex{display:flex}.flex-1{flex:1 1 0%}.flex-col{flex-direction:column}.overflow-y-auto{overflow-y:auto}.border{border-width:1px}.border-b-0{border-bottom-width:0}.border-black\\/5{border-color:#0000000d}.rounded-t-md{border-top-left-radius:.375rem;border-top-right-radius:.375rem}.bg-gray-50\\/50{background-color:#f5f5f580}.bg-white{--un-bg-opacity:1;background-color:rgb(255 255 255/var(--un-bg-opacity))}.p-8{padding:2rem}.px-10{padding-left:2.5rem;padding-right:2.5rem}.pt-12{padding-top:3rem}.text-6xl{font-size:3.75rem;line-height:1}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-black{--un-text-opacity:1;color:rgb(0 0 0/var(--un-text-opacity))}.hover\\:text-\\[\\#00DC82\\]:hover{--un-text-opacity:1;color:rgb(0 220 130/var(--un-text-opacity))}.font-light{font-weight:300}.font-medium{font-weight:500}.leading-tight{line-height:1.25}.font-sans{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji}.hover\\:underline:hover{text-decoration-line:underline}.underline-offset-3{text-underline-offset:3px}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}@media (prefers-color-scheme:dark){.dark\\:border-white\\/10{border-color:#ffffff1a}.dark\\:bg-\\[\\#020420\\]{--un-bg-opacity:1;background-color:rgb(2 4 32/var(--un-bg-opacity))}.dark\\:bg-white\\/5{background-color:#ffffff0d}.dark\\:text-white{--un-text-opacity:1;color:rgb(255 255 255/var(--un-text-opacity))}}@media (min-width:640px){.sm\\:right-6{right:1.5rem}.sm\\:text-2xl{font-size:1.5rem;line-height:2rem}.sm\\:text-8xl{font-size:6rem;line-height:1}}</style></head><body class="antialiased bg-white dark:bg-[#020420] dark:text-white flex flex-col font-sans min-h-screen pt-12 px-10 text-black"><h1 class="font-medium mb-4 sm:text-8xl text-6xl">` + escapeHtml(messages.statusCode) + '</h1><p class="font-light leading-tight mb-8 sm:text-2xl text-xl">' + escapeHtml(messages.description) + '</p><a href="https://nuxt.com/docs/4.x/getting-started/error-handling?utm_source=nuxt-error-dev-page" target="_blank" class="absolute font-medium hover:text-[#00DC82] hover:underline inline-block mx-auto sm:right-6 text-sm top-6 underline-offset-3">Customize this page</a><div class="bg-gray-50/50 border border-b-0 border-black/5 dark:bg-white/5 dark:border-white/10 flex-1 h-auto overflow-y-auto rounded-t-md"><div class="font-light leading-tight p-8 text-xl z-10">' + escapeHtml(messages.stack) + "</div></div></body></html>";
+  return '<!DOCTYPE html><html lang="en"><head><title>' + escapeHtml(messages.statusCode) + " - " + escapeHtml(messages.statusMessage) + " | " + escapeHtml(messages.appName) + `</title><meta charset="utf-8"><meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0" name="viewport"><script>!function(){const e=document.createElement("link").relList;if(!(e&&e.supports&&e.supports("modulepreload"))){for(const e of document.querySelectorAll('link[rel="modulepreload"]'))r(e);new MutationObserver(e=>{for(const o of e)if("childList"===o.type)for(const e of o.addedNodes)"LINK"===e.tagName&&"modulepreload"===e.rel&&r(e)}).observe(document,{childList:!0,subtree:!0})}function r(e){if(e.ep)return;e.ep=!0;const r=function(e){const r={};return e.integrity&&(r.integrity=e.integrity),e.referrerPolicy&&(r.referrerPolicy=e.referrerPolicy),"use-credentials"===e.crossOrigin?r.credentials="include":"anonymous"===e.crossOrigin?r.credentials="omit":r.credentials="same-origin",r}(e);fetch(e.href,r)}}();<\/script><style>*,:after,:before{border-color:var(--un-default-border-color,#e5e7eb);border-style:solid;border-width:0;box-sizing:border-box}:after,:before{--un-content:""}html{line-height:1.5;-webkit-text-size-adjust:100%;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-moz-tab-size:4;tab-size:4;-webkit-tap-highlight-color:transparent}body{line-height:inherit;margin:0}h1,h2{font-size:inherit;font-weight:inherit}h1,h2,p{margin:0}*,:after,:before{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 transparent;--un-ring-shadow:0 0 transparent;--un-shadow-inset: ;--un-shadow:0 0 transparent;--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: }.grid{display:grid}.mb-2{margin-bottom:.5rem}.mb-4{margin-bottom:1rem}.max-w-520px{max-width:520px}.min-h-screen{min-height:100vh}.place-content-center{place-content:center}.overflow-hidden{overflow:hidden}.bg-white{--un-bg-opacity:1;background-color:rgb(255 255 255/var(--un-bg-opacity))}.px-2{padding-left:.5rem;padding-right:.5rem}.text-center{text-align:center}.text-\\[80px\\]{font-size:80px}.text-2xl{font-size:1.5rem;line-height:2rem}.text-\\[\\#020420\\]{--un-text-opacity:1;color:rgb(2 4 32/var(--un-text-opacity))}.text-\\[\\#64748B\\]{--un-text-opacity:1;color:rgb(100 116 139/var(--un-text-opacity))}.font-semibold{font-weight:600}.leading-none{line-height:1}.tracking-wide{letter-spacing:.025em}.font-sans{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji}.tabular-nums{--un-numeric-spacing:tabular-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction)}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}@media(prefers-color-scheme:dark){.dark\\:bg-\\[\\#020420\\]{--un-bg-opacity:1;background-color:rgb(2 4 32/var(--un-bg-opacity))}.dark\\:text-white{--un-text-opacity:1;color:rgb(255 255 255/var(--un-text-opacity))}}@media(min-width:640px){.sm\\:text-\\[110px\\]{font-size:110px}.sm\\:text-3xl{font-size:1.875rem;line-height:2.25rem}}</style></head><body class="antialiased bg-white dark:bg-[#020420] dark:text-white font-sans grid min-h-screen overflow-hidden place-content-center text-[#020420] tracking-wide"><div class="max-w-520px text-center"><h1 class="font-semibold leading-none mb-4 sm:text-[110px] tabular-nums text-[80px]">` + escapeHtml(messages.statusCode) + '</h1><h2 class="font-semibold mb-2 sm:text-3xl text-2xl">' + escapeHtml(messages.statusMessage) + '</h2><p class="mb-4 px-2 text-[#64748B] text-md">' + escapeHtml(messages.description) + "</p></div></body></html>";
 };
 
-const errorDev = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+const error500 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
   template: template$1
 }, Symbol.toStringTag, { value: 'Module' }));

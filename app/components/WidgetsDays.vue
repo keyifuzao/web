@@ -47,6 +47,7 @@
    .days {
         padding: $fontSize*0.8;
         display: flex;
+        height: 100%;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
@@ -61,11 +62,12 @@
         p {
             color: rgb(100, 100, 100);
             font-size: $fontSize*0.8;
-            margin: $fontSize*0.6 0;
+            margin: $fontSize*0.4 0;
             padding: 0;
         }
         span {
             font-size: $fontSize*4;
+            font-weight: bolder;
             cursor: pointer;
             b {
                 font-size: $fontSize;

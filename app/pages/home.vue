@@ -75,10 +75,9 @@ $fontSize: 0.12rem;
             height: $fontSize*36;
             .rightBoxTop {
                 margin-bottom: $fontSize*0.2;
-                width: 100%;
+                width: $fontSize*32;
                 height: $fontSize*24;
                 display: flex;
-                background-color: red;
             }
         }
    }

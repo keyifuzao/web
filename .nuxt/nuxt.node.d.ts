@@ -3,6 +3,8 @@
 /// <reference path="types/runtime-config.d.ts" />
 /// <reference path="types/app.config.d.ts" />
 /// <reference types="nuxt" />
+/// <reference types="../node_modules/@nuxt/vite-builder/dist/index.mjs" />
+/// <reference types="D:/code/vue/web/node_modules/@nuxt/nitro-server/dist/index.mjs" />
 /// <reference path="types/nitro-middleware.d.ts" />
 /// <reference path="schema/nuxt.schema.d.ts" />
 

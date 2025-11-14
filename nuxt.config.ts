@@ -16,7 +16,7 @@ export default defineNuxtConfig({
         {
           rel:'icon',
           type:'image/x-icon',
-          href:'./public/favicon.ico' //设置网站图标
+          href:'./_nuxt/public/favicon.ico' //设置网站图标
         }
       ],
       viewport:'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no', //设置视口

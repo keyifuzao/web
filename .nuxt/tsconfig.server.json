@@ -87,7 +87,7 @@
         "./*"
       ],
       "#internal/nuxt/paths": [
-        "../node_modules/nuxt/dist/core/runtime/nitro/utils/paths"
+        "../node_modules/@nuxt/nitro-server/dist/runtime/utils/paths"
       ],
       "#unhead/composables": [
         "../node_modules/nuxt/dist/head/runtime/composables"

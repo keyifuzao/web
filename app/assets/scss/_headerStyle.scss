@@ -1,6 +1,5 @@
 @mixin headerStyle($fontSize: 0.12rem,$bgColor: rgba(235,235,235,1),$color: rgba(10,10,10,1),$selectedColor: rgba(255,110,0,1)){
     .logo {
-        flex: 1;
         display: flex;
         align-items: center;
         flex: 0 0 $fontSize*25;
@@ -11,7 +10,7 @@
             height: $fontSize*2;
         }
         span {
-            font-size: $fontSize;
+            font-size: $fontSize*0.8;
             i {
                 font-weight: 600;
                 color: red;
@@ -20,7 +19,6 @@
         }
     }
     .searchBox {
-        flex: 1;
         display: flex;
         height: $fontSize*2;
         #searchInput {
@@ -45,7 +43,7 @@
             height: $fontSize*2;
             border: none;
             outline: none;
-            font-size: $fontSize;
+            font-size: $fontSize*0.8;
             background-color: $bgColor;
             border-radius: 0 $fontSize $fontSize 0;
             font-size: $fontSize*0.8;
@@ -60,43 +58,36 @@
         margin: 0;
         padding: 0;
         height: $fontSize*2;
-        flex: 1;
         display: flex;
         justify-content: space-around;
         list-style: none;
-        font-size: $fontSize;
+        font-size: $fontSize*0.8;
         align-items: center;
         background-color: $bgColor;
         border-radius: $fontSize;
-
         #nav {
-            margin: 0 $fontSize*0.4;
-            flex: 0 0 $fontSize*4;
-            border-radius: $fontSize;
-
             a {
                 display: block;
-                margin: 0 $fontSize;
+                text-align: center;
+                width: $fontSize*4;
                 text-decoration: none;
                 color: $color;
                 height: $fontSize*2;
                 line-height: $fontSize*2;
+                &:hover {
+                    color: $selectedColor;
+                }
             }
-
             &.active {
+                border-radius: $fontSize;
                 background-color: $selectedColor;
             }
-
-            &:hover {
-                background-color: $selectedColor;
-            }
-
         }
 
         #userInfo {
             flex: 0 0 $fontSize*7;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
             cursor: pointer;
 

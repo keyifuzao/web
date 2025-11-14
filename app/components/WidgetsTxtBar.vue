@@ -13,9 +13,9 @@
         </div>
         <ul class="newsList">
             <li v-for="(item, index) in hotNewsList" :key="item.title" v-show="index < 6">
-                <div>
-                    <h2 class="txt-bar-title">{{item.title}}</h2>
-                    <b><i>{{ item.source }}</i> {{item.publish_time}}</b>
+                <div class="txtBarTitle">
+                    <h2>{{item.title}}</h2>
+                    <b><i>{{ item.source }}</i> {{item.publish_time.split(' ')[1]}}</b>
                 </div>
                 <p><NuxtLink :to="item.url" target="_blank">{{ item.content }}</NuxtLink></p>
             </li>
@@ -52,112 +52,84 @@
 </script>
 <style scoped lang="scss">
     $fontSize: 0.12rem;
+    $color:rgb(30, 30, 30);
+    $showColor:rgb(120,120,120);
+    $selectColor:rgb(235,135,0);
+    $bgcolor:rgb(235, 235, 235);
+    $inputBgColor:rgb(200, 200, 200);
     .txt-bar {
+        margin-right: $fontSize*0.5;
         width:$fontSize*24;
         height:100%;
-        background-color:rgb(235, 235, 235);
+        background-color:$bgcolor;
         border-radius: $fontSize;
         .clickbtnBox {
-            height: $fontSize*1.2;
+            height: $fontSize*1.5;
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            background-color: yellow;
             select {
-                margin: $fontSize*0.2;
+                margin: 0 $fontSize*0.5;
+                width: $fontSize*4;
+                height: $fontSize*1;
+                border-radius:$fontSize*0.5 ;
+                font-size: $fontSize*0.6;
+                border: none;
+                outline: none;
+                background-color: $inputBgColor;
+            }
+            button {
+                margin: 0 $fontSize*0.5;
+                width: $fontSize*4;
+                height: $fontSize*1;
+                border-radius:$fontSize*0.5 ;
+                font-size: $fontSize*0.6;
+                border: none;
+                background-color: $inputBgColor;
+                cursor: pointer;
+            }
+        }
+        .newsList {
+            list-style: none;
+            margin: 0 auto;
+            padding: $fontSize*0.6;
+            .txtBarTitle {
+                display: flex;
+                h2 {
+                    margin: 0;
+                    flex:0 0 $fontSize*14;
+                    font-size: $fontSize*0.8;
+                    font-weight: bold;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                b {
+                    margin: 0;
+                    flex:1;
+                    font-size: $fontSize*0.6;
+                    color: $color;
+                    text-align: right;
+                }
+            }
+            p {
+                margin: $fontSize*0.4 0 ;
+                font-size: $fontSize*0.8;
+                color: $color;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                a{
+                    display: block;
+                    color: $color;
+                    text-decoration: none;
+                    height: $fontSize*1.8;
+                    color: $showColor;
+                    &:hover{
+                        color: $color;
+                    }
+                }
             }
         }
 
     }
-    /* .txt-bar {
-        width: 565px;
-        height: 516px;
-        background-color: rgb(235, 235, 235);
-        margin-top: 10px;
-        border-radius: 20px;
-    }
-    .txt-bar .clickbtnBox {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-    }
-    .txt-bar button {
-        margin:10px;
-        margin-right: 20px;
-        width: 80px;
-        height: 20px;
-        background-color: rgb(200, 200, 200);
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-    .txt-bar select {
-        margin:10px;
-        width: 80px;
-        height: 20px;
-        background-color: rgb(200, 200, 200);
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-    .txt-bar ul {
-        list-style: none;
-        margin: 0 auto;
-        padding: 0;
-        width: 520px;
-        height: 480px;
-    }
-    .txt-bar ul li {
-        border-radius: 10px;
-        cursor: pointer;
-    }
-    .txt-bar ul li:hover{
-        background-color: rgba(255, 135, 0,0.3);
-        transform: scale(1.05);
-        transition: all 0.5s ease-out;  
-    }
-
-    .txt-bar ul li div{
-        margin: 0;
-        width: 100%;
-        height: 25px;
-        display: flex;
-        align-items: center;
-
-    }
-    .txt-bar ul li div h2 {
-        flex:2;
-        width: 200px;
-        font-size: 18px;
-        font-weight: bold;
-        color: rgb(30, 30, 30);
-        margin: 0 auto;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-    .txt-bar ul li div b {
-        flex:1;
-        width: 200px;
-        font-size: 14px;
-        color: #666;
-        text-align: right;
-        margin: 0 auto;
-    }   
-
-    .txt-bar ul li p{
-        display:block;
-        width: 100%;
-        height: 45px;
-        margin: 0 auto 6px;
-        font-size: 16px;
-        line-height: 24px;
-        color: #808080;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .txt-bar ul li p a{
-        color: rgb(120,120,120);
-        text-decoration: none;
-    } */
 </style>

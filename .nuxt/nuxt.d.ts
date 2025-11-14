@@ -5,6 +5,7 @@
 /// <reference path="types/app.config.d.ts" />
 /// <reference path="types/runtime-config.d.ts" />
 /// <reference types="nuxt/app" />
+/// <reference types="D:/code/vue/web/node_modules/@nuxt/nitro-server/dist/index.mjs" />
 /// <reference types="@pinia/nuxt" />
 /// <reference types="vue-router" />
 /// <reference path="types/middleware.d.ts" />

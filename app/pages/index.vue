@@ -14,7 +14,7 @@
     </footer>
 </template>
 <style scoped lang="scss">
-@import "../assets/scss/variables"
+@use "../assets/scss/variables"
 
 </style>
 <script setup lang="ts">

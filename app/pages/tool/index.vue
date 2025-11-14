@@ -1,8 +1,11 @@
 <template>
     <Header></Header>
     <div class="codeBox">
-        <ul>
+        <ul id="devtool">
             <li v-for="(item,index) in toolItems" :class="{active:numCounter%21 === index+1}" :style="changeStyle" @click="toToolPage(item.tool_id)"><h3>{{ item.toolName }}</h3><p>{{ item.toolDesc }}</p></li>
+        </ul>
+        <ul id="weblink">
+            <li v-for="(item,index) in webLinks"></li>
         </ul>
     </div>
     <Footer></Footer>
@@ -34,6 +37,15 @@
         {tool_id:'tools20',toolName: '开发中', toolDesc: '开发中', toolImg: '', toolLink: ''},
         {tool_id:'tools21',toolName: '开发中', toolDesc: '开发中', toolImg: '', toolLink: ''},
     ]
+    const webLinks = [
+        {webName: 'nuxt', webLink: ''},
+        {webName: 'vue', webLink: ''},
+        {webName: 'react', webLink: ''},
+        {webName: 'golang', webLink: ''},
+        {webName: 'python', webLink: ''},
+        {webName: 'java', webLink: ''},
+        {webName: 'php', webLink: ''}
+    ]
     const numCounter = ref<number>(22)
     const color = ref<string>('')
     const changeStyle = computed(() => {
@@ -54,57 +66,83 @@
         toolStore.stoptoolTimer()
     })
 </script>
-<style scoped>
+<style scoped lang="scss">
+    $fontSize: 0.12rem;
+    $bgColor: rgb(235, 235, 235);
+    $hoverColor: rgb(235, 135, 0);
+    $color: rgb(50, 50, 50);
     .codeBox {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px auto;
-        width: 1800px;
-        height: 800px;
+        margin: 0 auto;
+        width: $fontSize*75;
+        height: $fontSize*36;
+        #devtool {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: $fontSize*0.8;
+            width: 100%;
+            height: $fontSize*32;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            li {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: $fontSize*10;
+                height: $fontSize*10;
+                border-radius: $fontSize;
+                background-color: $bgColor;
+                cursor: pointer;
+                &:hover {
+                    background-color: $hoverColor;
+                    transform: scale(1.1);
+                    transition: all 0.3s ease-in-out;
+                }
+                &.active {
+                    background-color: var(--backgroundColorHover);
+                    transform: scale(1.1);
+                    transition: all 0.3s ease-in-out;
+                }
+                h3 {
+                    margin: 0;
+                    padding: 0;
+                    font-size: $fontSize;
+                    font-weight: bold;
+                    color: $color;
+                    text-align: center;
+                }
+                p {
+                    margin: $fontSize*0.5 0;
+                    padding: 0;
+                    font-size: $fontSize*0.6;
+                    font-weight: lighter;
+                    color: $color;
+                    text-align: center;
+                }
+            }
+        }
+        #weblink {
+            margin: $fontSize 0 0 0;
+            padding: 0;
+            width: 100%;
+            height: $fontSize*3;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            li {
+                width: $fontSize*10;
+                height: $fontSize*3;
+                background-color: $bgColor;
+                border-radius: $fontSize;
+                cursor: pointer;
+                &:hover {
+                    background-color: $hoverColor;
+                    transform: scale(1.1);
+                    transition: all 0.3s ease-in-out;
+                }
+            }
+        }
     }
-    .codeBox ul {
-        display: flex;
-        justify-content: space-between;
-        margin: 10px;
-        padding: 0;
-        list-style: none;
-        width: 1780px;
-        height: 780px;
-        flex-wrap: wrap;
-
-    }
-    .codeBox ul li {
-        width:240px;
-        height: 240px;
-        background-color: rgb(235, 235, 235);
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-    .codeBox ul li:hover{
-        background-color:rgba(235, 135, 0,0.6);
-        transform: scale(1.1);
-        transition: all 0.3s;
-    }
-    .codeBox ul li.active{
-        background-color:var(--backgroundColorHover);
-        transform: scale(1.1);
-        transition: all 0.3s;
-    }
-    .codeBox ul li h3 {
-        text-align: center;
-        margin-top: 80px;
-        padding: 0;
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-    }
-    .codeBox ul li p {
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        font-size: 18px;
-        color: #666;
-    }
-
 </style>
