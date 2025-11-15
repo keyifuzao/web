@@ -76,7 +76,11 @@
                 width: $fontSize*30;
                 height: $fontSize*30;
                 border-radius: 20px;
-                transition: all 0.3s ease-out;
+                transition: all 0.3s ease-in-out;
+                &:hover {
+                    transform: scale(1.05);
+                    transition: all 0.5s ease-in-out;
+                }
             }
         }
         .playList {
@@ -93,7 +97,7 @@
                     height: $fontSize*4.8;
                     &:hover {
                         transform: scale(1.1);
-                        transition: all 0.3s ease-out;
+                        transition: all 0.3s ease-in-out;
                     }
                 }
                 &.active {

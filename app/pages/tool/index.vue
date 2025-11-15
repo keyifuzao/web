@@ -4,9 +4,6 @@
         <ul id="devtool">
             <li v-for="(item,index) in toolItems" :class="{active:numCounter%21 === index+1}" :style="changeStyle" @click="toToolPage(item.tool_id)"><h3>{{ item.toolName }}</h3><p>{{ item.toolDesc }}</p></li>
         </ul>
-        <ul id="weblink">
-            <li v-for="(item,index) in webLinks"></li>
-        </ul>
     </div>
     <Footer></Footer>
 </template>
@@ -79,7 +76,7 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             grid-gap: $fontSize*0.8;
-            width: 100%;
+            width: $fontSize*75;
             height: $fontSize*32;
             list-style: none;
             margin: 0;
@@ -119,28 +116,6 @@
                     font-weight: lighter;
                     color: $color;
                     text-align: center;
-                }
-            }
-        }
-        #weblink {
-            margin: $fontSize 0 0 0;
-            padding: 0;
-            width: 100%;
-            height: $fontSize*3;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            li {
-                width: $fontSize*10;
-                height: $fontSize*3;
-                background-color: $bgColor;
-                border-radius: $fontSize;
-                cursor: pointer;
-                &:hover {
-                    background-color: $hoverColor;
-                    transform: scale(1.1);
-                    transition: all 0.3s ease-in-out;
                 }
             }
         }

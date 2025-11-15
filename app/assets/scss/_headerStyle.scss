@@ -80,7 +80,7 @@
             }
             &.active {
                 border-radius: $fontSize;
-                background-color: $selectedColor;
+                border: 1px solid $selectedColor;
             }
         }
 
@@ -94,6 +94,7 @@
             img {
                 width: $fontSize*1.6;
                 height: $fontSize*1.6;
+                border-radius: $fontSize * 0.8;
             }
 
             &:hover {

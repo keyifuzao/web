@@ -196,7 +196,6 @@
                 }
                 select {
                     margin: $fontSize*0.5;
-                    padding: $fontSize*0.5;
                     width: $fontSize*6;
                     height: $fontSize;
                     font-size: $fontSize*0.6;
@@ -216,7 +215,6 @@
                 }
                 select {
                     margin: $fontSize*0.5;
-                    padding: $fontSize*0.5;
                     width: $fontSize*6;
                     height: $fontSize;
                     font-size: $fontSize*0.6;

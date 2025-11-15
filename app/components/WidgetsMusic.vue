@@ -149,12 +149,14 @@
                 justify-content: space-between;
                 height: $fontSize * 3;
                 .musicTitle {
-                    margin: 0 $fontSize* 0.5 ;
-                    font-size: $fontSize * 1.5;
+                    flex:0 0 $fontSize * 6.5;
+                    margin: 0;
+                    font-size: $fontSize * 1.2;
                     line-height: $fontSize * 3;
                 }
                 span {
-                    font-size: $fontSize * 0.8;
+                    flex: auto;
+                    font-size: $fontSize * 0.7;
                     color: $ColorB;
                 }
             }
@@ -191,8 +193,13 @@
             .musicProgress {
                 margin: $fontSize * 0.4 0;
                 input{
+                    // appearance: none;
                     width: 100%;
-                    opacity: 0.8;
+                    height: $fontSize * 0.3;
+                    margin: $fontSize * 0.2 0;
+                    opacity: 0.6;
+                    outline: none;
+                    border: none;
                     cursor: pointer;
                     &:hover {
                         transform: scale(1.05);
@@ -205,8 +212,9 @@
                     font-size: $fontSize * 0.8;
                     text-align: center;
                     color: $ColorB;
+                    text-shadow: 0 0 1px $colorC;
                     &.active {
-                        transform: scale(1.25);
+                        transform: scale(1.2);
                         font-weight: bold;
                         transition: all 1s ease-out;
                         color: $colorC;
@@ -215,24 +223,4 @@
             }
         }
     }
-
-    // .musicMain .musicProgress input[type="range"]:hover {
-    //     transform: scale(1.1);
-    //     transition: all 0.2s ease-out;
-    //     opacity: 1;
-    // }
-    // .musicMain .musicProgress p {
-
-    //     margin: 3px 0;
-    //     font-size: 18px;
-    //     text-align: center;
-    //     color:rgb(150 150, 150);
-    // }
-
-    // .musicMain .musicProgress p.active{
-    //     transform: scale(1.25);
-    //     font-weight: bold;
-    //     transition: all 1s ease-out;
-    //     color:rgb(100, 100, 100);
-    // }
 </style>
